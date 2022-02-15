@@ -1,0 +1,27 @@
+.account-container {
+  @apply flex flex-col items-center lg:flex-row md:justify-around md:items-start;
+}
+
+.account-container > section {
+  @apply w-full mb-4;
+}
+
+#account .account-img {
+  @apply w-32 sm:w-64;
+}
+
+#account .account-img-placeholder {
+  @apply h-32 sm:h-64 bg-primary text-white flex items-center justify-center text-4xl sm:text-8xl rounded-md;
+}
+
+#account .account-info {
+  @apply flex flex-col justify-between;
+}
+
+#user-address > span {
+  @apply mb-4 flex justify-between;
+}
+
+#user-address .address-action {
+  @apply flex items-center justify-between p-2;
+}

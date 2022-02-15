@@ -1,0 +1,60 @@
+/* Alert */
+.alert {
+  @apply flex items-center px-3 py-2 rounded-md shadow-none;
+}
+.paper {
+  @apply z-50 fixed;
+}
+.alert > svg {
+  @apply mr-2;
+}
+.alert .alertMessage {
+  @apply py-2 flex-grow mr-5;
+}
+.alertSuccess {
+  @apply bg-green-500;
+}
+.alertSuccess svg,
+.alertSuccess .alertMessage {
+  @apply fill-current text-gray-100;
+}
+.alertError {
+  @apply bg-red-500;
+}
+.alertError svg,
+.alertError .alertMessage {
+  @apply fill-current text-gray-100;
+}
+
+.alertInfo {
+  @apply bg-blue-500;
+}
+.alertInfo svg,
+.alertInfo .alertMessage {
+  @apply fill-current text-gray-100;
+}
+.alertWarning {
+  @apply bg-yellow-500;
+}
+.alertWarning svg,
+.alertWarning .alertMessage {
+  @apply fill-current text-gray-100;
+}
+
+.alertClose > svg {
+  @apply ml-4 transition duration-300 hover:scale-125;
+}
+
+.alertEnter {
+  @apply opacity-0 transform scale-90;
+}
+
+.alertEnterActive {
+  @apply transition duration-500 opacity-100 transform scale-100 translate-y-0;
+}
+.alertExit {
+  @apply opacity-100;
+}
+.alertExitActive {
+  @apply transition duration-500 opacity-0 transform scale-90;
+}

@@ -1,0 +1,9 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@import './components.css';
+@import './landing.css';
+@import './products.css';
+@import './cart.css';
+@import './account.css';
