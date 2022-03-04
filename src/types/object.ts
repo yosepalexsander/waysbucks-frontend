@@ -1,5 +1,5 @@
 export interface User {
-  id: number;
+  id: string;
   name: string;
   email: string;
   phone: string;
@@ -9,12 +9,12 @@ export interface User {
 }
 
 export interface Address {
-  id: number;
+  id: string;
   name: string;
-  address: string;
   phone: string;
-  postal_code: number;
+  address: string;
   city: string;
+  postal_code: number;
 }
 
 export interface Product {

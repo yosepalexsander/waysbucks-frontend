@@ -4,7 +4,7 @@ import { memo } from 'react';
 import useSWRImmutable from 'swr/immutable';
 
 import { getToppings } from '@/api';
-import type { GetToppingsResponse } from '@/types';
+import { ProductPlaceholder } from '@/assets/images';
 import { currencyFormat } from '@/utils';
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
 }
 
 export const ListToppings = memo(function ListToppings({ onChange }: Props) {
-  const { data, error } = useSWRImmutable<GetToppingsResponse, Error>('toppings', getToppings);
+  const { data, error } = useSWRImmutable('/toppings', getToppings);
   const skeleton = [1, 2, 3, 4, 5];
 
   return (
@@ -28,18 +28,26 @@ export const ListToppings = memo(function ListToppings({ onChange }: Props) {
         </>
       ) : (
         <>
-          {data?.payload.map((item) => (
-            <div key={item.id} className="input-checkbox">
-              <input type="checkbox" name={item.name} id={`${item.id}`} value={item.price} onChange={onChange} />
-              <label htmlFor={`${item.id}`} className="input-label">
-                <div className="topping-img">
-                  <Image src={item.image} alt={item.name} width={50} height={50} layout="responsive" />
-                </div>
-              </label>
-              <p className="topping-name">{item.name}</p>
-              <p className="topping-price">{currencyFormat(item.price)}</p>
-            </div>
-          ))}
+          {data?.map((item) => {
+            return (
+              <div key={item.id} className="input-checkbox">
+                <input type="checkbox" name={item.name} id={`${item.id}`} value={item.price} onChange={onChange} />
+                <label htmlFor={`${item.id}`} className="input-label">
+                  <div className="topping-img">
+                    <Image
+                      src={item.image || ProductPlaceholder}
+                      alt={item.name}
+                      width={50}
+                      height={50}
+                      layout="responsive"
+                    />
+                  </div>
+                </label>
+                <p className="topping-name">{item.name}</p>
+                <p className="topping-price">{currencyFormat(item.price)}</p>
+              </div>
+            );
+          })}
         </>
       )}
     </div>

@@ -10,5 +10,6 @@ interface ModalProps {
 
 export interface ModalFormAddressProps extends ModalProps {
   selectedAddress?: Address;
-  onUpdateAddress: () => void;
+  onCreateAddress: (body: Partial<Address>) => void;
+  onUpdateAddress: (id: string, body: Partial<Address>) => void;
 }

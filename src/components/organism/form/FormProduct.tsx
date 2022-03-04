@@ -1,13 +1,16 @@
-/* eslint-disable @next/next/no-img-element */
+import FormData from 'form-data';
 import type { FormikHelpers } from 'formik';
 import { Field, Form, Formik } from 'formik';
-import { memo, useState } from 'react';
+import type { ChangeEvent } from 'react';
+import { memo, useCallback, useState } from 'react';
 
 import { postProduct, updateProduct } from '@/api';
-import { AttachmentIcon } from '@/assets/icons';
+import { AttachmentIcon, Delete } from '@/assets/icons';
 import { Alert, Button, Input } from '@/components/atoms';
+import { useDisclose } from '@/hooks/useDisclose';
 import { createJSONRequestConfig } from '@/lib/axios';
 import type { Product } from '@/types';
+import { getFileExtension } from '@/utils/string';
 import { ProductSchema } from '@/utils/validation';
 
 interface FormValues {
@@ -23,75 +26,67 @@ interface Props {
 }
 
 export const FormProduct = memo(function FormProduct({ isUpdate, oldProduct, onSubmitSuccess }: Props) {
-  const [preview, setPreview] = useState<string | ArrayBuffer | null>();
+  const { isOpen, onOpen, onClose } = useDisclose();
   const [image, setImage] = useState<File>();
+  const [error, setError] = useState({ isError: false, message: '' });
+  const [didFocus, setDidFocus] = useState(false);
+
+  const handleFocus = () => setDidFocus(true);
+
+  const handleChangeImage = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) {
+      return;
+    }
+
+    setImage(e.target.files[0]);
+  };
+
+  const handleRemoveImage = () => {
+    setImage(undefined);
+  };
+
+  const handleSubmit = useCallback(
+    async (values: FormValues, _formikHelpers: FormikHelpers<FormValues>): Promise<void> => {
+      const config = createJSONRequestConfig();
+
+      try {
+        if (image) {
+          const body = new FormData();
+          body.append('name', values.name);
+          body.append('description', values.description as string);
+          body.append('price', `${values.price}`);
+          body.append('image', image, image.name);
+
+          isUpdate && oldProduct ? await updateProduct(oldProduct?.id as number, body) : await postProduct(body);
+        } else {
+          const body: Record<string, unknown> = { ...values };
+
+          isUpdate && oldProduct ? await updateProduct(oldProduct.id, body, config) : await postProduct(body, config);
+        }
+
+        onSubmitSuccess();
+      } catch (error) {
+        console.log(error);
+
+        if (error instanceof Error) {
+          setError({ isError: true, message: `Error: ${error.message}` });
+          onOpen();
+        }
+      }
+    },
+    [image, isUpdate, oldProduct, onOpen, onSubmitSuccess],
+  );
+
   const initialValues: FormValues = {
     name: oldProduct?.name ?? '',
     description: oldProduct?.description ?? '',
     price: oldProduct?.price ?? 0,
   };
 
-  // for handle notify error post address
-  const [error, setError] = useState({
-    isError: false,
-    message: '',
-  });
-  // handle show alert
-  const [showAlert, setShowAlert] = useState(false);
-
-  // for live feedback from formik
-  const [didFocus, setDidFocus] = useState(false);
-  const handleFocus = () => setDidFocus(true);
-
-  const onChangeImage = (files: FileList | null) => {
-    if (files) {
-      const file = files[0];
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onloadend = function () {
-        setPreview(reader.result);
-      };
-      setImage(file);
-    }
-  };
-  const handleSubmit = async (values: FormValues, _formikHelpers: FormikHelpers<FormValues>): Promise<any> => {
-    const config = createJSONRequestConfig();
-    const onResponse = (status: number) => {
-      if (status !== 200) {
-        setShowAlert(true);
-        setError({
-          isError: true,
-          message: 'Invalid request',
-        });
-        return;
-      }
-    };
-    try {
-      if (image) {
-        const body = new FormData();
-        body.set('name', values.name);
-        body.set('description', values.description as string);
-        body.set('price', `${values.price}`);
-        body.set('image', image, image.name);
-        const response = isUpdate ? await updateProduct(oldProduct?.id as number, body) : await postProduct(body);
-        onResponse(response.status);
-      } else {
-        const body: Record<string, any> = { ...values };
-        const response = isUpdate
-          ? await updateProduct(oldProduct?.id as number, body, config)
-          : await postProduct(body, config);
-        onResponse(response.status);
-      }
-      onSubmitSuccess();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   return (
     <>
       {error.isError && (
-        <Alert severity="error" isOpen={showAlert} position={{ top: 50 }} onClose={() => setShowAlert(false)}>
+        <Alert severity="error" isOpen={isOpen} position={{ top: 50 }} onClose={onClose}>
           {error.message}
         </Alert>
       )}
@@ -157,34 +152,20 @@ export const FormProduct = memo(function FormProduct({ isUpdate, oldProduct, onS
                 )}
               </div>
               <div className="form-group">
-                <input
-                  id="upload"
-                  type="file"
-                  name="image"
-                  hidden
-                  accept="image/*"
-                  onChange={(e) => onChangeImage(e.target.files)}
-                />
+                <input id="upload" type="file" name="image" hidden accept="image/*" onChange={handleChangeImage} />
                 <label htmlFor="upload">
                   Attachment{' '}
                   <span id="file-chosen">
                     <AttachmentIcon size="24" />
                   </span>
                 </label>
-                {preview ? (
-                  <img
-                    aria-live="polite"
-                    alt="preview"
-                    src={preview as string}
-                    width={100}
-                    height={100}
-                    className="mt-5"
-                  />
-                ) : (
-                  <div className="h-15 w-15">
-                    {oldProduct?.image && (
-                      <img alt="previous image" src={oldProduct.image} width={100} height={100} className="mt-5" />
-                    )}
+                {image && (
+                  <div className="flex mt-4 justify-between items-center space-x-4">
+                    <div className="h6 bg-blue-200 p-1 rounded-md">{getFileExtension(image.name).toUpperCase()}</div>
+                    <p className="truncate ...">{image.name}</p>
+                    <Button variant="unstyled" type="button" onClick={handleRemoveImage}>
+                      <Delete width={24} height={24} />
+                    </Button>
                   </div>
                 )}
               </div>
@@ -192,7 +173,7 @@ export const FormProduct = memo(function FormProduct({ isUpdate, oldProduct, onS
                 variant="contained"
                 color="primary"
                 type="submit"
-                disabled={!isValid && !image}
+                disabled={!isUpdate && (!isValid || !image)}
                 className="w-full mt-2 mb-2">
                 Submit
               </Button>

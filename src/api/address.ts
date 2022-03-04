@@ -1,5 +1,5 @@
 import { checkStatusRes, instance } from '@/lib/axios';
-import type { Address, AxiosRequestConfig, AxiosResponse, CommonResponse, GetAddressResponse } from '@/types';
+import type { Address, AxiosRequestConfig, CommonResponse, GetAddressResponse } from '@/types';
 
 /**Request for get address data with corresponding user id
  *
@@ -10,7 +10,7 @@ export async function getAddress<T extends GetAddressResponse>(
   config?: AxiosRequestConfig,
 ): Promise<Address[] | undefined> {
   try {
-    const response = await instance.get<T>('/address', config);
+    const response = await instance.get<T>('address', config);
     checkStatusRes(response.status, response.data.message);
     return response.data.payload;
   } catch (error) {
@@ -24,14 +24,10 @@ export async function getAddress<T extends GetAddressResponse>(
  * @param config axios request config
  * @returns response object
  */
-export async function createAddress<T extends CommonResponse>(
-  data: Record<string, any>,
-  config?: AxiosRequestConfig,
-): Promise<AxiosResponse<T>> {
+export async function createAddress<T extends CommonResponse>(data: Partial<Address>, config?: AxiosRequestConfig) {
   try {
-    const response = await instance.post<T>('/address', data, config);
+    const response = await instance.post<T>('address', data, config);
     checkStatusRes(response.status, response.data.message);
-    return response;
   } catch (error) {
     throw error;
   }
@@ -45,14 +41,13 @@ export async function createAddress<T extends CommonResponse>(
  * @returns response object
  */
 export async function updateAddress<T extends CommonResponse>(
-  id: number,
-  data: Record<string, any>,
+  id: string,
+  data: Partial<Address>,
   config?: AxiosRequestConfig,
-): Promise<AxiosResponse<T>> {
+) {
   try {
-    const response = await instance.put<T>(`/address/${id}`, data, config);
+    const response = await instance.put<T>(`address/${id}`, data, config);
     checkStatusRes(response.status, response.data.message);
-    return response;
   } catch (error) {
     throw error;
   }
@@ -63,11 +58,10 @@ export async function updateAddress<T extends CommonResponse>(
  * @param id address to be deleted
  * @returns response object
  */
-export async function deleteAddress<T extends CommonResponse>(id: number): Promise<AxiosResponse<T>> {
+export async function deleteAddress<T extends CommonResponse>(id: string) {
   try {
-    const response = await instance.delete<T>(`/address/${id}`);
+    const response = await instance.delete<T>(`address/${id}`);
     checkStatusRes(response.status, response.data.message);
-    return response;
   } catch (error) {
     throw error;
   }

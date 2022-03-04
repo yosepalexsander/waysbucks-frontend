@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import type { ChangeEvent } from 'react';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import useSWRImmutable from 'swr/immutable';
 
 import { deleteProduct, getProducts, updateProduct } from '@/api';
@@ -8,7 +8,7 @@ import { NoData } from '@/assets/images';
 import { Button, Modal, Paper } from '@/components/atoms';
 import { FormProduct } from '@/components/organism/form';
 import { createJSONRequestConfig } from '@/lib/axios';
-import type { GetProductsResponse, Product } from '@/types';
+import type { Product } from '@/types';
 import { currencyFormat } from '@/utils';
 
 import { TableSkeleton } from './TableSkeleton';
@@ -16,7 +16,11 @@ import { TableSkeleton } from './TableSkeleton';
 export const TableProduct = () => {
   const [show, setShowModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product>();
-  const { data, error, mutate } = useSWRImmutable<GetProductsResponse>('/products', getProducts, {
+  const {
+    data: dataProduct,
+    error,
+    mutate: productMutation,
+  } = useSWRImmutable('/products', getProducts, {
     onErrorRetry: (error, _key, _config, revalidate, { retryCount }) => {
       if (error?.status === 404) return;
       if (retryCount >= 5) return;
@@ -24,14 +28,24 @@ export const TableProduct = () => {
     },
   });
 
+  const products = useMemo(() => {
+    let data: Product[] = [];
+
+    if (!dataProduct) {
+      return data;
+    }
+
+    data = dataProduct.slice(0);
+
+    return data;
+  }, [dataProduct]);
+
   const onMutationUpdate = async (product: Product) => {
-    const filteredData = data?.payload.filter((item) => item.id != product.id) || [];
-    const newProductData: GetProductsResponse = {
-      message: data?.message as string,
-      payload: [...filteredData, product].sort((a, b) => b.id - a.id),
-    };
-    await mutate(newProductData, false);
+    const idx = products.findIndex((item) => item.id === product.id);
+    products[idx] = product;
+    await productMutation(products, false);
   };
+
   const onClickUpdate = (item: Product) => {
     setShowModal(true);
     setSelectedProduct(item);
@@ -50,17 +64,17 @@ export const TableProduct = () => {
   // refetch after submitting product data
   const onSubmitSuccess = () => {
     setShowModal(false);
-    mutate();
+    productMutation();
   };
 
   const onUpdateAvailability = async (e: ChangeEvent<HTMLInputElement>, item: Product) => {
-    const data: Record<string, any> = {
+    const data: Partial<Product> = {
       is_available: e.target.checked,
     };
     const config = createJSONRequestConfig();
     try {
-      await updateProduct(parseInt(e.target.id, 10), data, config);
-      const updatedProduct: Product = { ...item, is_available: data.is_available };
+      await updateProduct(Number(e.target.id), data, config);
+      const updatedProduct: Product = { ...item, is_available: e.target.checked };
       await onMutationUpdate(updatedProduct);
     } catch (error) {
       console.log(error);
@@ -70,7 +84,7 @@ export const TableProduct = () => {
   const onDeleteproduct = async (id: number) => {
     try {
       await deleteProduct(id);
-      await mutate();
+      await productMutation();
     } catch (error) {
       console.error(error);
     }
@@ -109,6 +123,7 @@ export const TableProduct = () => {
       </div>
     );
   }
+
   return (
     <>
       <div className="flex justify-end">
@@ -129,9 +144,9 @@ export const TableProduct = () => {
             </tr>
           </thead>
           <tbody>
-            {data?.payload ? (
+            {products.length > 0 ? (
               <>
-                {data?.payload.map((item, index) => (
+                {products.map((item, index) => (
                   <tr key={item.id}>
                     <td>{index + 1}</td>
                     <td className="table-name">{item.name}</td>
@@ -141,7 +156,7 @@ export const TableProduct = () => {
                         alt={item.name}
                         width={50}
                         height={50}
-                        objectFit="cover"
+                        objectFit="contain"
                         layout="responsive"
                         className="rounded-md"
                       />

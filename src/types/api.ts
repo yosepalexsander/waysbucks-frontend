@@ -3,6 +3,7 @@ import type { Address, Cart, Product, Topping, User } from './object';
 export type { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 export interface CommonResponse {
+  error: boolean;
   message: string;
 }
 
@@ -84,6 +85,7 @@ export interface PostTransactionResponse extends CommonResponse {
     redirect_url: string;
   };
 }
+export interface UpdateTransactionResponse extends CommonResponse {}
 
 export interface RequestError extends Error {
   status: number;

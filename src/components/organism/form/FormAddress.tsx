@@ -1,69 +1,63 @@
 import type { FormikHelpers } from 'formik';
 import { Field, Form, Formik } from 'formik';
-import { memo, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 
-import { createAddress, updateAddress } from '@/api';
 import { Alert, Button, Input } from '@/components/atoms';
-import { createJSONRequestConfig } from '@/lib/axios';
+import { useDisclose } from '@/hooks/useDisclose';
 import type { Address } from '@/types';
 import { AddressSchema } from '@/utils/validation';
 
 interface FormValues {
   name: string;
-  address: string;
   phone: string;
-  postal_code: number;
+  address: string;
   city: string;
+  postal_code: number;
 }
 
 interface Props {
   isUpdate?: boolean;
-  oldAddress?: Address;
-  onSubmitSuccess: () => void;
+  selectedAddress?: Address;
+  onCreate: (address: Partial<Address>) => void;
+  onUpdate: (id: string, address: Partial<Address>) => void;
 }
 
-export const FormAddress = memo(function FormAddress({ isUpdate, oldAddress, onSubmitSuccess }: Props) {
-  const initialValues: FormValues = {
-    name: oldAddress?.name || '',
-    address: oldAddress?.address || '',
-    phone: oldAddress?.phone || '',
-    postal_code: oldAddress?.postal_code || 0,
-    city: oldAddress?.city || '',
-  };
-
-  // for handle notify error post address
-  const [error, setError] = useState({
-    isError: false,
-    message: '',
-  });
-
-  // handle show alert
-  const [showAlert, setShowAlert] = useState(false);
-
-  // for live feedback from formik
+export const FormAddress = memo(function FormAddress({ isUpdate, selectedAddress, onCreate, onUpdate }: Props) {
+  const { isOpen, onOpen, onClose } = useDisclose();
+  const [error, setError] = useState({ isError: false, message: '' });
   const [didFocus, setDidFocus] = useState(false);
+
   const handleFocus = () => setDidFocus(true);
 
-  const handleSubmit = async (values: FormValues, _formikHelpers: FormikHelpers<FormValues>): Promise<any> => {
-    const config = createJSONRequestConfig();
+  const handleSubmit = useCallback(
+    async (values: FormValues, _formikHelpers: FormikHelpers<FormValues>): Promise<void> => {
+      const address = { ...values };
 
-    const body: Record<string, any> = { ...values };
-    try {
-      isUpdate ? await updateAddress(oldAddress?.id as number, body, config) : await createAddress(body, config);
-      onSubmitSuccess();
-    } catch (error) {
-      setShowAlert(true);
-      setError({
-        isError: true,
-        message: 'Failed to add new Address',
-      });
-      return;
-    }
+      try {
+        isUpdate && selectedAddress ? onUpdate(selectedAddress.id, address) : onCreate(address);
+      } catch (error) {
+        console.log(error);
+
+        if (error instanceof Error) {
+          setError({ isError: true, message: `Error: ${error.message}` });
+          onOpen();
+        }
+      }
+    },
+    [isUpdate, onCreate, onOpen, onUpdate, selectedAddress],
+  );
+
+  const initialValues: FormValues = {
+    name: selectedAddress?.name ?? '',
+    phone: selectedAddress?.phone ?? '',
+    address: selectedAddress?.address ?? '',
+    city: selectedAddress?.city ?? '',
+    postal_code: selectedAddress?.postal_code ?? 0,
   };
 
   return (
     <>
-      <Alert severity="error" isOpen={showAlert} position={{ top: 50 }} onClose={() => setShowAlert(false)}>
+      <Alert isOpen={isOpen} severity="error" position={{ top: 50 }} onClose={onClose}>
         {error.message}
       </Alert>
       <div className="form">

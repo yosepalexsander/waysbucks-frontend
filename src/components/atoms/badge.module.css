@@ -7,7 +7,7 @@
 }
 
 .badgeContent {
-  @apply absolute top-0 right-0 text-sm rounded-full h-4 w-4 flex origin-bottom-left
+  @apply absolute top-0 right-0 text-xs rounded-full h-4 w-4 flex origin-bottom-left
   items-center justify-center text-white transition scale-100 -translate-y-2/4 translate-x-2/4;
 }
 

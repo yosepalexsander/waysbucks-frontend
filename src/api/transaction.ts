@@ -1,5 +1,10 @@
 import { instance } from '@/lib/axios';
-import type { AxiosRequestConfig, AxiosResponse, CommonResponse, TransactionRequest } from '@/types';
+import type {
+  AxiosRequestConfig,
+  PostTransactionResponse,
+  TransactionRequest,
+  UpdateTransactionResponse,
+} from '@/types';
 
 /**Request for get user transactions.
  *
@@ -7,7 +12,7 @@ import type { AxiosRequestConfig, AxiosResponse, CommonResponse, TransactionRequ
  */
 export async function getUserTransactions<T>(): Promise<T> {
   try {
-    return (await instance.get<T>('/user-transactions')).data;
+    return (await instance.get<T>('user-transactions')).data;
   } catch (error) {
     throw error;
   }
@@ -19,7 +24,7 @@ export async function getUserTransactions<T>(): Promise<T> {
  */
 export async function getAllTransactions<T>(): Promise<T> {
   try {
-    return (await instance.get<T>('/transactions')).data;
+    return (await instance.get<T>('transactions')).data;
   } catch (error) {
     throw error;
   }
@@ -31,12 +36,12 @@ export async function getAllTransactions<T>(): Promise<T> {
  * @param config axios request config
  * @returns response object
  */
-export async function postTransaction<T extends CommonResponse>(
+export async function postTransaction(
   data: TransactionRequest,
   config?: AxiosRequestConfig,
-): Promise<AxiosResponse<T>> {
+): Promise<PostTransactionResponse> {
   try {
-    return await instance.post<T>('/transactions', data, config);
+    return (await instance.post<PostTransactionResponse>('transactions', data, config)).data;
   } catch (error) {
     throw error;
   }
@@ -49,13 +54,13 @@ export async function postTransaction<T extends CommonResponse>(
  * @param config axios request config
  * @returns response object
  */
-export async function updateTransaction<T>(
+export async function updateTransaction(
   id: string,
-  data: Record<string, any>,
+  data: Partial<TransactionRequest>,
   config?: AxiosRequestConfig,
-): Promise<AxiosResponse<T>> {
+): Promise<UpdateTransactionResponse> {
   try {
-    return instance.put<T>(`/transactions/${id}`, data, config);
+    return (await instance.put<UpdateTransactionResponse>(`transactions/${id}`, data, config)).data;
   } catch (error) {
     throw error;
   }

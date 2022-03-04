@@ -1,5 +1,5 @@
 import { checkStatusRes, instance } from '@/lib/axios';
-import type { AxiosRequestConfig, AxiosResponse, Cart, CommonResponse, GetCartsResponse } from '@/types';
+import type { AxiosRequestConfig, Cart, CommonResponse, GetCartsResponse } from '@/types';
 
 /**Request for get user carts.
  *
@@ -7,7 +7,7 @@ import type { AxiosRequestConfig, AxiosResponse, Cart, CommonResponse, GetCartsR
  */
 export async function getCarts<T extends GetCartsResponse>(): Promise<Cart[] | undefined> {
   try {
-    const response = await instance.get<T>('/carts');
+    const response = await instance.get<T>('carts');
     checkStatusRes(
       response.status,
       response.status === 503 ? 'Third Party Service Unavailable' : response.data.message,
@@ -24,12 +24,13 @@ export async function getCarts<T extends GetCartsResponse>(): Promise<Cart[] | u
  * @param config axios request config
  * @returns response object
  */
-export async function postCart<T extends CommonResponse>(
-  data: Record<string, any>,
-  config?: AxiosRequestConfig,
-): Promise<AxiosResponse<T>> {
+export async function postCart<T extends CommonResponse>(data: Partial<Cart>, config?: AxiosRequestConfig) {
   try {
-    return await instance.post<T>('/carts', data, config);
+    const response = await instance.post<T>('carts', data, config);
+
+    if (response.status === 401 || response.status === 400) {
+      throw new Error('Not Authenticated');
+    }
   } catch (error) {
     throw error;
   }
@@ -44,11 +45,11 @@ export async function postCart<T extends CommonResponse>(
  */
 export async function updateCart<T extends CommonResponse>(
   id: number,
-  data: Record<string, any>,
+  data: Partial<Cart>,
   config?: AxiosRequestConfig,
-): Promise<AxiosResponse<T>> {
+) {
   try {
-    return await instance.put<T>(`/carts/${id}`, data, config);
+    await instance.put<T>(`carts/${id}`, data, config);
   } catch (error) {
     throw error;
   }
@@ -59,9 +60,9 @@ export async function updateCart<T extends CommonResponse>(
  * @param id cart to be deleted
  * @returns response object
  */
-export async function deleteCart<T extends CommonResponse>(id: number): Promise<AxiosResponse<T>> {
+export async function deleteCart<T extends CommonResponse>(id: number) {
   try {
-    return await instance.delete<T>(`/carts/${id}`);
+    await instance.delete<T>(`carts/${id}`);
   } catch (error) {
     throw error;
   }

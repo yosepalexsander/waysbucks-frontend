@@ -1,13 +1,17 @@
 /* eslint-disable @next/next/no-img-element */
+import FormData from 'form-data';
 import type { FormikHelpers } from 'formik';
 import { Field, Form, Formik } from 'formik';
-import { memo, useState } from 'react';
+import type { ChangeEvent } from 'react';
+import { memo, useCallback, useState } from 'react';
 
 import { postTopping, updateTopping } from '@/api';
-import { AttachmentIcon } from '@/assets/icons';
+import { AttachmentIcon, Delete } from '@/assets/icons';
 import { Alert, Button, Input } from '@/components/atoms';
+import { useDisclose } from '@/hooks/useDisclose';
 import { createJSONRequestConfig } from '@/lib/axios';
 import type { Topping } from '@/types';
+import { getFileExtension } from '@/utils/string';
 import { ToppingSchema } from '@/utils/validation';
 
 interface FormValues {
@@ -16,77 +20,73 @@ interface FormValues {
 }
 
 interface Props {
-  selectedTopping?: Topping;
   isUpdate?: boolean;
+  selectedTopping?: Topping;
   onSubmitSuccess: () => void;
 }
 
 export const FormTopping = memo(function FormTopping({ isUpdate, selectedTopping, onSubmitSuccess }: Props) {
-  const [preview, setPreview] = useState<string | ArrayBuffer | null>();
   const [image, setImage] = useState<File>();
-  const initialValues: FormValues = {
-    name: selectedTopping?.name || '',
-    price: selectedTopping?.price || 0,
-  };
-
-  const [error, setError] = useState({
-    isError: false,
-    message: '',
-  });
-  const [showAlert, setShowAlert] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclose();
+  const [error, setError] = useState({ isError: false, message: '' });
   const [didFocus, setDidFocus] = useState(false);
+
   const handleFocus = () => setDidFocus(true);
 
-  const onChangeImage = (files: FileList | null) => {
-    if (files) {
-      const file = files[0];
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onloadend = function () {
-        setPreview(reader.result);
-      };
-      setImage(file);
+  const handleChangeImage = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) {
+      return;
     }
+
+    setImage(e.target.files[0]);
   };
-  const handleSubmit = async (values: FormValues, _formikHelpers: FormikHelpers<FormValues>): Promise<any> => {
-    const config = createJSONRequestConfig({
-      'Content-Type': 'application/json',
-    });
-    const onResponse = (status: number) => {
-      if (status !== 200) {
-        setShowAlert(true);
-        setError({
-          isError: true,
-          message: 'Invalid request',
-        });
-        return;
+
+  const handleRemoveImage = () => {
+    setImage(undefined);
+  };
+
+  const handleSubmit = useCallback(
+    async (values: FormValues, _formikHelpers: FormikHelpers<FormValues>): Promise<void> => {
+      const config = createJSONRequestConfig();
+
+      try {
+        if (image) {
+          const body = new FormData();
+          body.append('name', values.name);
+          body.append('price', `${values.price}`);
+          body.append('image', image, image.name);
+          isUpdate && selectedTopping ? await updateTopping(selectedTopping.id, body) : await postTopping(body);
+
+          onSubmitSuccess();
+        } else {
+          const body = { ...values };
+          isUpdate && selectedTopping
+            ? await updateTopping(selectedTopping.id, body, config)
+            : await postTopping(body, config);
+
+          onSubmitSuccess();
+        }
+      } catch (error) {
+        console.log(error);
+
+        if (error instanceof Error) {
+          setError({ isError: true, message: `Error: ${error.message}` });
+          onOpen();
+        }
       }
-      onSubmitSuccess();
-    };
-    try {
-      if (image) {
-        const body = new FormData();
-        body.set('name', values.name);
-        body.set('price', `${values.price}`);
-        body.set('image', image, image.name);
-        const response = isUpdate ? await updateTopping(selectedTopping?.id as number, body) : await postTopping(body);
-        onResponse(response.status);
-      } else {
-        const body: Record<string, any> = { ...values };
-        const response = isUpdate
-          ? await updateTopping(selectedTopping?.id as number, body, config)
-          : await postTopping(body, config);
-        onResponse(response.status);
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    },
+    [image, isUpdate, onOpen, onSubmitSuccess, selectedTopping],
+  );
+
+  const initialValues: FormValues = {
+    name: selectedTopping?.name ?? '',
+    price: selectedTopping?.price ?? 0,
   };
 
   return (
     <>
       {error.isError && (
-        <Alert severity="error" isOpen={showAlert} position={{ top: 50 }} onClose={() => setShowAlert(false)}>
+        <Alert severity="error" isOpen={isOpen} position={{ top: 50 }} onClose={onClose}>
           {error.message}
         </Alert>
       )}
@@ -134,34 +134,20 @@ export const FormTopping = memo(function FormTopping({ isUpdate, selectedTopping
                 )}
               </div>
               <div className="form-group">
-                <input
-                  id="upload"
-                  type="file"
-                  name="image"
-                  hidden
-                  accept="image/*"
-                  onChange={(e) => onChangeImage(e.target.files)}
-                />
+                <input id="upload" type="file" name="image" hidden accept="image/*" onChange={handleChangeImage} />
                 <label htmlFor="upload">
                   Attachment{' '}
                   <span id="file-chosen">
                     <AttachmentIcon size="24" />
                   </span>
                 </label>
-                {preview ? (
-                  <img
-                    aria-live="polite"
-                    alt="preview"
-                    src={preview as string}
-                    width={100}
-                    height={100}
-                    className="mt-5"
-                  />
-                ) : (
-                  <div className="h-15 w-15">
-                    {selectedTopping?.image && (
-                      <img alt="previous image" src={selectedTopping.image} width={100} height={100} className="mt-5" />
-                    )}
+                {image && (
+                  <div className="flex mt-4 justify-between items-center space-x-4">
+                    <div className="h6 bg-blue-200 p-1 rounded-md">{getFileExtension(image.name).toUpperCase()}</div>
+                    <p className="truncate ...">{image.name}</p>
+                    <Button variant="unstyled" type="button" onClick={handleRemoveImage}>
+                      <Delete width={24} height={24} />
+                    </Button>
                   </div>
                 )}
               </div>
@@ -169,7 +155,7 @@ export const FormTopping = memo(function FormTopping({ isUpdate, selectedTopping
                 variant="contained"
                 color="primary"
                 type="submit"
-                disabled={!isValid && !image}
+                disabled={!isUpdate && (!isValid || !image)}
                 className="w-full mt-2 mb-2">
                 Submit
               </Button>

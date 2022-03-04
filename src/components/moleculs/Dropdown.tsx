@@ -36,16 +36,18 @@ export const Dropdown = memo(function Dropdown({ id, isAdmin, isOpen, onClose, o
         <div aria-hidden="true" className="backdrop" onClick={onClose} />
         <Paper width={150} maxWidth="100%">
           <MenuList>
-            <MenuItem tabIndex={0}>
-              <Link href="/account/me">
-                <a>
-                  <div>
-                    <AccountIcon size={24} className="text-primary" />
-                  </div>
-                  <span>Account</span>
-                </a>
-              </Link>
-            </MenuItem>
+            {!isAdmin && (
+              <MenuItem tabIndex={0}>
+                <Link href="/account/me">
+                  <a>
+                    <div>
+                      <AccountIcon size={24} className="text-primary" />
+                    </div>
+                    <span>Account</span>
+                  </a>
+                </Link>
+              </MenuItem>
+            )}
             {isAdmin && (
               <MenuItem tabIndex={-1}>
                 <Link href="/admin/product">

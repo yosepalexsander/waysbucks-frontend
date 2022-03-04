@@ -14,8 +14,10 @@ module.exports = {
   },
   plugins: ['@typescript-eslint', 'eslint-plugin-simple-import-sort', 'prettier'],
   rules: {
+    'max-len': ['error', 120],
     'no-unused-expressions': 0,
     '@typescript-eslint/consistent-type-imports': 2,
+    '@typescript-eslint/no-explicit-any': 2,
     '@typescript-eslint/no-unused-vars': [
       'warn',
       {

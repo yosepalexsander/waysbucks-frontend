@@ -9,6 +9,7 @@ export const ModalFormAddress = memo(function ModalFormAddress({
   isOpen,
   selectedAddress,
   onClose,
+  onCreateAddress,
   onUpdateAddress,
 }: ModalFormAddressProps) {
   return (
@@ -27,8 +28,9 @@ export const ModalFormAddress = memo(function ModalFormAddress({
         <p className="text-3xl mb-4 text-center text-primary">{selectedAddress ? 'Update' : 'New'} Address</p>
         <FormAddress
           isUpdate={selectedAddress ? true : false}
-          oldAddress={selectedAddress}
-          onSubmitSuccess={onUpdateAddress}
+          selectedAddress={selectedAddress}
+          onCreate={onCreateAddress}
+          onUpdate={onUpdateAddress}
         />
       </Paper>
     </Modal>
