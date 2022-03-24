@@ -4,7 +4,7 @@ import { memo } from 'react';
 
 type Props = ImgHTMLAttributes<HTMLDivElement>;
 
-export const Avatar = memo(function Avatar({ src, alt, width, height, children, ...props }: Props) {
+export const Avatar = memo(({ src, alt, width, height, children, ...props }: Props) => {
   return (
     <>
       <div className="img-container avatar" style={{ width: width, height: height }} {...props}>

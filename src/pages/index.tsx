@@ -4,8 +4,9 @@ import cookies from 'next-cookies';
 import { getUser } from '@/api';
 import { Layout } from '@/components/layouts/App';
 import { Benefits, Features, Hero } from '@/components/organism/landing';
+import { Footer, HeaderBar } from '@/components/organism/partial';
 import { createJSONRequestConfig } from '@/lib/axios';
-import type { GetUserResponse, User } from '@/types';
+import type { User } from '@/types';
 
 interface Props {
   user: User | null;
@@ -15,17 +16,17 @@ interface Props {
 export default function HomePage({ user }: Props) {
   return (
     <Layout
-      user={user}
-      route="landing"
       head={{
         title: 'Waysbucks | Coffee For Everyone',
         description: 'Discover your best quality coffee in Waysbucks Coffee',
       }}>
-      <article className="mt-16">
+      <HeaderBar user={user} />
+      <article className="main-container">
         <Hero />
         <Features />
         <Benefits />
       </article>
+      <Footer />
     </Layout>
   );
 }
@@ -36,19 +37,19 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx): Promis
     Authorization: `Bearer ${token}`,
   });
 
-  const data = await getUser<GetUserResponse>(config);
-  console.log(token);
-  if (data && data.payload) {
+  try {
+    const user = await getUser(config);
+
     return {
       props: {
-        user: data.payload,
+        user: user ?? null,
+      },
+    };
+  } catch (error) {
+    return {
+      props: {
+        user: null,
       },
     };
   }
-
-  return {
-    props: {
-      user: null,
-    },
-  };
 };

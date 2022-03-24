@@ -1,13 +1,11 @@
-import { checkStatusRes, instance } from '@/lib/axios';
-import type { AxiosRequestConfig, AxiosResponse, Cart, CommonResponse, GetCartsResponse } from '@/types';
+import axios from 'axios';
 
-/**Request for get user carts.
- *
- * @returns response object
- */
-export async function getCarts<T extends GetCartsResponse>(): Promise<Cart[] | undefined> {
+import { checkStatusRes, instance } from '@/lib/axios';
+import type { AxiosRequestConfig, Cart, CommonResponse, GetCartsResponse } from '@/types';
+
+export async function getCarts(): Promise<Cart[] | undefined> {
   try {
-    const response = await instance.get<T>('/carts');
+    const response = await instance.get<GetCartsResponse>('carts');
     checkStatusRes(
       response.status,
       response.status === 503 ? 'Third Party Service Unavailable' : response.data.message,
@@ -18,50 +16,31 @@ export async function getCarts<T extends GetCartsResponse>(): Promise<Cart[] | u
   }
 }
 
-/**Request for post new cart by user
- *
- * @param data request body
- * @param config axios request config
- * @returns response object
- */
-export async function postCart<T extends CommonResponse>(
-  data: Record<string, any>,
-  config?: AxiosRequestConfig,
-): Promise<AxiosResponse<T>> {
+export async function postCart(data: Partial<Cart>, config?: AxiosRequestConfig) {
   try {
-    return await instance.post<T>('/carts', data, config);
+    await instance.post<CommonResponse>('carts', data, config);
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      if (error.response && (error.response.status === 401 || error.response.status === 400)) {
+        throw new Error('Not Authenticated');
+      }
+    }
+
+    throw error;
+  }
+}
+
+export async function updateCart(id: number, data: Partial<Cart>, config?: AxiosRequestConfig) {
+  try {
+    await instance.put<CommonResponse>(`carts/${id}`, data, config);
   } catch (error) {
     throw error;
   }
 }
 
-/**Request for update cart by user
- *
- * @param id cart to be udpated
- * @param data request body
- * @param config axios request config
- * @returns response object
- */
-export async function updateCart<T extends CommonResponse>(
-  id: number,
-  data: Record<string, any>,
-  config?: AxiosRequestConfig,
-): Promise<AxiosResponse<T>> {
+export async function deleteCart(id: number) {
   try {
-    return await instance.put<T>(`/carts/${id}`, data, config);
-  } catch (error) {
-    throw error;
-  }
-}
-
-/**Request for delete cart
- *
- * @param id cart to be deleted
- * @returns response object
- */
-export async function deleteCart<T extends CommonResponse>(id: number): Promise<AxiosResponse<T>> {
-  try {
-    return await instance.delete<T>(`/carts/${id}`);
+    await instance.delete<CommonResponse>(`carts/${id}`);
   } catch (error) {
     throw error;
   }

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 import { signin } from '@/api';
 import { Alert, Button, Input } from '@/components/atoms';
-import { createJSONRequestConfig } from '@/lib/axios';
+import { useDisclose } from '@/hooks/useDisclose';
 import { SigninSchema } from '@/utils';
 
 interface FormValues {
@@ -12,41 +12,36 @@ interface FormValues {
 }
 
 export const FormSignin = () => {
+  const { isOpen, onOpen, onClose } = useDisclose();
+  const [error, setError] = useState({ isError: false, message: '' });
+  const [didFocus, setDidFocus] = useState(false);
+
+  const handleFocus = () => setDidFocus(true);
+
+  const handleSubmit = async (values: FormValues): Promise<void> => {
+    const data: Record<string, unknown> = { ...values };
+
+    try {
+      await signin(data);
+    } catch (error) {
+      console.log(error);
+
+      if (error instanceof Error) {
+        setError({ isError: true, message: `Error: ${error.message}` });
+        onOpen();
+      }
+    }
+  };
+
   const initialValues: FormValues = {
     email: '',
     password: '',
   };
 
-  const [error, setError] = useState({
-    isError: false,
-    message: '',
-  });
-  const [showAlert, setShowAlert] = useState(false);
-  const [didFocus, setDidFocus] = useState(false);
-  const handleFocus = () => setDidFocus(true);
-
-  const handleSubmit = async (values: FormValues): Promise<any> => {
-    const config = createJSONRequestConfig();
-
-    try {
-      await signin(values, config);
-    } catch (err) {
-      console.log(err);
-      if (err instanceof Error) {
-        setError({ isError: true, message: err.message });
-        setShowAlert(true);
-      }
-    }
-  };
-
   return (
     <>
       {error.isError && (
-        <Alert
-          severity="error"
-          isOpen={showAlert}
-          position={{ bottom: 50, right: 50 }}
-          onClose={() => setShowAlert(false)}>
+        <Alert severity="error" isOpen={isOpen} position={{ bottom: 50, right: 50 }} onClose={onClose}>
           {error.message}
         </Alert>
       )}

@@ -7,7 +7,7 @@ interface Props {
   user?: User;
 }
 
-export const Account = memo(function Account({ user }: Props) {
+export const Account = memo(({ user }: Props) => {
   return (
     <section id="account">
       <h1 className="h2 pb-4">My Profile</h1>

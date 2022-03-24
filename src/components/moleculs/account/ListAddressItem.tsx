@@ -10,7 +10,7 @@ interface Props {
   onUpdate: (item: Address) => void;
 }
 
-export const ListAddressesItem = memo(function ListAddressesItem({ item, onDelete, onUpdate }: Props) {
+export const ListAddressesItem = memo(({ item, onDelete, onUpdate }: Props) => {
   const handleClickDelete = useCallback(() => {
     onDelete(item);
   }, [item, onDelete]);
@@ -32,7 +32,7 @@ export const ListAddressesItem = memo(function ListAddressesItem({ item, onDelet
         </div>
         <div className="address-action">
           <Button variant="outlined" color="primary" className="w-4/5" onClick={handleClickUpdate}>
-            Change Address
+            Edit Address
           </Button>
           <DeleteIcon size="2rem" className="text-primary" onClick={handleClickDelete} />
         </div>

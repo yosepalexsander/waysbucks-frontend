@@ -5,7 +5,7 @@ import cookies from 'next-cookies';
 
 import { getUser } from '@/api';
 import { createJSONRequestConfig } from '@/lib/axios';
-import type { GetUserResponse, User } from '@/types';
+import type { User } from '@/types';
 
 /** Authentication for SSR Pages
  *
@@ -17,10 +17,10 @@ export const authSSR = async (ctx: GetServerSidePropsContext): Promise<User | un
   const config = createJSONRequestConfig({
     Authorization: `Bearer ${token}`,
   });
-  const response = await getUser<GetUserResponse>(config);
+  const user = await getUser(config);
 
-  if (response && response.payload) {
-    return response.payload;
+  if (user) {
+    return user;
   }
 
   if (typeof window === 'undefined') {
@@ -50,17 +50,20 @@ export const authCSR = async (): Promise<User | undefined> => {
     Authorization: `Bearer ${token}`,
   });
 
-  const response = await getUser<GetUserResponse>(config);
+  try {
+    const user = await getUser(config);
 
-  if (response && response.payload) {
-    return response.payload;
+    if (user) {
+      return user;
+    }
+
+    return;
+  } catch (error) {
+    throw new Error('Authentication failed');
   }
-
-  throw new Error('Authentication failed');
 };
 
-export const authSignout = async () => {
-  cookie.remove('id');
+export const authSignout = () => {
   cookie.remove('token');
 
   window.localStorage.setItem('logout', Date.now().toString());

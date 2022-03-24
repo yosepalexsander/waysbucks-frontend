@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "NODE_ENV=development next dev",
+    "dev": "NODE_ENV=development next dev -p 4000",
     "build": "next build",
     "start": "NODE_ENV=production next start",
     "analyze": "ANALYZE=true next build",
@@ -13,9 +13,10 @@
   "dependencies": {
     "axios": "^0.25.0",
     "cookie": "^0.4.1",
+    "form-data": "^4.0.0",
     "formik": "^2.2.9",
     "js-cookie": "^3.0.1",
-    "next": "^12.0.7",
+    "next": "^12.0.9",
     "next-cookies": "^2.0.3",
     "next-pwa": "^5.4.4",
     "postcss-import": "^14.0.2",

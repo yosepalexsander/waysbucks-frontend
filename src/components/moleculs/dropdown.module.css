@@ -1,5 +1,5 @@
 .dropdown {
-  @apply absolute right-8 mt-3 z-20;
+  @apply absolute right-12 mt-3 z-20;
 }
 
 .dropdownEnter {

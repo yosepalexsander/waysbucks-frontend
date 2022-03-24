@@ -16,16 +16,6 @@ export const checkStatusRes = (status: number, errMsg: string) => {
   }
 };
 
-export const createFileRequestConfig = (headers?: AxiosRequestHeaders): AxiosRequestConfig => {
-  const newConfig: AxiosRequestConfig = {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-      ...headers,
-    },
-  };
-  return newConfig;
-};
-
 export const createJSONRequestConfig = (headers?: AxiosRequestHeaders): AxiosRequestConfig => {
   const newConfig: AxiosRequestConfig = {
     headers: {
@@ -58,10 +48,8 @@ instance.interceptors.response.use(
       if (error.response && error.response.status === 401) {
         Cookies.remove('token');
       }
-
-      return error.response;
     }
 
-    return error;
+    return Promise.reject(error);
   },
 );

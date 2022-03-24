@@ -16,7 +16,7 @@ interface Props {
   onLogout: () => void;
 }
 
-export const Dropdown = memo(function Dropdown({ id, isAdmin, isOpen, onClose, onLogout, ...props }: Props) {
+export const Dropdown = memo(({ id, isAdmin, isOpen, onClose, onLogout, ...props }: Props) => {
   const nodeRef = createRef<HTMLDivElement>();
 
   return (
@@ -32,39 +32,28 @@ export const Dropdown = memo(function Dropdown({ id, isAdmin, isOpen, onClose, o
       }}
       unmountOnExit
       nodeRef={nodeRef}>
-      <div id={id} role="presentation" className={styles.dropdown} ref={nodeRef} {...props}>
+      <div ref={nodeRef} id={id} className={styles.dropdown} role="presentation" {...props}>
         <div aria-hidden="true" className="backdrop" onClick={onClose} />
         <Paper width={150} maxWidth="100%">
           <MenuList>
-            <MenuItem tabIndex={0}>
-              <Link href="/account/me">
-                <a>
-                  <div>
-                    <AccountIcon size={24} className="text-primary" />
-                  </div>
+            {!isAdmin ? (
+              <Link href="/account/me" passHref>
+                <MenuItem tabIndex={0}>
+                  <AccountIcon size={24} className="text-primary" />
                   <span>Account</span>
-                </a>
+                </MenuItem>
               </Link>
-            </MenuItem>
-            {isAdmin && (
-              <MenuItem tabIndex={-1}>
-                <Link href="/admin/product">
-                  <a>
-                    <div>
-                      <DashboardIcon size={24} className="text-primary" />
-                    </div>
-                    <span>Product</span>
-                  </a>
-                </Link>
-              </MenuItem>
+            ) : (
+              <Link href="/admin/product" passHref>
+                <MenuItem tabIndex={-1}>
+                  <DashboardIcon size={24} className="text-primary" />
+                  <span>Product</span>
+                </MenuItem>
+              </Link>
             )}
-            <MenuItem tabIndex={-1}>
-              <button onClick={onLogout}>
-                <div>
-                  <LogoutIcon size={24} className="text-primary" />
-                </div>
-                <p>Logout</p>
-              </button>
+            <MenuItem tabIndex={-1} onClick={onLogout}>
+              <LogoutIcon size={24} className="text-primary" />
+              <p>Logout</p>
             </MenuItem>
           </MenuList>
         </Paper>

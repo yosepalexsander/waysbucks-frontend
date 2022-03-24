@@ -1,11 +1,12 @@
 import Head from 'next/head';
 import type { ReactNode } from 'react';
+import { memo } from 'react';
 
 type LayoutProps = {
   children: ReactNode;
 };
 
-export function Layout({ children }: LayoutProps) {
+export const Layout = memo(({ children }: LayoutProps) => {
   return (
     <div>
       <Head>
@@ -19,4 +20,4 @@ export function Layout({ children }: LayoutProps) {
       <main className="screen-center bg-gray-300">{children}</main>
     </div>
   );
-}
+});

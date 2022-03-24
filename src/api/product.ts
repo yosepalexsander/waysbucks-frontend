@@ -1,138 +1,83 @@
 import { checkStatusRes, instance } from '@/lib/axios';
-import type { AxiosRequestConfig, AxiosResponse, CommonResponse } from '@/types';
+import type {
+  AxiosRequestConfig,
+  CommonResponse,
+  GetProductResponse,
+  GetProductsResponse,
+  GetToppingsResponse,
+  Product,
+  Topping,
+} from '@/types';
 
-/**Request for get all products
- *
- * @returns response object
- */
-export async function getProducts<T>(): Promise<T> {
-  const response = await instance.get<T>('/products');
+export async function getProducts(): Promise<Product[] | undefined> {
+  const response = await instance.get<GetProductsResponse>('products');
   checkStatusRes(response.status, response.status === 503 ? 'Third Party Service Unavailable' : '');
-  return response.data;
+  return response.data.payload;
 }
 
-/**Request for get product with corresponding id
- *
- * @param id product id
- * @returns response object
- */
-export async function getProduct<T>(id: string): Promise<T> {
+export async function getProduct(id: string): Promise<Product | undefined> {
   try {
-    const response = await instance.get<T>(`/products/${id}`);
+    const response = await instance.get<GetProductResponse>(`products/${id}`);
     checkStatusRes(response.status, response.status === 503 ? 'Third Party Service Unavailable' : '');
-    return response.data;
+    return response.data.payload;
   } catch (error) {
     throw error;
   }
 }
 
-/**Request for get all toppings
- *
- * @returns response object
- */
-export async function getToppings<T>(): Promise<T> {
+export async function getToppings(): Promise<Topping[] | undefined> {
   try {
-    const response = await instance.get<T>('/toppings');
+    const response = await instance.get<GetToppingsResponse>('toppings');
     checkStatusRes(response.status, response.status === 503 ? 'Third Party Service Unavailable' : '');
-    return response.data;
+    return response.data.payload;
   } catch (error) {
     throw error;
   }
 }
 
-/**Request for post new product. This can be only used by admin
- *
- * @param data request body
- * @param config axios request config
- * @returns response object
- */
-export async function postProduct<T extends CommonResponse>(
-  data: Record<string, any>,
-  config?: AxiosRequestConfig,
-): Promise<AxiosResponse<T>> {
+export async function postProduct(data: unknown, config?: AxiosRequestConfig) {
   try {
-    return await instance.post<T>('/products', data, config);
+    await instance.post<CommonResponse>('products', data, config);
   } catch (error) {
     throw error;
   }
 }
 
-/**Request for post new topping. This can be only used by admin
- *
- * @param data request body
- * @param config axios request config
- * @returns response object
- */
-export async function postTopping<T extends CommonResponse>(
-  data: Record<string, any>,
-  config?: AxiosRequestConfig,
-): Promise<AxiosResponse<T>> {
+export async function postTopping(data: unknown, config?: AxiosRequestConfig) {
   try {
-    return await instance.post<T>('/toppings', data, config);
+    await instance.post<CommonResponse>('toppings', data, config);
   } catch (error) {
     throw error;
   }
 }
 
-/**Request for update product by admin
- *
- * @param id product to be udpated
- * @param data request body
- * @param config axios request config
- * @returns response object
- */
-export async function updateProduct<T extends CommonResponse>(
-  id: number,
-  data: Record<string, any>,
-  config?: AxiosRequestConfig,
-): Promise<AxiosResponse<T>> {
+export async function updateProduct(id: number, data: unknown, config?: AxiosRequestConfig) {
   try {
-    return await instance.put<T>(`/products/${id}`, data, config);
+    await instance.put<CommonResponse>(`products/${id}`, data, config);
   } catch (error) {
     throw error;
   }
 }
 
-/**Request for update topping by admin
- *
- * @param id product to be udpated
- * @param data request body
- * @param config axios request config
- * @returns response object
- */
-export async function updateTopping<T extends CommonResponse>(
-  id: number,
-  data: Record<string, any>,
-  config?: AxiosRequestConfig,
-): Promise<AxiosResponse<T>> {
+export async function updateTopping(id: number, data: unknown, config?: AxiosRequestConfig) {
   try {
-    return await instance.put<T>(`/toppings/${id}`, data, config);
+    await instance.put<CommonResponse>(`toppings/${id}`, data, config);
   } catch (error) {
     throw error;
   }
 }
 
-/**Request for delete product
- *
- * @param id product to be deleted
- * @returns response object
- */
-export async function deleteProduct<T extends CommonResponse>(id: number): Promise<AxiosResponse<T>> {
+export async function deleteProduct(id: number) {
   try {
-    return await instance.delete<T>(`/products/${id}`);
+    await instance.delete<CommonResponse>(`products/${id}`);
   } catch (error) {
     throw error;
   }
 }
 
-/**Request for delete topping
- *
- * @param id topping to be deleted
- * @returns response object
- */
-export async function deleteTopping<T extends CommonResponse>(id: number): Promise<AxiosResponse<T>> {
+export async function deleteTopping(id: number) {
   try {
-    return await instance.delete<T>(`/toppings/${id}`);
+    await instance.delete<CommonResponse>(`toppings/${id}`);
   } catch (error) {
     throw error;
   }

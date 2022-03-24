@@ -5,11 +5,13 @@ import { Paper } from '@/components/atoms';
 import type { Address } from '@/types';
 
 interface ListAddressesItemProps {
+  index?: number;
   item: Address;
+  selectedAddress?: Address;
   onSelect: (e: ChangeEvent<HTMLInputElement>, item: Address) => void;
 }
 
-export const ListAddressesItem = memo(function ListAddressesItem({ item, onSelect }: ListAddressesItemProps) {
+export const ListAddressesItem = memo(({ index, item, selectedAddress, onSelect }: ListAddressesItemProps) => {
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       onSelect(e, item);
@@ -18,8 +20,14 @@ export const ListAddressesItem = memo(function ListAddressesItem({ item, onSelec
   );
 
   return (
-    <div key={item.id} className="input-checkbox flex-item">
-      <input type="radio" name="address[]" id={`${item.id}`} onChange={handleChange} />
+    <li key={item.id} className="input-checkbox flex-item">
+      <input
+        id={`${item.id}`}
+        type="checkbox"
+        name={`address-${index}`}
+        checked={item.id === selectedAddress?.id}
+        onChange={handleChange}
+      />
       <label htmlFor={`${item.id}`} className="input-label">
         <Paper>
           <div className="rounded-md flex flex-col p-2">
@@ -32,6 +40,6 @@ export const ListAddressesItem = memo(function ListAddressesItem({ item, onSelec
           </div>
         </Paper>
       </label>
-    </div>
+    </li>
   );
 });

@@ -1,5 +1,5 @@
 export interface User {
-  id: number;
+  id: string;
   name: string;
   email: string;
   phone: string;
@@ -9,12 +9,12 @@ export interface User {
 }
 
 export interface Address {
-  id: number;
+  id: string;
   name: string;
-  address: string;
   phone: string;
-  postal_code: number;
+  address: string;
   city: string;
+  postal_code: number;
 }
 
 export interface Product {
@@ -42,6 +42,28 @@ export interface Cart {
   qty: number;
   product: Product;
   toppings: Topping[];
+}
+
+export interface Order {
+  id: string;
+  price: string;
+  qty: number;
+  name: string;
+  image: string;
+  toppings: Topping[];
+}
+
+export interface Transaction {
+  id: string;
+  name: string;
+  phone: string;
+  address: string;
+  city: string;
+  postal_code: number;
+  total: number;
+  service_fee: number;
+  status: number;
+  orders: Order[];
 }
 
 export interface AlertState {

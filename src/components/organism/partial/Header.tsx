@@ -1,46 +1,29 @@
 import Link from 'next/link';
-import { memo, useMemo } from 'react';
-import useSWR from 'swr';
+import { memo } from 'react';
 
-import { getCarts } from '@/api';
+import { signout } from '@/api';
 import { AccountIcon, BrandLogo, CartIcon, DashboardIcon, LogoutIcon, MenuIcon } from '@/assets/icons';
 import { Avatar, Badge } from '@/components/atoms';
 import { MenuItem, MenuList } from '@/components/atoms/menu';
 import { Drawer, Dropdown } from '@/components/moleculs';
-import { useDisclose } from '@/hooks/useDisclose';
-import type { Cart, User } from '@/types';
+import { useHeader } from '@/hooks/useHeader';
+import type { User } from '@/types';
 import { authSignout } from '@/utils';
 
 interface Props {
-  user: User | null | undefined;
+  user?: User | null;
 }
-
-export const HeaderBar = memo(function Header({ user }: Props) {
-  const { isOpen: isDrawerOpen, onClose: onCloseDrawer, onOpen: onOpenDrawer } = useDisclose();
-  const { isOpen: isDropdownOpen, onClose: onCloseDropdown, onOpen: onOpenDropdown } = useDisclose();
-
-  const { data: cartData } = useSWR<Cart[] | undefined, Record<string, any>>(
-    user && !user.is_admin ? '/carts' : null,
-    getCarts,
-    {
-      revalidateOnFocus: false,
-      onErrorRetry: (error) => {
-        if (error?.status === 404) return;
-      },
-    },
-  );
-
-  const carts = useMemo(() => {
-    let data: Cart[] = [];
-
-    if (!cartData) {
-      return;
-    }
-
-    data = cartData.slice(0);
-
-    return data;
-  }, [cartData]);
+export const HeaderBar = memo(({ user }: Props) => {
+  const {
+    carts,
+    initialName,
+    isDrawerOpen,
+    isDropdownOpen,
+    onCloseDrawer,
+    onCloseDropdown,
+    onOpenDrawer,
+    onOpenDropdown,
+  } = useHeader({ user });
 
   return (
     <header className="app-bar">
@@ -55,19 +38,19 @@ export const HeaderBar = memo(function Header({ user }: Props) {
       </button>
       <nav className="app-bar-menu">
         <Link href="/product">
-          <a className="mx-2">MENU</a>
+          <a>MENU</a>
         </Link>
         <Link href="#about">
-          <a className="mx-2">ABOUT US</a>
+          <a>ABOUT US</a>
         </Link>
       </nav>
       <div className="app-bar-btn">
         {user ? (
           <>
-            {!user.is_admin && carts && (
+            {!user.is_admin && (
               <Link href="/cart">
                 <a>
-                  <Badge badgeContent={carts.length} color="secondary">
+                  <Badge badgeContent={carts?.length} color="secondary">
                     <CartIcon size={24} />
                   </Badge>
                 </a>
@@ -83,7 +66,7 @@ export const HeaderBar = memo(function Header({ user }: Props) {
                 tabIndex={0}
                 onClick={onOpenDropdown}>
                 <Avatar src={user.image} alt="user avatar" width={40} height={40}>
-                  {user.name.substring(0, 2).toUpperCase()}
+                  {initialName}
                 </Avatar>
               </button>
               <Dropdown
@@ -92,17 +75,17 @@ export const HeaderBar = memo(function Header({ user }: Props) {
                 isOpen={isDropdownOpen}
                 aria-labelledby="dropdown-button"
                 onClose={onCloseDropdown}
-                onLogout={authSignout}
+                onLogout={signout}
               />
             </div>
           </>
         ) : (
           <>
             <Link href="/signin">
-              <a className="btn btn-primary-outlined mx-2">Sign in</a>
+              <a className="btn btn-primary-outlined">Sign in</a>
             </Link>
             <Link href="/signup">
-              <a className="btn btn-primary ml-2">Sign up</a>
+              <a className="btn btn-primary">Sign up</a>
             </Link>
           </>
         )}
@@ -113,75 +96,55 @@ export const HeaderBar = memo(function Header({ user }: Props) {
             <MenuList>
               <div className="flex flex-col items-center justify-center px-2 py-4">
                 <Avatar src={user.image} alt="user avatar" width={65} height={65}>
-                  {user.name.substring(0, 2).toUpperCase()}
+                  {initialName}
                 </Avatar>
                 <p className="h3">{user.name}</p>
               </div>
-              <MenuItem tabIndex={0}>
-                <Link href="/account/me">
-                  <a>
-                    <div>
-                      <AccountIcon size={24} className="text-primary" />
-                    </div>
-                    <span>Account</span>
-                  </a>
-                </Link>
-              </MenuItem>
-              {user.is_admin && (
-                <MenuItem tabIndex={-1}>
-                  <Link href={{ pathname: '/admin/product' }}>
-                    <a>
-                      <div>
-                        <DashboardIcon size={24} className="text-primary" />
-                      </div>
-                      <span>Product</span>
-                    </a>
-                  </Link>
+              <Link href="/account/me" passHref>
+                <MenuItem tabIndex={0}>
+                  <AccountIcon size={24} className="text-primary" />
+                  <span>Account</span>
                 </MenuItem>
+              </Link>
+              {user.is_admin && (
+                <Link href="/admin/product" passHref>
+                  <MenuItem tabIndex={-1}>
+                    <DashboardIcon size={24} className="text-primary" />
+                    <span>Product</span>
+                  </MenuItem>
+                </Link>
               )}
               {!user.is_admin && carts && (
-                <MenuItem tabIndex={0}>
-                  <Link href="/cart">
-                    <a>
-                      <div>
-                        <Badge badgeContent={carts.length} color="secondary">
-                          <CartIcon size={24} />
-                        </Badge>
-                      </div>
-                      <span>Cart</span>
-                    </a>
-                  </Link>
-                </MenuItem>
+                <Link href="/cart" passHref>
+                  <MenuItem tabIndex={0}>
+                    <Badge badgeContent={carts.length} color="secondary">
+                      <CartIcon size={24} />
+                    </Badge>
+                    <span>Cart</span>
+                  </MenuItem>
+                </Link>
               )}
-              <MenuItem tabIndex={0}>
-                <button onClick={authSignout}>
-                  <div>
-                    <LogoutIcon size={24} className="text-primary" />
-                  </div>
-                  <span>Logout</span>
-                </button>
+              <MenuItem tabIndex={0} onClick={authSignout}>
+                <LogoutIcon size={24} className="text-primary" />
+                <span>Logout</span>
               </MenuItem>
             </MenuList>
           </>
         ) : (
           <>
             <MenuList>
-              <MenuItem tabIndex={0}>
-                <Link href="/product">
-                  <a>Products</a>
-                </Link>
-              </MenuItem>
-              <MenuItem tabIndex={-1}>
-                <Link href="#store">
-                  <a>Store</a>
-                </Link>
-              </MenuItem>
+              <Link href="/product" passHref>
+                <MenuItem tabIndex={0}>Products</MenuItem>
+              </Link>
+              <Link href="#store" passHref>
+                <MenuItem tabIndex={0}>Store</MenuItem>
+              </Link>
             </MenuList>
             <Link href="/signin">
-              <a className="btn btn-primary-outlined m-2">Sign in</a>
+              <a className="btn btn-primary-outlined mx-3">Sign in</a>
             </Link>
             <Link href="/signup">
-              <a className="btn btn-primary m-2">Sign up</a>
+              <a className="btn btn-primary mx-3">Sign up</a>
             </Link>
           </>
         )}

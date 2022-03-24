@@ -80,7 +80,7 @@
   @apply transition duration-300;
 }
 .address-list > .input-checkbox > input:checked ~ .input-label div {
-  @apply bg-green-200 ring-2 ring-green-400;
+  @apply bg-green-200 ring-2 ring-green-400 shadow-none;
 }
 .address-list > .input-checkbox input ~ .input-label::before {
   @apply top-4 right-4;

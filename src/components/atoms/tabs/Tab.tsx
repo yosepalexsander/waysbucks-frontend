@@ -8,7 +8,7 @@ export interface TabProps extends AriaAttributes {
   onClick?: () => void;
 }
 
-export const Tab = memo(function Tab(props: TabProps) {
+export const Tab = memo((props: TabProps) => {
   const { id, label, isActive, onClick, ...rest } = props;
   return (
     <button

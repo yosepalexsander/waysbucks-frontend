@@ -2,20 +2,15 @@ import axios from 'axios';
 
 import { instance } from '@/lib/axios';
 import type { AxiosRequestConfig, SigninResponse, SignupResponse } from '@/types';
-import { authSignin } from '@/utils';
+import { authSignin, authSignout } from '@/utils';
 
-/**Request for create a new user
- *
- * @param data request body
- * @param config axios request config
- * @returns response object
- */
-export async function register<T extends SignupResponse>(
-  data: Record<string, any>,
-  config: AxiosRequestConfig,
-): Promise<void> {
+export async function register(data: Record<string, unknown>, config?: AxiosRequestConfig) {
   try {
-    const { data: resData } = await instance.post<T>('/auth/register', data, config);
+    const { data: resData, status } = await instance.post<SignupResponse>('auth/register', data, config);
+
+    if (status === 400) {
+      throw new Error('email already registered');
+    }
 
     await axios.post(
       '/api/signin',
@@ -31,18 +26,10 @@ export async function register<T extends SignupResponse>(
   }
 }
 
-/**Request for user login
- *
- * @param data request body
- * @param config axios request config
- * @returns response object
- */
-export async function signin<T extends SigninResponse>(
-  data: Record<string, any>,
-  config: AxiosRequestConfig,
-): Promise<void> {
+export async function signin(data: Record<string, unknown>, config?: AxiosRequestConfig) {
   try {
-    const { data: resData } = await instance.post<T>('/auth/login', data, config);
+    const { data: resData } = await instance.post<SigninResponse>('auth/login', data, config);
+
     await axios.post(
       '/api/signin',
       {
@@ -52,18 +39,23 @@ export async function signin<T extends SigninResponse>(
     );
 
     authSignin({ token: resData.payload.token, redirect: '/' });
-  } catch (e) {
-    console.log(e);
-    throw new Error('Invalid Email or Password');
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      if (error.response && error.response.status === 400) {
+        throw new Error('Invalid email or password');
+      }
+    }
+
+    throw error;
   }
 }
 
-/**Request for user logout
- *
- * @param data request body
- * @param config axios request config
- * @returns response object
- */
-export async function signout(): Promise<null> {
-  return await axios.post('/api/signout', {}, { headers: { 'Content-Type': 'application/json' } });
+export async function signout() {
+  try {
+    await axios.post('/api/signout', {}, { headers: { 'Content-Type': 'application/json' } });
+
+    authSignout();
+  } catch (error) {
+    throw new Error('Signout failed');
+  }
 }

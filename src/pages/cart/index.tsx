@@ -1,16 +1,16 @@
-import useSWRImmutable from 'swr/immutable';
-
 import { Loading } from '@/components/atoms';
 import { Layout } from '@/components/layouts/App';
 import { Carts } from '@/components/organism/cart';
-import type { User } from '@/types';
-import { authCSR } from '@/utils';
+import { HeaderBar } from '@/components/organism/partial';
+import { useUser } from '@/hooks/useUser';
 
 // eslint-disable-next-line import/no-default-export
 export default function CartPage() {
-  const { data: dataUser, error } = useSWRImmutable<User | undefined, Error>('/users', authCSR);
+  const { user, loadingGet } = useUser();
 
-  if (!dataUser && !error) return <Loading />;
+  if (loadingGet) {
+    return <Loading />;
+  }
 
   return (
     <Layout
@@ -25,11 +25,12 @@ export default function CartPage() {
             data-client-key={process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY}
           />
         ),
-      }}
-      user={dataUser}
-      route="cart">
-      <p className="h2 mb-5">My Cart</p>
-      <Carts user={dataUser} />
+      }}>
+      <HeaderBar user={user} />
+      <main id="main-content" className="main-container">
+        <p className="h2 mb-5">My Cart</p>
+        <Carts user={user} />
+      </main>
     </Layout>
   );
 }

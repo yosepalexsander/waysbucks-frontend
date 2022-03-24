@@ -1,14 +1,13 @@
 import Image from 'next/image';
 import type { ChangeEvent } from 'react';
-import { useState } from 'react';
-import useSWRImmutable from 'swr/immutable';
+import { useMemo, useState } from 'react';
+import useSWR from 'swr';
 
 import { deleteTopping, getToppings, updateTopping } from '@/api';
 import { NoData } from '@/assets/images';
 import { Button, Modal, Paper } from '@/components/atoms';
 import { FormTopping } from '@/components/organism/form';
-import { createJSONRequestConfig } from '@/lib/axios';
-import type { GetToppingsResponse, Topping } from '@/types';
+import type { Topping } from '@/types';
 import { currencyFormat } from '@/utils';
 
 import { TableSkeleton } from './TableSkeleton';
@@ -16,7 +15,11 @@ import { TableSkeleton } from './TableSkeleton';
 export const TableTopping = () => {
   const [show, setShowModal] = useState(false);
   const [selectedTopping, setSelectedTopping] = useState<Topping>();
-  const { data, error, mutate } = useSWRImmutable<GetToppingsResponse>('/toppings', getToppings, {
+  const {
+    data: dataToppings,
+    error,
+    mutate: toppingMutation,
+  } = useSWR('/toppings', getToppings, {
     onErrorRetry: (error, _key, _config, revalidate, { retryCount }) => {
       if (error.status === 404) return;
       if (retryCount >= 5) return;
@@ -24,18 +27,28 @@ export const TableTopping = () => {
     },
   });
 
+  const toppings = useMemo(() => {
+    let data: Topping[] = [];
+
+    if (!dataToppings) {
+      return data;
+    }
+
+    data = dataToppings.slice(0);
+
+    return data;
+  }, [dataToppings]);
+
   const onClickUpdate = (item: Topping) => {
     setShowModal(true);
     setSelectedTopping(item);
   };
 
   const onMutationUpdate = async (topping: Topping) => {
-    const filteredData = data?.payload.filter((item) => item.id != topping.id) || [];
-    const newToppingData: GetToppingsResponse = {
-      message: data?.message as string,
-      payload: [topping, ...filteredData].sort((a, b) => b.id - a.id),
-    };
-    await mutate(newToppingData, false);
+    const idx = toppings.findIndex((item) => item.id === topping.id);
+    toppings[idx] = topping;
+
+    await toppingMutation(toppings, false);
   };
   const onClickAdd = () => {
     setShowModal(true);
@@ -47,20 +60,17 @@ export const TableTopping = () => {
     setShowModal(false);
   };
 
-  // refetch after submitting topping data
+  // refetch after submitting topping dataToppings
   const onUpdateTopping = () => {
     setShowModal(false);
-    mutate();
+    toppingMutation();
   };
 
   const onUpdateAvailability = async (e: ChangeEvent<HTMLInputElement>, item: Topping) => {
-    const config = createJSONRequestConfig();
-    const data: Record<string, any> = {
-      is_available: e.target.checked,
-    };
     try {
-      await updateTopping(parseInt(e.target.id, 10), data, config);
-      const updatedTopping: Topping = { ...item, is_available: data.is_available };
+      const updatedTopping: Topping = { ...item, is_available: e.target.checked };
+
+      await updateTopping(Number(e.target.id), updatedTopping);
       await onMutationUpdate(updatedTopping);
     } catch (error) {
       console.log(error);
@@ -70,7 +80,7 @@ export const TableTopping = () => {
   const onDeleteTopping = async (id: number) => {
     try {
       await deleteTopping(id);
-      await mutate();
+      await toppingMutation();
     } catch (error) {
       console.error(error);
     }
@@ -80,7 +90,7 @@ export const TableTopping = () => {
     return (
       <div className="flex flex-col justify-center items-center w-full">
         <div className="img-container max-w-sm mb-4">
-          <Image src={NoData} alt="no data" layout="responsive" width={50} height={50} objectFit="cover" />
+          <Image src={NoData} alt="no dataToppings" layout="responsive" width={50} height={50} objectFit="cover" />
         </div>
         <p>Looks like there is no product</p>
         <button onClick={onClickAdd} className="mt-2 text-blue-600">
@@ -130,22 +140,24 @@ export const TableTopping = () => {
             </tr>
           </thead>
           <tbody>
-            {data?.payload ? (
+            {toppings.length > 0 ? (
               <>
-                {data?.payload.map((item, index) => (
+                {toppings.map((item, index) => (
                   <tr key={item.id}>
                     <td>{index + 1}</td>
                     <td className="table-name">{item.name}</td>
                     <td className="table-img">
-                      <Image
-                        src={item.image}
-                        alt={item.name}
-                        objectFit="cover"
-                        layout="responsive"
-                        width={50}
-                        height={50}
-                        className="rounded-md"
-                      />
+                      {item.image && (
+                        <Image
+                          src={item.image}
+                          alt={item.name}
+                          width={50}
+                          height={50}
+                          layout="responsive"
+                          objectFit="cover"
+                          className="rounded-md"
+                        />
+                      )}
                     </td>
                     <td className="table-price">{currencyFormat(item.price)}</td>
                     <td>

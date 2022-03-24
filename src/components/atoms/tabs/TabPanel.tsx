@@ -10,7 +10,7 @@ interface TabPanelProps {
   'aria-labelledby': string;
 }
 
-export const TabPanel = memo(function Tab({ id, index, value, children, ...rest }: TabPanelProps) {
+export const TabPanel = memo(({ id, index, value, children, ...rest }: TabPanelProps) => {
   return (
     <div role="tabpanel" aria-hidden={value !== index} id={id} {...rest}>
       {value === index && <>{children}</>}

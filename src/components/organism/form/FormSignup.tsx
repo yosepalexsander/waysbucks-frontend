@@ -5,8 +5,7 @@ import { useState } from 'react';
 import { register } from '@/api';
 import { FemaleIcon, MaleIcon } from '@/assets/icons';
 import { Alert, Button, Input } from '@/components/atoms';
-import { createJSONRequestConfig } from '@/lib/axios';
-import type { SignupResponse } from '@/types';
+import { useDisclose } from '@/hooks/useDisclose';
 import { SignupSchema } from '@/utils';
 
 interface FormValues {
@@ -18,6 +17,27 @@ interface FormValues {
 }
 
 export const FormSignup = () => {
+  const { isOpen, onOpen, onClose } = useDisclose();
+  const [error, setError] = useState({ isError: false, message: '' });
+  const [didFocus, setDidFocus] = useState(false);
+
+  const handleFocus = () => setDidFocus(true);
+
+  const handleSubmit = async (values: FormValues, _formikHelpers: FormikHelpers<FormValues>): Promise<void> => {
+    const data: Record<string, unknown> = { ...values };
+
+    try {
+      await register(data);
+    } catch (error) {
+      console.log(error);
+
+      if (error instanceof Error) {
+        setError({ isError: true, message: `Error: ${error.message}` });
+        onOpen();
+      }
+    }
+  };
+
   const initialValues: FormValues = {
     name: '',
     email: '',
@@ -26,38 +46,10 @@ export const FormSignup = () => {
     phone: '',
   };
 
-  // for handle registration reply
-  const [error, setError] = useState({
-    isError: false,
-    message: '',
-  });
-
-  // handle show alert
-  const [showAlert, setShowAlert] = useState(false);
-
-  // for live feedback from formik
-  const [didFocus, setDidFocus] = useState(false);
-  const handleFocus = () => setDidFocus(true);
-
-  const handleSubmit = async (values: FormValues, _formikHelpers: FormikHelpers<FormValues>): Promise<any> => {
-    const config = createJSONRequestConfig();
-
-    try {
-      await register<SignupResponse>(values, config);
-    } catch (error) {
-      setError({
-        isError: true,
-        message: 'Email has already registered',
-      });
-    } finally {
-      setShowAlert(true);
-    }
-  };
-
   return (
     <>
       {error.isError && (
-        <Alert severity="error" isOpen={showAlert} position={{ top: 50 }} onClose={() => setShowAlert(false)}>
+        <Alert severity="error" isOpen={isOpen} position={{ top: 50 }} onClose={onClose}>
           {error.message}
         </Alert>
       )}
