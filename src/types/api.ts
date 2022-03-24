@@ -1,4 +1,4 @@
-import type { Address, Cart, Product, Topping, User } from './object';
+import type { Address, Cart, Product, Topping, Transaction, User } from './object';
 
 export type { AxiosRequestConfig, AxiosResponse } from 'axios';
 
@@ -79,13 +79,16 @@ export interface TransactionRequest {
   orders: OrderRequest[];
 }
 
+export interface GetTransactionsResponse extends CommonResponse {
+  payload: Transaction[];
+}
+
 export interface PostTransactionResponse extends CommonResponse {
   payload: {
     token: string;
     redirect_url: string;
   };
 }
-export interface UpdateTransactionResponse extends CommonResponse {}
 
 export interface RequestError extends Error {
   status: number;

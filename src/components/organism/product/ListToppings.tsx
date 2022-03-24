@@ -11,7 +11,7 @@ interface Props {
   onChange: (e: FocusEvent<HTMLInputElement>) => void;
 }
 
-export const ListToppings = memo(function ListToppings({ onChange }: Props) {
+export const ListToppings = memo(({ onChange }: Props) => {
   const { data, error } = useSWRImmutable('/toppings', getToppings);
   const skeleton = [1, 2, 3, 4, 5];
 

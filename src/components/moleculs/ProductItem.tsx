@@ -9,7 +9,7 @@ interface ProductItemProps {
   item: Product;
 }
 
-export const ProductItem = memo(function ProductItem({ item }: ProductItemProps) {
+export const ProductItem = memo(({ item }: ProductItemProps) => {
   const price = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(item.price);
   return (
     <div className={style.card}>

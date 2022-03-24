@@ -9,7 +9,6 @@ import { postTopping, updateTopping } from '@/api';
 import { AttachmentIcon, Delete } from '@/assets/icons';
 import { Alert, Button, Input } from '@/components/atoms';
 import { useDisclose } from '@/hooks/useDisclose';
-import { createJSONRequestConfig } from '@/lib/axios';
 import type { Topping } from '@/types';
 import { getFileExtension } from '@/utils/string';
 import { ToppingSchema } from '@/utils/validation';
@@ -25,7 +24,7 @@ interface Props {
   onSubmitSuccess: () => void;
 }
 
-export const FormTopping = memo(function FormTopping({ isUpdate, selectedTopping, onSubmitSuccess }: Props) {
+export const FormTopping = memo(({ isUpdate, selectedTopping, onSubmitSuccess }: Props) => {
   const [image, setImage] = useState<File>();
   const { isOpen, onOpen, onClose } = useDisclose();
   const [error, setError] = useState({ isError: false, message: '' });
@@ -47,8 +46,6 @@ export const FormTopping = memo(function FormTopping({ isUpdate, selectedTopping
 
   const handleSubmit = useCallback(
     async (values: FormValues, _formikHelpers: FormikHelpers<FormValues>): Promise<void> => {
-      const config = createJSONRequestConfig();
-
       try {
         if (image) {
           const body = new FormData();
@@ -60,9 +57,7 @@ export const FormTopping = memo(function FormTopping({ isUpdate, selectedTopping
           onSubmitSuccess();
         } else {
           const body = { ...values };
-          isUpdate && selectedTopping
-            ? await updateTopping(selectedTopping.id, body, config)
-            : await postTopping(body, config);
+          isUpdate && selectedTopping ? await updateTopping(selectedTopping.id, body) : await postTopping(body);
 
           onSubmitSuccess();
         }

@@ -19,7 +19,7 @@ export default function AccountPage() {
         description: 'Waysbucks user cart',
       }}>
       <HeaderBar user={user} />
-      <main id="main-content" className="app-container">
+      <main id="main-content" className="main-container">
         <div className="account-container">
           <Account user={user} />
           <UserAddress />

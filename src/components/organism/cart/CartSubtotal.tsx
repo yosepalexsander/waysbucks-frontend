@@ -5,7 +5,7 @@ interface Props {
   subtotal: string;
   total: string;
 }
-export const CartSubtotal = memo(function CartSubtotal({ serviceFee, subtotal, total }: Props) {
+export const CartSubtotal = memo(({ serviceFee, subtotal, total }: Props) => {
   return (
     <div className="cart-subtotal">
       <div className="list">

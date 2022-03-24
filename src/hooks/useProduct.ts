@@ -4,7 +4,6 @@ import { useCallback, useMemo, useState } from 'react';
 import useSWRImmutable from 'swr/immutable';
 
 import { getProduct, postCart } from '@/api';
-import { createJSONRequestConfig } from '@/lib/axios';
 import type { AlertState, Product, RequestError } from '@/types';
 
 import { useDisclose } from './useDisclose';
@@ -49,16 +48,17 @@ export const useProduct = () => {
       price: total,
     };
 
-    const config = createJSONRequestConfig();
-
     try {
-      await postCart(data, config);
+      await postCart(data);
+
+      router.push('/cart');
     } catch (error) {
       if (error instanceof Error) {
-        if (error.message === ' Authenticated') {
-          router.push('/cart');
+        if (error.message === 'Not Authenticated') {
+          router.push('/signin');
           return;
         }
+
         setAlert({ status: 'error', message: error.message });
         onOpen();
       }

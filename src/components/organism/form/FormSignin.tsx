@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { signin } from '@/api';
 import { Alert, Button, Input } from '@/components/atoms';
 import { useDisclose } from '@/hooks/useDisclose';
-import { createJSONRequestConfig } from '@/lib/axios';
 import { SigninSchema } from '@/utils';
 
 interface FormValues {
@@ -20,12 +19,10 @@ export const FormSignin = () => {
   const handleFocus = () => setDidFocus(true);
 
   const handleSubmit = async (values: FormValues): Promise<void> => {
-    const config = createJSONRequestConfig();
-
     const data: Record<string, unknown> = { ...values };
 
     try {
-      await signin(data, config);
+      await signin(data);
     } catch (error) {
       console.log(error);
 

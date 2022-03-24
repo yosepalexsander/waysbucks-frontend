@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 import { Loading } from '@/components/atoms';
@@ -24,17 +23,11 @@ function a11yPropsTabPanel(index: number) {
 
 // eslint-disable-next-line import/no-default-export
 export default function ProductPage() {
-  const router = useRouter();
   const { user, loadingGet } = useUser();
   const [value, setValue] = useState(0);
 
   if (loadingGet) {
     return <Loading />;
-  }
-
-  if (user && !user.is_admin) {
-    router.back();
-    return null;
   }
 
   const handleChange = (newValue: number) => {
@@ -49,7 +42,7 @@ export default function ProductPage() {
           description: 'Waysbucks admin product',
         }}>
         <HeaderBar user={user} />
-        <main id="main-content" className="app-container">
+        <main id="main-content" className="main-container">
           <div className="flex flex-container flex-col lg:flex-row">
             <Tabs value={value} className="flex-item" aria-label="admin products tabs" onChange={handleChange}>
               <Tab label="Products" {...a11yPropsTab(0)} />
@@ -66,7 +59,7 @@ export default function ProductPage() {
               index={1}
               value={value}
               className={value === 1 ? 'flex-item flex-auto' : ''}
-              {...a11yPropsTabPanel(0)}>
+              {...a11yPropsTabPanel(1)}>
               <TableTopping />
             </TabPanel>
           </div>

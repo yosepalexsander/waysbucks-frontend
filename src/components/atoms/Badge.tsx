@@ -9,7 +9,7 @@ interface Props {
   children?: ReactNode;
 }
 
-export const Badge = memo(function Badge({ color, badgeContent, children }: Props) {
+export const Badge = memo(({ color, badgeContent, children }: Props) => {
   return (
     <span className={style.badge}>
       {children}

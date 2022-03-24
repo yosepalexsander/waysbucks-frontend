@@ -6,8 +6,6 @@ import { register } from '@/api';
 import { FemaleIcon, MaleIcon } from '@/assets/icons';
 import { Alert, Button, Input } from '@/components/atoms';
 import { useDisclose } from '@/hooks/useDisclose';
-import { createJSONRequestConfig } from '@/lib/axios';
-import type { SignupResponse } from '@/types';
 import { SignupSchema } from '@/utils';
 
 interface FormValues {
@@ -26,12 +24,10 @@ export const FormSignup = () => {
   const handleFocus = () => setDidFocus(true);
 
   const handleSubmit = async (values: FormValues, _formikHelpers: FormikHelpers<FormValues>): Promise<void> => {
-    const config = createJSONRequestConfig();
-
     const data: Record<string, unknown> = { ...values };
 
     try {
-      await register<SignupResponse>(data, config);
+      await register(data);
     } catch (error) {
       console.log(error);
 

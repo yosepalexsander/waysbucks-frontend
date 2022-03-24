@@ -1,5 +1,5 @@
 .badge {
-  @apply relative mr-5 inline-flex cursor-pointer align-middle;
+  @apply relative cursor-pointer align-middle;
 }
 
 .badge svg {

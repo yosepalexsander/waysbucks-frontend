@@ -13,7 +13,7 @@ import { authSignout } from '@/utils';
 interface Props {
   user?: User | null;
 }
-export const HeaderBar = memo(function Header({ user }: Props) {
+export const HeaderBar = memo(({ user }: Props) => {
   const {
     carts,
     initialName,
@@ -38,10 +38,10 @@ export const HeaderBar = memo(function Header({ user }: Props) {
       </button>
       <nav className="app-bar-menu">
         <Link href="/product">
-          <a className="mx-2">MENU</a>
+          <a>MENU</a>
         </Link>
         <Link href="#about">
-          <a className="mx-2">ABOUT US</a>
+          <a>ABOUT US</a>
         </Link>
       </nav>
       <div className="app-bar-btn">
@@ -82,10 +82,10 @@ export const HeaderBar = memo(function Header({ user }: Props) {
         ) : (
           <>
             <Link href="/signin">
-              <a className="btn btn-primary-outlined mx-2">Sign in</a>
+              <a className="btn btn-primary-outlined">Sign in</a>
             </Link>
             <Link href="/signup">
-              <a className="btn btn-primary ml-2">Sign up</a>
+              <a className="btn btn-primary">Sign up</a>
             </Link>
           </>
         )}
@@ -100,71 +100,51 @@ export const HeaderBar = memo(function Header({ user }: Props) {
                 </Avatar>
                 <p className="h3">{user.name}</p>
               </div>
-              <MenuItem tabIndex={0}>
-                <Link href="/account/me">
-                  <a>
-                    <div>
-                      <AccountIcon size={24} className="text-primary" />
-                    </div>
-                    <span>Account</span>
-                  </a>
-                </Link>
-              </MenuItem>
-              {user.is_admin && (
-                <MenuItem tabIndex={-1}>
-                  <Link href={{ pathname: '/admin/product' }}>
-                    <a>
-                      <div>
-                        <DashboardIcon size={24} className="text-primary" />
-                      </div>
-                      <span>Product</span>
-                    </a>
-                  </Link>
+              <Link href="/account/me" passHref>
+                <MenuItem tabIndex={0}>
+                  <AccountIcon size={24} className="text-primary" />
+                  <span>Account</span>
                 </MenuItem>
+              </Link>
+              {user.is_admin && (
+                <Link href="/admin/product" passHref>
+                  <MenuItem tabIndex={-1}>
+                    <DashboardIcon size={24} className="text-primary" />
+                    <span>Product</span>
+                  </MenuItem>
+                </Link>
               )}
               {!user.is_admin && carts && (
-                <MenuItem tabIndex={0}>
-                  <Link href="/cart">
-                    <a>
-                      <div>
-                        <Badge badgeContent={carts.length} color="secondary">
-                          <CartIcon size={24} />
-                        </Badge>
-                      </div>
-                      <span>Cart</span>
-                    </a>
-                  </Link>
-                </MenuItem>
+                <Link href="/cart" passHref>
+                  <MenuItem tabIndex={0}>
+                    <Badge badgeContent={carts.length} color="secondary">
+                      <CartIcon size={24} />
+                    </Badge>
+                    <span>Cart</span>
+                  </MenuItem>
+                </Link>
               )}
-              <MenuItem tabIndex={0}>
-                <button onClick={authSignout}>
-                  <div>
-                    <LogoutIcon size={24} className="text-primary" />
-                  </div>
-                  <span>Logout</span>
-                </button>
+              <MenuItem tabIndex={0} onClick={authSignout}>
+                <LogoutIcon size={24} className="text-primary" />
+                <span>Logout</span>
               </MenuItem>
             </MenuList>
           </>
         ) : (
           <>
             <MenuList>
-              <MenuItem tabIndex={0}>
-                <Link href="/product">
-                  <a>Products</a>
-                </Link>
-              </MenuItem>
-              <MenuItem tabIndex={-1}>
-                <Link href="#store">
-                  <a>Store</a>
-                </Link>
-              </MenuItem>
+              <Link href="/product" passHref>
+                <MenuItem tabIndex={0}>Products</MenuItem>
+              </Link>
+              <Link href="#store" passHref>
+                <MenuItem tabIndex={0}>Store</MenuItem>
+              </Link>
             </MenuList>
             <Link href="/signin">
-              <a className="btn btn-primary-outlined m-2">Sign in</a>
+              <a className="btn btn-primary-outlined mx-3">Sign in</a>
             </Link>
             <Link href="/signup">
-              <a className="btn btn-primary m-2">Sign up</a>
+              <a className="btn btn-primary mx-3">Sign up</a>
             </Link>
           </>
         )}

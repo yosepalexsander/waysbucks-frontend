@@ -22,7 +22,7 @@ interface Props {
   onUpdate: (id: string, address: Partial<Address>) => void;
 }
 
-export const FormAddress = memo(function FormAddress({ isUpdate, selectedAddress, onCreate, onUpdate }: Props) {
+export const FormAddress = memo(({ isUpdate, selectedAddress, onCreate, onUpdate }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclose();
   const [error, setError] = useState({ isError: false, message: '' });
   const [didFocus, setDidFocus] = useState(false);

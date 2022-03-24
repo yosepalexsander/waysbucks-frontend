@@ -8,16 +8,15 @@ interface Props {
   onClose(): void;
 }
 
-export const Drawer = memo(function Drawer({ isOpen, children, onClose }: Props) {
+export const Drawer = memo(({ isOpen, children, onClose }: Props) => {
   const nodeRef = useRef(null);
+
   return (
-    <>
-      <CSSTransition nodeRef={nodeRef} in={isOpen} timeout={300} classNames="drawer" unmountOnExit>
-        <div className="drawer" ref={nodeRef}>
-          <span className="backdrop" onClick={onClose}></span>
-          <div className="drawer-paper">{children}</div>
-        </div>
-      </CSSTransition>
-    </>
+    <CSSTransition nodeRef={nodeRef} in={isOpen} timeout={300} classNames="drawer" unmountOnExit>
+      <div ref={nodeRef} className="drawer" role="presentation">
+        <span className="backdrop" onClick={onClose}></span>
+        <div className="drawer-paper">{children}</div>
+      </div>
+    </CSSTransition>
   );
 });

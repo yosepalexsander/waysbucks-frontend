@@ -7,7 +7,7 @@ interface MenuProps {
   children?: ReactNode;
 }
 
-export const MenuList = memo(function MenuList({ children }: MenuProps) {
+export const MenuList = memo(({ children }: MenuProps) => {
   return (
     <ul className={styles.menuList} role="menu" tabIndex={-1}>
       {children}

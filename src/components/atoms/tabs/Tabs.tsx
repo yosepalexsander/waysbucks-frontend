@@ -10,7 +10,7 @@ interface TabsProps extends React.AriaAttributes {
   onChange: (newValue: number) => void;
 }
 
-export const Tabs = React.memo(function Tabs({ children, onChange, className, value, ...rest }: TabsProps) {
+export const Tabs = React.memo(({ children, onChange, className, value, ...rest }: TabsProps) => {
   return (
     <div className={className ? `${className} h-full` : ''}>
       <div className="tabs" role="tablist" {...rest}>

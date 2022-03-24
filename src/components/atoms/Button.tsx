@@ -6,7 +6,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant: 'contained' | 'outlined' | 'unstyled';
 }
 
-export const Button = memo(function Button({ color, variant, children, className, ...props }: ButtonProps) {
+export const Button = memo(({ color, variant, children, className, ...props }: ButtonProps) => {
   return (
     <Fragment>
       {color && variant === 'contained' ? (

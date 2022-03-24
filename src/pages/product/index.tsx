@@ -28,7 +28,10 @@ export default function ProductPage({ user }: Props) {
         description: 'All product list in Waysbucks coffee',
       }}>
       <HeaderBar user={user} />
-      <main id="main-content" className="app-container">
+      <main id="main-content" className="main-container">
+        <div className="flex justify-center mt-4">
+          <InputSearch placeholder="Search product..." disabled={loadingGet} onSearch={handleSearch} />
+        </div>
         {loadingGet ? (
           <div className="product-container">
             {[1, 2, 3, 4].map((index) => (
@@ -55,9 +58,6 @@ export default function ProductPage({ user }: Props) {
               </div>
             ) : (
               <>
-                <div className="flex justify-center mt-4">
-                  <InputSearch placeholder="Search product..." onSearch={handleSearch} />
-                </div>
                 {products.length > 0 ? (
                   <div className="product-container">
                     {products.map((product) => (
@@ -84,24 +84,23 @@ export default function ProductPage({ user }: Props) {
 
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx): Promise<GetServerSidePropsResult<Props>> => {
   const { token } = cookies(ctx);
-
   const config = createJSONRequestConfig({
     Authorization: `Bearer ${token}`,
   });
 
-  const user = await getUser(config);
+  try {
+    const user = await getUser(config);
 
-  if (user) {
     return {
       props: {
-        user,
+        user: user ?? null,
+      },
+    };
+  } catch (error) {
+    return {
+      props: {
+        user: null,
       },
     };
   }
-
-  return {
-    props: {
-      user: null,
-    },
-  };
 };

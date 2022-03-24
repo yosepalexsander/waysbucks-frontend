@@ -1,6 +1,6 @@
 import { Button } from '@/components/atoms';
 
-export function TableSkeleton() {
+export const TableSkeleton = () => {
   const render = () => {
     let elements = [];
     for (let i = 0; i < 5; i++) {
@@ -47,4 +47,4 @@ export function TableSkeleton() {
     return elements;
   };
   return <>{render()}</>;
-}
+};

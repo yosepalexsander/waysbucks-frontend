@@ -11,7 +11,7 @@ interface Props {
   };
 }
 
-export const Layout = memo(function Layout({ children, head }: Props) {
+export const Layout = memo(({ children, head }: Props) => {
   return (
     <>
       <Head>

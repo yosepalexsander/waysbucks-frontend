@@ -47,8 +47,9 @@ module.exports = {
         ],
       },
     ],
-    'react-hooks/exhaustive-deps': ['error', { additionalHooks: '(useMemoOne)' }],
+    'react/display-name': 'off',
     'react/jsx-filename-extension': ['error', { extensions: ['.tsx'] }],
+    'react-hooks/exhaustive-deps': ['error', { additionalHooks: '(useMemoOne)' }],
     'prettier/prettier': [
       'error',
       {

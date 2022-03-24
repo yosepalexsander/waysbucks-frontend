@@ -32,8 +32,11 @@ footer {
   @apply text-base font-medium;
 }
 
-.app-container {
-  @apply container px-4 mx-auto pb-2 md:px-2 mt-24 flex flex-col;
+.main-container {
+  @apply mt-24;
+}
+.main-container > * {
+  @apply px-6 sm:px-12 lg:px-20;
 }
 
 .screen-center {
@@ -60,9 +63,10 @@ footer {
 
 /* app bar */
 .app-bar {
-  @apply fixed top-0 flex justify-between md:justify-start w-full bg-white
-  px-5 py-3 items-center z-50 sm:px-12;
+  @apply fixed top-0 flex justify-between items-center w-full h-16 bg-white
+  px-6 sm:px-12 lg:px-20 py-2 shadow-sm  z-50;
 }
+
 .app-bar .app-bar-brand {
   @apply relative md:flex-none md:mr-5;
   height: 45px;
@@ -78,11 +82,11 @@ footer {
   @apply flex-none md:flex-grow;
 }
 .app-bar-menu > * {
-  @apply px-4 py-2 transition duration-300 hover:text-primary cursor-pointer;
+  @apply transition duration-300 hover:text-primary cursor-pointer;
 }
 .app-bar-menu,
 .app-bar-btn {
-  @apply hidden md:flex sm:items-center;
+  @apply hidden md:flex sm:items-center space-x-4;
 }
 /*  */
 
@@ -150,7 +154,7 @@ footer {
   @apply fixed md:hidden inset-0 z-40;
 }
 .drawer .drawer-paper {
-  @apply fixed top-0 right-0 h-full flex flex-col overflow-y-auto bg-white w-full max-w-xs;
+  @apply fixed top-0 right-0 overflow-y-auto w-full max-w-xs h-full bg-white flex flex-col space-y-3;
 }
 .drawer .backdrop {
   @apply inset-0 fixed flex items-center justify-center bg-gray-500 bg-opacity-50;
@@ -279,12 +283,7 @@ input[type='file'] ~ label {
 
 /* Avatar */
 .avatar {
-  @apply relative rounded-full border border-primary;
-}
-
-.avatar > p {
-  @apply bg-secondary text-white text-lg font-bold rounded-full h-full w-full
-  flex items-center justify-center;
+  @apply relative flex items-center justify-center border border-primary rounded-full text-white text-lg font-bold bg-secondary;
 }
 
 /* skeleton */

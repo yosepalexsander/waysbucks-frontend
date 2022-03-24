@@ -5,6 +5,6 @@ interface Props {
   children?: ReactNode;
 }
 
-export const CardContent = memo(function CardContent({ children }: Props) {
+export const CardContent = memo(({ children }: Props) => {
   return <div className="p-4">{children}</div>;
 });

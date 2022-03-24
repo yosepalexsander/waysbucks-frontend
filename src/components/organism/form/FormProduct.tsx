@@ -8,7 +8,6 @@ import { postProduct, updateProduct } from '@/api';
 import { AttachmentIcon, Delete } from '@/assets/icons';
 import { Alert, Button, Input } from '@/components/atoms';
 import { useDisclose } from '@/hooks/useDisclose';
-import { createJSONRequestConfig } from '@/lib/axios';
 import type { Product } from '@/types';
 import { getFileExtension } from '@/utils/string';
 import { ProductSchema } from '@/utils/validation';
@@ -25,7 +24,7 @@ interface Props {
   onSubmitSuccess: () => void;
 }
 
-export const FormProduct = memo(function FormProduct({ isUpdate, oldProduct, onSubmitSuccess }: Props) {
+export const FormProduct = memo(({ isUpdate, oldProduct, onSubmitSuccess }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclose();
   const [image, setImage] = useState<File>();
   const [error, setError] = useState({ isError: false, message: '' });
@@ -47,8 +46,6 @@ export const FormProduct = memo(function FormProduct({ isUpdate, oldProduct, onS
 
   const handleSubmit = useCallback(
     async (values: FormValues, _formikHelpers: FormikHelpers<FormValues>): Promise<void> => {
-      const config = createJSONRequestConfig();
-
       try {
         if (image) {
           const body = new FormData();
@@ -61,7 +58,7 @@ export const FormProduct = memo(function FormProduct({ isUpdate, oldProduct, onS
         } else {
           const body: Record<string, unknown> = { ...values };
 
-          isUpdate && oldProduct ? await updateProduct(oldProduct.id, body, config) : await postProduct(body, config);
+          isUpdate && oldProduct ? await updateProduct(oldProduct.id, body) : await postProduct(body);
         }
 
         onSubmitSuccess();

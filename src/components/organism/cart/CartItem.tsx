@@ -12,7 +12,7 @@ interface Props {
   onIncreaseQty: (cart: Cart) => void;
 }
 
-export const CartItem = memo(function CartItem({ item, onDecreaseQty, onDeleteCart, onIncreaseQty }: Props) {
+export const CartItem = memo(({ item, onDecreaseQty, onDeleteCart, onIncreaseQty }: Props) => {
   const toppings = item.toppings.map((item) => item.name).join(', ');
 
   const handleClickDelete = useCallback(() => {

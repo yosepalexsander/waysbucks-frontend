@@ -10,7 +10,7 @@ const ModalFormAddress = dynamic<ModalFormAddressProps>(() => import('../modal')
   ssr: false,
 });
 
-export const UserAddress = memo(function UserAddress() {
+export const UserAddress = memo(() => {
   const {
     addresses,
     isOpen,

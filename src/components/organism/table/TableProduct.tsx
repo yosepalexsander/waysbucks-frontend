@@ -1,13 +1,12 @@
 import Image from 'next/image';
 import type { ChangeEvent } from 'react';
 import { useMemo, useState } from 'react';
-import useSWRImmutable from 'swr/immutable';
+import useSWR from 'swr';
 
 import { deleteProduct, getProducts, updateProduct } from '@/api';
 import { NoData } from '@/assets/images';
 import { Button, Modal, Paper } from '@/components/atoms';
 import { FormProduct } from '@/components/organism/form';
-import { createJSONRequestConfig } from '@/lib/axios';
 import type { Product } from '@/types';
 import { currencyFormat } from '@/utils';
 
@@ -20,7 +19,7 @@ export const TableProduct = () => {
     data: dataProduct,
     error,
     mutate: productMutation,
-  } = useSWRImmutable('/products', getProducts, {
+  } = useSWR('/products', getProducts, {
     onErrorRetry: (error, _key, _config, revalidate, { retryCount }) => {
       if (error?.status === 404) return;
       if (retryCount >= 5) return;
@@ -71,9 +70,9 @@ export const TableProduct = () => {
     const data: Partial<Product> = {
       is_available: e.target.checked,
     };
-    const config = createJSONRequestConfig();
+
     try {
-      await updateProduct(Number(e.target.id), data, config);
+      await updateProduct(Number(e.target.id), data);
       const updatedProduct: Product = { ...item, is_available: e.target.checked };
       await onMutationUpdate(updatedProduct);
     } catch (error) {

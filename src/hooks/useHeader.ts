@@ -13,7 +13,7 @@ export const useHeader = ({ user }: UseHeaderParams) => {
   const { isOpen: isDrawerOpen, onClose: onCloseDrawer, onOpen: onOpenDrawer } = useDisclose();
   const { isOpen: isDropdownOpen, onClose: onCloseDropdown, onOpen: onOpenDropdown } = useDisclose();
 
-  const { data: cartData } = useSWR<Cart[] | undefined>(user && !user.is_admin ? '/carts' : null, getCarts, {
+  const { data: cartData } = useSWR<Cart[] | undefined>(user && !user.is_admin ? `/carts/${user.id}` : null, getCarts, {
     revalidateOnFocus: false,
     onErrorRetry: (error) => {
       if (error?.status === 404) return;

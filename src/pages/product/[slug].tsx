@@ -29,7 +29,7 @@ export default function DetailProductPage({ user }: Props) {
         description: 'Waysbucks detail product coffee',
       }}>
       <HeaderBar user={user} />
-      <main id="main-content" className="app-container">
+      <main id="main-content" className="main-container">
         {loadingGet ? (
           <Loading />
         ) : !product ? (
@@ -43,7 +43,7 @@ export default function DetailProductPage({ user }: Props) {
             </Link>
           </div>
         ) : (
-          <div className="product">
+          <div className="product flex-container">
             <Alert
               isOpen={isOpen}
               severity={alert.status}
@@ -91,19 +91,19 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx): Promis
     Authorization: `Bearer ${token}`,
   });
 
-  const user = await getUser(config);
+  try {
+    const user = await getUser(config);
 
-  if (user) {
     return {
       props: {
-        user,
+        user: user ?? null,
+      },
+    };
+  } catch (error) {
+    return {
+      props: {
+        user: null,
       },
     };
   }
-
-  return {
-    props: {
-      user: null,
-    },
-  };
 };

@@ -44,6 +44,28 @@ export interface Cart {
   toppings: Topping[];
 }
 
+export interface Order {
+  id: string;
+  price: string;
+  qty: number;
+  name: string;
+  image: string;
+  toppings: Topping[];
+}
+
+export interface Transaction {
+  id: string;
+  name: string;
+  phone: string;
+  address: string;
+  city: string;
+  postal_code: number;
+  total: number;
+  service_fee: number;
+  status: number;
+  orders: Order[];
+}
+
 export interface AlertState {
   message: string;
   status: 'success' | 'warning' | 'error';

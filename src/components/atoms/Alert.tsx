@@ -17,12 +17,13 @@ interface AlertProps extends HTMLAttributes<HTMLElement> {
   onClose: () => void;
 }
 
-export const Alert = memo(function Alert({ isOpen, severity, children, onClose, ...props }: AlertProps) {
+export const Alert = memo(({ isOpen, severity, children, onClose, ...props }: AlertProps) => {
   const nodeRef = createRef<HTMLDivElement>();
 
   return (
     <>
       <CSSTransition
+        nodeRef={nodeRef}
         in={isOpen}
         timeout={500}
         classNames={{
@@ -32,11 +33,10 @@ export const Alert = memo(function Alert({ isOpen, severity, children, onClose, 
           exit: styles.alertExit,
           exitActive: styles.alertExitActive,
         }}
-        unmountOnExit
-        nodeRef={nodeRef}>
+        unmountOnExit>
         <div
-          className={styles.paper}
           ref={nodeRef}
+          className={styles.paper}
           style={{
             top: props.position?.top,
             right: props.position?.right,

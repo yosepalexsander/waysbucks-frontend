@@ -1,41 +1,29 @@
 import { instance } from '@/lib/axios';
 import type {
   AxiosRequestConfig,
+  CommonResponse,
+  GetTransactionsResponse,
   PostTransactionResponse,
+  Transaction,
   TransactionRequest,
-  UpdateTransactionResponse,
 } from '@/types';
 
-/**Request for get user transactions.
- *
- * @returns response object
- */
-export async function getUserTransactions<T>(): Promise<T> {
+export async function getUserTransactions(): Promise<Transaction[] | undefined> {
   try {
-    return (await instance.get<T>('user-transactions')).data;
+    return (await instance.get<GetTransactionsResponse>('user-transactions')).data.payload;
   } catch (error) {
     throw error;
   }
 }
 
-/**Request for get all transactions (for admin).
- *
- * @returns response object
- */
-export async function getAllTransactions<T>(): Promise<T> {
+export async function getAllTransactions(): Promise<Transaction[] | undefined> {
   try {
-    return (await instance.get<T>('transactions')).data;
+    return (await instance.get<GetTransactionsResponse>('transactions')).data.payload;
   } catch (error) {
     throw error;
   }
 }
 
-/**Request for post new transaction by user
- *
- * @param data request body
- * @param config axios request config
- * @returns response object
- */
 export async function postTransaction(
   data: TransactionRequest,
   config?: AxiosRequestConfig,
@@ -47,20 +35,9 @@ export async function postTransaction(
   }
 }
 
-/**Request for update transaction by user
- *
- * @param id transaction to be udpated
- * @param data request body
- * @param config axios request config
- * @returns response object
- */
-export async function updateTransaction(
-  id: string,
-  data: Partial<TransactionRequest>,
-  config?: AxiosRequestConfig,
-): Promise<UpdateTransactionResponse> {
+export async function updateTransaction(id: string, data: Partial<TransactionRequest>, config?: AxiosRequestConfig) {
   try {
-    return (await instance.put<UpdateTransactionResponse>(`transactions/${id}`, data, config)).data;
+    await instance.put<CommonResponse>(`transactions/${id}`, data, config);
   } catch (error) {
     throw error;
   }

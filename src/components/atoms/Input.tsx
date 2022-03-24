@@ -8,7 +8,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement & HTMLTextArea
   leftIcon?: ReactNode;
 }
 
-export const Input = memo(function Input({ hintText, label, multiline, className, id, ...props }: InputProps) {
+export const Input = memo(({ hintText, label, multiline, className, id, ...props }: InputProps) => {
   return (
     <div className={'form-control-root' + (multiline ? ' h-20' : ' h-10')}>
       {multiline && (

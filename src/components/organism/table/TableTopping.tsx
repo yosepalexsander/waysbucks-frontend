@@ -1,13 +1,12 @@
 import Image from 'next/image';
 import type { ChangeEvent } from 'react';
 import { useMemo, useState } from 'react';
-import useSWRImmutable from 'swr/immutable';
+import useSWR from 'swr';
 
 import { deleteTopping, getToppings, updateTopping } from '@/api';
 import { NoData } from '@/assets/images';
 import { Button, Modal, Paper } from '@/components/atoms';
 import { FormTopping } from '@/components/organism/form';
-import { createJSONRequestConfig } from '@/lib/axios';
 import type { Topping } from '@/types';
 import { currencyFormat } from '@/utils';
 
@@ -20,7 +19,7 @@ export const TableTopping = () => {
     data: dataToppings,
     error,
     mutate: toppingMutation,
-  } = useSWRImmutable('/toppings', getToppings, {
+  } = useSWR('/toppings', getToppings, {
     onErrorRetry: (error, _key, _config, revalidate, { retryCount }) => {
       if (error.status === 404) return;
       if (retryCount >= 5) return;
@@ -68,12 +67,10 @@ export const TableTopping = () => {
   };
 
   const onUpdateAvailability = async (e: ChangeEvent<HTMLInputElement>, item: Topping) => {
-    const config = createJSONRequestConfig();
-
     try {
       const updatedTopping: Topping = { ...item, is_available: e.target.checked };
 
-      await updateTopping(Number(e.target.id), updatedTopping, config);
+      await updateTopping(Number(e.target.id), updatedTopping);
       await onMutationUpdate(updatedTopping);
     } catch (error) {
       console.log(error);
@@ -143,7 +140,7 @@ export const TableTopping = () => {
             </tr>
           </thead>
           <tbody>
-            {toppings ? (
+            {toppings.length > 0 ? (
               <>
                 {toppings.map((item, index) => (
                   <tr key={item.id}>

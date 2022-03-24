@@ -4,7 +4,7 @@ import { memo } from 'react';
 
 type Props = ImgHTMLAttributes<HTMLImageElement>;
 
-export const CardMedia = memo(function CardMedia({ src, alt, height }: Props) {
+export const CardMedia = memo(({ src, alt, height }: Props) => {
   return (
     <div className="img-container relative" style={{ width: '100%', height: height }}>
       {src && <Image src={src} alt={alt} layout="fill" objectFit="cover" className="rounded-md" />}

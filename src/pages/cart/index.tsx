@@ -27,7 +27,7 @@ export default function CartPage() {
         ),
       }}>
       <HeaderBar user={user} />
-      <main id="main-content" className="app-container">
+      <main id="main-content" className="main-container">
         <p className="h2 mb-5">My Cart</p>
         <Carts user={user} />
       </main>

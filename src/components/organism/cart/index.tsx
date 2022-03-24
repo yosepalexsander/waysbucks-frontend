@@ -22,6 +22,7 @@ export const Carts = memo(function Cart({ user }: Props) {
     carts,
     isOpen,
     loadingGet,
+    selectedAddress,
     serviceFee,
     subtotal,
     total,
@@ -74,14 +75,20 @@ export const Carts = memo(function Cart({ user }: Props) {
               />
             </div>
             <div className="flex-item">
-              <p className="font-medium text-xl">Where will the products be sent to?</p>
+              <p className="font-medium text-xl">Where will the products be deliver to?</p>
               <hr className="divider mb-2" />
               {addresses && (
-                <>
+                <ul className="address-list flex-container">
                   {addresses.map((item, index) => (
-                    <ListAddressesItem key={index} item={item} onSelect={handleSelectAddress} />
+                    <ListAddressesItem
+                      key={item.id}
+                      index={index}
+                      item={item}
+                      selectedAddress={selectedAddress}
+                      onSelect={handleSelectAddress}
+                    />
                   ))}
-                </>
+                </ul>
               )}
             </div>
           </div>

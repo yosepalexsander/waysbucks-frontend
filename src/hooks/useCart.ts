@@ -1,9 +1,8 @@
 import type { ChangeEvent } from 'react';
 import { useCallback, useMemo, useState } from 'react';
-import useSWRImmutable from 'swr/immutable';
+import useSWR from 'swr';
 
 import { deleteCart, getAddress, getCarts, postTransaction, updateCart } from '@/api';
-import { createJSONRequestConfig } from '@/lib/axios';
 import type { Address, AlertState, Cart, OrderRequest, TransactionRequest, User } from '@/types';
 
 import { useDisclose } from './useDisclose';
@@ -20,14 +19,14 @@ export const useCart = (user?: User | null) => {
     data: cartData,
     error: cartError,
     mutate: cartMutation,
-  } = useSWRImmutable<Cart[] | undefined>('/carts', getCarts, {
+  } = useSWR<Cart[] | undefined>('/carts', getCarts, {
     onErrorRetry: (error, _key, _config, revalidate, { retryCount }) => {
       if (error?.status === 404) return;
       if (retryCount >= 5) return;
       setTimeout(() => revalidate({ retryCount }), 5000);
     },
   });
-  const { data: addressData, error: addressError } = useSWRImmutable<Address[] | undefined>('/address', getAddress, {
+  const { data: addressData, error: addressError } = useSWR<Address[] | undefined>('/address', getAddress, {
     onErrorRetry: (error, _key, _config, _revalidate, _revalidateOpts) => {
       if (error?.status === 404) return;
     },
@@ -113,10 +112,7 @@ export const useCart = (user?: User | null) => {
     };
 
     try {
-      const config = createJSONRequestConfig({
-        'Content-Type': 'application/json',
-      });
-      const response = await postTransaction(transactionReq, config);
+      const response = await postTransaction(transactionReq);
       const { payload } = response;
 
       if (!payload.token) {
@@ -179,10 +175,10 @@ export const useCart = (user?: User | null) => {
           qty: qty,
           price: price,
         };
-        const config = createJSONRequestConfig();
+
         const updatedCart: Cart = { ...cart, price, qty };
 
-        await updateCart(cart.id, data, config);
+        await updateCart(cart.id, data);
         await handleMutationUpdate(updatedCart);
       } catch (error) {
         console.log(error);
@@ -202,12 +198,9 @@ export const useCart = (user?: User | null) => {
             qty: qty,
             price: price,
           };
-          const config = createJSONRequestConfig({
-            'Content-Type': 'application/json',
-          });
           const updatedCart: Cart = { ...cart, price, qty };
 
-          await updateCart(cart.id, data, config);
+          await updateCart(cart.id, data);
           await handleMutationUpdate(updatedCart);
         } catch (error) {
           console.log(error);
@@ -239,6 +232,7 @@ export const useCart = (user?: User | null) => {
     carts,
     isOpen,
     loadingGet,
+    selectedAddress,
     serviceFee,
     subtotal,
     total,

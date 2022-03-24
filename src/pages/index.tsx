@@ -21,7 +21,7 @@ export default function HomePage({ user }: Props) {
         description: 'Discover your best quality coffee in Waysbucks Coffee',
       }}>
       <HeaderBar user={user} />
-      <article className="mt-16">
+      <article className="main-container">
         <Hero />
         <Features />
         <Benefits />
@@ -37,19 +37,19 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx): Promis
     Authorization: `Bearer ${token}`,
   });
 
-  const user = await getUser(config);
+  try {
+    const user = await getUser(config);
 
-  if (user) {
     return {
       props: {
-        user,
+        user: user ?? null,
+      },
+    };
+  } catch (error) {
+    return {
+      props: {
+        user: null,
       },
     };
   }
-
-  return {
-    props: {
-      user: null,
-    },
-  };
 };

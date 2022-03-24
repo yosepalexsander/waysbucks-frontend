@@ -2,7 +2,6 @@ import { useCallback, useMemo, useState } from 'react';
 import useSWRImmutable from 'swr/immutable';
 
 import { createAddress, deleteAddress, getAddress, updateAddress } from '@/api';
-import { createJSONRequestConfig } from '@/lib/axios';
 import type { Address } from '@/types';
 
 import { useDisclose } from './useDisclose';
@@ -44,9 +43,7 @@ export const useAddress = () => {
 
   const handleCreateAddress = useCallback(
     async (body: Partial<Address>) => {
-      const config = createJSONRequestConfig();
-
-      await createAddress(body, config);
+      await createAddress(body);
       onClose();
       addressMutation();
     },
@@ -55,10 +52,8 @@ export const useAddress = () => {
 
   const handleUpdateAddress = useCallback(
     async (id: string, body: Partial<Address>) => {
-      const config = createJSONRequestConfig();
-
       try {
-        await updateAddress(id, body, config);
+        await updateAddress(id, body);
 
         const address = { id, ...body } as Address;
         const idx = addresses.findIndex((item) => item.id === id);
