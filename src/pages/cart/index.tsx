@@ -6,9 +6,9 @@ import { useUser } from '@/hooks/useUser';
 
 // eslint-disable-next-line import/no-default-export
 export default function CartPage() {
-  const { user, loadingGet } = useUser();
+  const { user, loadingGetUser } = useUser();
 
-  if (loadingGet) {
+  if (loadingGetUser) {
     return <Loading />;
   }
 

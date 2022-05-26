@@ -1,6 +1,6 @@
 import type { AxiosRequestConfig, AxiosRequestHeaders } from 'axios';
 import axios from 'axios';
-import Cookies from 'js-cookie';
+import cookie from 'js-cookie';
 
 import type { RequestError } from '@/types';
 
@@ -31,7 +31,7 @@ export const instance = axios.create({
 });
 
 instance.interceptors.request.use((request) => {
-  const token = Cookies.get('token') ?? '';
+  const token = cookie.get('token') ?? '';
 
   if (request.headers && !request.headers.Authorization) {
     request.headers.Authorization = `Bearer ${token}`;
@@ -46,7 +46,7 @@ instance.interceptors.response.use(
   (error) => {
     if (axios.isAxiosError(error)) {
       if (error.response && error.response.status === 401) {
-        Cookies.remove('token');
+        cookie.remove('token');
       }
     }
 

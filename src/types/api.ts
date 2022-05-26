@@ -26,7 +26,7 @@ export interface SignupResponse extends CommonResponse {
 }
 
 export interface GetUserResponse extends CommonResponse {
-  payload: User;
+  payload?: User;
 }
 
 export interface GetAddressResponse extends CommonResponse {
@@ -87,6 +87,13 @@ export interface PostTransactionResponse extends CommonResponse {
   payload: {
     token: string;
     redirect_url: string;
+  };
+}
+
+export interface PostImageResponse extends CommonResponse {
+  payload: {
+    filename: string;
+    url: string;
   };
 }
 

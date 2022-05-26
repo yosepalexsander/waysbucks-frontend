@@ -1,6 +1,5 @@
 import { checkStatusRes, instance } from '@/lib/axios';
 import type {
-  AxiosRequestConfig,
   CommonResponse,
   GetProductResponse,
   GetProductsResponse,
@@ -35,33 +34,33 @@ export async function getToppings(): Promise<Topping[] | undefined> {
   }
 }
 
-export async function postProduct(data: unknown, config?: AxiosRequestConfig) {
+export async function postProduct(data: Partial<Product>) {
   try {
-    await instance.post<CommonResponse>('products', data, config);
+    await instance.post<CommonResponse>('products', data);
   } catch (error) {
     throw error;
   }
 }
 
-export async function postTopping(data: unknown, config?: AxiosRequestConfig) {
+export async function postTopping(data: unknown) {
   try {
-    await instance.post<CommonResponse>('toppings', data, config);
+    await instance.post<CommonResponse>('toppings', data);
   } catch (error) {
     throw error;
   }
 }
 
-export async function updateProduct(id: number, data: unknown, config?: AxiosRequestConfig) {
+export async function updateProduct(id: number, data: Partial<Product>) {
   try {
-    await instance.put<CommonResponse>(`products/${id}`, data, config);
+    await instance.put<CommonResponse>(`products/${id}`, data);
   } catch (error) {
     throw error;
   }
 }
 
-export async function updateTopping(id: number, data: unknown, config?: AxiosRequestConfig) {
+export async function updateTopping(id: number, data: unknown) {
   try {
-    await instance.put<CommonResponse>(`toppings/${id}`, data, config);
+    await instance.put<CommonResponse>(`toppings/${id}`, data);
   } catch (error) {
     throw error;
   }

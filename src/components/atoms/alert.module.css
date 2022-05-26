@@ -3,13 +3,14 @@
   @apply flex items-center px-3 py-2 rounded-md shadow-none;
 }
 .paper {
-  @apply z-50 fixed;
+  @apply fixed;
+  z-index: 999;
 }
 .alert > svg {
   @apply mr-2;
 }
 .alert .alertMessage {
-  @apply py-2 flex-grow mr-5;
+  @apply py-2 grow mr-5;
 }
 .alertSuccess {
   @apply bg-green-500;
@@ -46,15 +47,15 @@
 }
 
 .alertEnter {
-  @apply opacity-0 transform scale-90;
+  @apply opacity-0 scale-90;
 }
 
 .alertEnterActive {
-  @apply transition duration-500 opacity-100 transform scale-100 translate-y-0;
+  @apply transition duration-500 opacity-100 scale-100 translate-y-0;
 }
 .alertExit {
   @apply opacity-100;
 }
 .alertExitActive {
-  @apply transition duration-500 opacity-0 transform scale-90;
+  @apply transition duration-500 opacity-0 scale-90;
 }

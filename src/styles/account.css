@@ -1,27 +1,15 @@
 .account-container {
-  @apply flex flex-col items-center lg:flex-row md:justify-around md:items-start;
+  @apply grid grid-flow-row lg:grid-flow-col gap-10;
 }
 
-.account-container > section {
-  @apply w-full mb-4;
-}
-
-#account .account-img {
-  @apply w-32 sm:w-64;
-}
-
-#account .account-img-placeholder {
-  @apply h-32 sm:h-64 bg-primary text-white flex items-center justify-center text-4xl sm:text-8xl rounded-md;
-}
-
-#account .account-info {
-  @apply flex flex-col justify-between;
+.account-container section {
+  @apply bg-white p-5 rounded-md shadow-sm space-y-4;
 }
 
 #user-address > span {
-  @apply mb-4 flex justify-between;
+  @apply flex items-center justify-between;
 }
 
 #user-address .address-action {
-  @apply flex items-center justify-between p-2;
+  @apply flex items-center justify-between;
 }

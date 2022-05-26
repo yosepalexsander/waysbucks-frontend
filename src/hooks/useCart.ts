@@ -3,16 +3,12 @@ import { useCallback, useMemo, useState } from 'react';
 import useSWR from 'swr';
 
 import { deleteCart, getAddress, getCarts, postTransaction, updateCart } from '@/api';
-import type { Address, AlertState, Cart, OrderRequest, TransactionRequest, User } from '@/types';
+import type { Address, Cart, OrderRequest, TransactionRequest, User } from '@/types';
 
-import { useDisclose } from './useDisclose';
+import { useAlert } from './useAlert';
 
 export const useCart = (user?: User | null) => {
-  const { isOpen, onClose, onOpen } = useDisclose();
-  const [alert, setAlert] = useState<AlertState>({
-    message: '',
-    status: 'success',
-  });
+  const { alert, handleCloseAlert, handleOpenAlert } = useAlert();
   const [selectedAddress, setSelectedAddress] = useState<Address>();
 
   const {
@@ -65,7 +61,6 @@ export const useCart = (user?: User | null) => {
 
     return data;
   }, [carts]);
-
   const serviceFee = subtotal * 0.05;
   const total = subtotal + serviceFee;
 
@@ -79,12 +74,8 @@ export const useCart = (user?: User | null) => {
 
   const handlePayment = useCallback(async () => {
     if (!selectedAddress) {
-      setAlert({
-        status: 'warning',
-        message: 'Please select address',
-      });
+      handleOpenAlert('warning', 'Please select address');
 
-      onOpen();
       return;
     }
 
@@ -116,22 +107,15 @@ export const useCart = (user?: User | null) => {
       const { payload } = response;
 
       if (!payload.token) {
-        setAlert({
-          status: 'error',
-          message: 'Midtrans Error',
-        });
-        onOpen();
+        handleOpenAlert('error', 'Payment failed');
+
         return;
       }
 
       window.snap.pay(payload.token, {
         onSuccess: function () {
-          console.log('success');
-          setAlert({
-            status: 'success',
-            message: 'Payment success!! Your order will be processed immediately',
-          });
-          onOpen();
+          handleOpenAlert('success', 'Payment success!! Your order will be processed immediately');
+
           setTimeout(() => {
             cartMutation();
           }, 1500);
@@ -140,12 +124,8 @@ export const useCart = (user?: User | null) => {
           console.log(result);
         },
         onError: function (result: unknown) {
-          console.log(result);
-          setAlert({
-            status: 'success',
-            message: 'Payment failed!',
-          });
-          onOpen();
+          console.error(result);
+          handleOpenAlert('error', 'Payment failed');
         },
         onClose: function () {
           console.log('customer closed the popup without finishing the payment');
@@ -154,31 +134,33 @@ export const useCart = (user?: User | null) => {
     } catch (error) {
       console.log(error);
     }
-  }, [carts, cartMutation, onOpen, selectedAddress, serviceFee, total, user?.email]);
+  }, [selectedAddress, carts, user?.email, total, serviceFee, handleOpenAlert, cartMutation]);
 
   const handleMutationUpdate = useCallback(
     async (cart: Cart) => {
-      const idx = carts.findIndex((item) => item.id === cart.id);
-      carts[idx] = cart;
+      const optimisticData = carts.slice(0);
+      const idx = optimisticData.findIndex((item) => item.id === cart.id);
+      optimisticData[idx] = cart;
 
-      await cartMutation(carts, false);
+      await cartMutation(
+        async (draft) => {
+          await updateCart(cart.id, cart);
+
+          return draft;
+        },
+        { optimisticData, rollbackOnError: true },
+      );
     },
     [carts, cartMutation],
   );
 
   const handleIncreaseQty = useCallback(
     async (cart: Cart) => {
+      const qty = cart.qty + 1;
+      const price = cart.price + cart.price / cart.qty;
+      const updatedCart: Cart = { ...cart, price, qty };
+
       try {
-        const qty = cart.qty + 1;
-        const price = cart.price + cart.price / cart.qty;
-        const data: Record<string, unknown> = {
-          qty: qty,
-          price: price,
-        };
-
-        const updatedCart: Cart = { ...cart, price, qty };
-
-        await updateCart(cart.id, data);
         await handleMutationUpdate(updatedCart);
       } catch (error) {
         console.log(error);
@@ -193,14 +175,9 @@ export const useCart = (user?: User | null) => {
 
       if (cart.qty != qty) {
         const price = cart.price - cart.price / cart.qty;
-        try {
-          const data: Record<string, unknown> = {
-            qty: qty,
-            price: price,
-          };
-          const updatedCart: Cart = { ...cart, price, qty };
+        const updatedCart: Cart = { ...cart, price, qty };
 
-          await updateCart(cart.id, data);
+        try {
           await handleMutationUpdate(updatedCart);
         } catch (error) {
           console.log(error);
@@ -212,11 +189,17 @@ export const useCart = (user?: User | null) => {
 
   const handleDeleteCart = useCallback(
     async (id: number) => {
-      try {
-        await deleteCart(id);
-        const updatedCart = carts.filter((item) => item.id != id) || [];
+      const optimisticData = carts.filter((item) => item.id != id);
 
-        await cartMutation(updatedCart, false);
+      try {
+        await cartMutation(
+          async (draft) => {
+            await deleteCart(id);
+
+            return draft;
+          },
+          { optimisticData, rollbackOnError: true },
+        );
       } catch (error) {
         console.log(error);
       }
@@ -230,17 +213,16 @@ export const useCart = (user?: User | null) => {
     addresses,
     alert,
     carts,
-    isOpen,
     loadingGet,
     selectedAddress,
     serviceFee,
     subtotal,
     total,
+    handleCloseAlert,
     handleDecreaseQty,
     handleDeleteCart,
     handleIncreaseQty,
     handlePayment,
     handleSelectAddress,
-    onClose,
   };
 };

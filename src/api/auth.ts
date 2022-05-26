@@ -6,11 +6,7 @@ import { authSignin, authSignout } from '@/utils';
 
 export async function register(data: Record<string, unknown>, config?: AxiosRequestConfig) {
   try {
-    const { data: resData, status } = await instance.post<SignupResponse>('auth/register', data, config);
-
-    if (status === 400) {
-      throw new Error('email already registered');
-    }
+    const { data: resData } = await instance.post<SignupResponse>('auth/register', data, config);
 
     await axios.post(
       '/api/signin',
@@ -22,6 +18,12 @@ export async function register(data: Record<string, unknown>, config?: AxiosRequ
 
     authSignin({ token: resData.payload.token, redirect: '/' });
   } catch (error) {
+    if (axios.isAxiosError(error)) {
+      if (error.response && error.response.status === 400) {
+        throw error.response.data.message;
+      }
+    }
+
     throw error;
   }
 }

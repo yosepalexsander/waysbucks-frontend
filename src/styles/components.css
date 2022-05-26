@@ -33,7 +33,7 @@ footer {
 }
 
 .main-container {
-  @apply mt-24;
+  @apply mt-24 mb-6;
 }
 .main-container > * {
   @apply px-6 sm:px-12 lg:px-20;
@@ -79,7 +79,7 @@ footer {
   @apply block md:hidden;
 }
 .app-bar-menu {
-  @apply flex-none md:flex-grow;
+  @apply flex-none md:grow;
 }
 .app-bar-menu > * {
   @apply transition duration-300 hover:text-primary cursor-pointer;
@@ -92,49 +92,49 @@ footer {
 
 /* button */
 .btn {
-  @apply relative overflow-hidden rounded-md px-2 py-2 text-center
-  font-bold shadow-none select-none disabled:bg-gray-400 disabled:text-white;
-  outline: none;
+  @apply flex items-center justify-center space-x-1 overflow-hidden rounded-md px-3 py-2
+  shadow-none select-none outline-none;
 }
+
+.btn-sm > .text {
+  @apply font-medium text-xs;
+}
+.btn-md > .text {
+  @apply font-medium text-sm;
+}
+.btn-lg > .text {
+  @apply font-bold text-base;
+}
+
 .btn-primary {
-  @apply text-white bg-primary border-2 border-transparent;
+  @apply text-white border-2 bg-primary disabled:bg-gray-400 hover:bg-red-700 border-transparent transition;
 }
 .btn-primary-outlined {
-  @apply border-primary border-2 text-primary bg-transparent disabled:border-gray-400;
+  @apply text-primary disabled:bg-transparent hover:bg-rose-200 border-2 border-primary disabled:border-gray-400 transition;
 }
 .btn-secondary {
-  @apply text-white bg-secondary border-2 border-transparent;
+  @apply text-white bg-violet-600 hover:bg-violet-700 disabled:bg-gray-400 border-2 border-transparent transition;
 }
 .btn-secondary-outlined {
-  @apply border-secondary border-2 text-secondary bg-transparent disabled:border-gray-400;
+  @apply text-violet-600 disabled:text-gray-400 border-2 border-violet-600 
+  disabled:border-gray-400 disabled:bg-transparent hover:bg-violet-200 transition;
 }
 .btn-warning {
-  @apply text-white bg-yellow-500 border-2 border-transparent;
+  @apply text-white bg-yellow-400 disabled:bg-gray-400 border-2 border-transparent hover:bg-yellow-500 transition;
 }
 .btn-warning-outlined {
-  @apply border-yellow-500 border-2 text-yellow-600 bg-transparent disabled:border-gray-400;
+  @apply text-yellow-600 disabled:text-gray-400 border-2 border-yellow-400 
+  disabled:border-gray-400 disabled:bg-transparent hover:bg-yellow-200 transition;
 }
 .btn-danger {
-  @apply text-white bg-red-600 border-2 border-transparent;
+  @apply text-white bg-red-600 disabled:bg-gray-400 hover:bg-red-500 border-2 border-transparent transition;
 }
 .btn-danger-outlined {
-  @apply border-red-600 border-2 text-red-600 bg-transparent disabled:border-gray-400;
+  @apply text-red-600 disabled:text-gray-400 border-2 border-red-600 disabled:border-gray-400 disabled:bg-transparent hover:bg-red-200 transition;
 }
 
 .cta {
-  @apply text-gray-900 text-lg border-2 border-transparent inline-block font-bold bg-yellow-400;
-}
-
-.btn::after {
-  content: '';
-  @apply hidden absolute rounded-full w-24 h-24 -mt-10 -ml-10 
-  top-1/2 left-1/2 bg-gray-400 bg-opacity-60 opacity-0;
-  background-color: rgba(255, 255, 255, 0.6);
-  animation: ripple 1s;
-}
-
-.btn:focus:not(:active)::after {
-  @apply block;
+  @apply text-lg font-bold text-gray-900 bg-amber-400 hover:bg-amber-500 border-2 border-transparent inline-block transition;
 }
 
 @keyframes ripple {
@@ -171,13 +171,13 @@ footer {
   @apply transition duration-100 opacity-100;
 }
 .drawer-enter-active .drawer-paper {
-  @apply transition duration-300 transform translate-x-0;
+  @apply transition duration-300 translate-x-0;
 }
 .drawer-exit .backdrop {
   @apply opacity-100;
 }
 .drawer-exit .drawer-paper {
-  @apply transform translate-x-0;
+  @apply translate-x-0;
 }
 
 .drawer-exit-active .backdrop {
@@ -211,7 +211,7 @@ footer {
 }
 
 .form-group {
-  @apply pb-3 relative pt-3;
+  @apply relative;
 }
 .form-control-root {
   @apply relative flex items-center justify-between;
@@ -222,35 +222,20 @@ footer {
   transition-all duration-200 select-none	cursor-text;
 }
 
-.form-label::after {
-  content: '';
-  height: 2px;
-  @apply absolute bottom-0 left-2/4 w-2 invisible bg-red-200 transition-all ease-out duration-200;
-}
-
 .form-control-input {
-  @apply bottom-0 h-full border-none rounded-t-md px-2 py-2 bg-gray-100 w-full outline-none 
-  transition duration-500 ease-out focus:bg-white;
+  @apply bottom-0 w-full h-full border-2 border-stone-300 focus:border-red-300 rounded-md p-2 bg-white hover:bg-gray-100 disabled:bg-gray-100 outline-none 
+  transition-all duration-300 ease-out text-sm disabled:text-gray-500;
 }
 
 textarea.form-control-input {
   resize: none;
 }
 
-.form-control-input:focus ~ .form-label,
-.form-control-input.not-empty ~ .form-label {
-  @apply -top-4 left-0 text-gray-700 text-xs opacity-100;
-}
-
-.form-control-input:focus ~ .form-label::after {
-  @apply visible w-full left-0;
-}
-
 .checkbox-label {
   @apply relative;
 }
 .checkbox-label input[type='radio'] {
-  @apply absolute opacity-0 top-2/4 left-2/4 transform -translate-x-2/4 -translate-y-2/4 border-none h-8 w-full cursor-pointer;
+  @apply absolute opacity-0 top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4 border-none h-8 w-full cursor-pointer;
 }
 
 .checkbox-label input[type='radio'] + .icon {
@@ -267,7 +252,7 @@ input[class='female']:focus + .icon {
   @apply fill-pink;
 }
 input[type='file'] ~ label {
-  @apply inline-flex p-2 text-primary bg-red-200 border border-primary rounded-md;
+  @apply inline-flex p-2 text-primary bg-red-200 border border-primary rounded-md cursor-pointer;
 }
 
 .input-search {
@@ -283,7 +268,7 @@ input[type='file'] ~ label {
 
 /* Avatar */
 .avatar {
-  @apply relative flex items-center justify-center border border-primary rounded-full text-white text-lg font-bold bg-secondary;
+  @apply relative flex items-center justify-center border border-primary rounded-full text-white text-lg font-bold bg-violet-600;
 }
 
 /* skeleton */
@@ -316,7 +301,7 @@ input[type='file'] ~ label {
 /* modal */
 .modal {
   @apply fixed top-0 left-0 bottom-0 right-0;
-  z-index: 200;
+  z-index: 9999;
 }
 .modal > .backdrop {
   @apply bg-gray-500 bg-opacity-50;
@@ -325,20 +310,20 @@ input[type='file'] ~ label {
   @apply opacity-0;
 }
 .modal-enter .paper {
-  @apply opacity-0 transform scale-90;
+  @apply opacity-0 scale-90;
 }
 .modal-enter-active .backdrop {
   @apply transition duration-300 opacity-100;
 }
 .modal-enter-active .paper {
-  @apply transition duration-300 opacity-100 transform scale-100 translate-y-0;
+  @apply transition duration-300 opacity-100 scale-100 translate-y-0;
 }
 .modal-exit .paper,
 .modal-exit .backdrop {
   @apply opacity-100;
 }
 .modal-exit-active .paper {
-  @apply transition duration-300 opacity-0 transform scale-90;
+  @apply transition duration-300 opacity-0 scale-90;
 }
 .modal-exit-active .backdrop {
   @apply transition opacity-0;
@@ -359,7 +344,7 @@ input[type='file'] ~ label {
   @apply translate-x-1/2 scale-x-50 lg:translate-y-1/2 lg:translate-x-0 lg:scale-y-50;
 }
 .tab.tab-active {
-  @apply transition duration-300 transform font-bold text-primary;
+  @apply transition duration-300 font-bold text-primary;
 }
 .tabs .slider {
   @apply absolute bottom-0 left-0 right-full top-full lg:left-full lg:bottom-full lg:top-0 lg:right-0 w-full
@@ -368,24 +353,26 @@ input[type='file'] ~ label {
 
 /* Table */
 table {
-  @apply w-full mx-auto table-auto rounded-t-md overflow-hidden;
-}
-table * {
-  @apply p-2 text-center;
+  @apply w-full mx-auto table-auto;
 }
 table thead {
   @apply bg-primary;
+}
+table tr,
+table th,
+table td {
+  @apply p-2 leading-4;
 }
 th {
   @apply text-white border border-primary;
 }
 td {
-  @apply border border-gray-300;
+  @apply text-center border border-gray-300;
 }
 td.table-name {
   @apply text-left font-bold w-48 lg:w-64;
 }
-td.table-image {
+td.table-img {
   @apply w-20 h-20 lg:w-28 lg:h-28;
 }
 td.table-price {

@@ -15,7 +15,7 @@ export const CartEmpty = () => {
         <Link href="/product">
           <a className="text-blue-600">menu</a>
         </Link>{' '}
-        and buy some coffeee
+        and buy some coffee
       </p>
     </div>
   );

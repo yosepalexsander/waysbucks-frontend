@@ -67,6 +67,7 @@ export interface Transaction {
 }
 
 export interface AlertState {
+  isOpen: boolean;
+  status?: 'success' | 'warning' | 'error' | 'info';
   message: string;
-  status: 'success' | 'warning' | 'error';
 }

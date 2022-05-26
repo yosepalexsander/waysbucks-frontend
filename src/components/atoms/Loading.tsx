@@ -1,4 +1,4 @@
-import style from '@/components/atoms/loading.module.css';
+import style from './loading.module.css';
 
 export const Loading = () => {
   return (

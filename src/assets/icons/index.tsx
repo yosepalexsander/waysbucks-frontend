@@ -27,7 +27,7 @@ interface IconProps extends SVGProps<SVGSVGElement> {
   titleId?: string;
 }
 
-export const Search = memo(function Search({ title, titleId, ...props }: IconProps) {
+export const Search = memo(({ title, titleId, ...props }: IconProps) => {
   return (
     <svg
       width="24"
@@ -43,7 +43,7 @@ export const Search = memo(function Search({ title, titleId, ...props }: IconPro
   );
 });
 
-export const BrandLogo = memo(function BrandLogo({ title, titleId, width, height, ...props }: IconProps) {
+export const BrandLogo = memo(({ title, titleId, width, height, ...props }: IconProps) => {
   return (
     <svg
       width={width ?? '100%'}
@@ -90,7 +90,7 @@ export const BrandLogo = memo(function BrandLogo({ title, titleId, width, height
   );
 });
 
-export const Delete = memo(function Delete({ title, titleId, width, height, ...props }: IconProps) {
+export const Delete = memo(({ title, titleId, width, height, ...props }: IconProps) => {
   return (
     <svg
       width={width ?? '100%'}
@@ -107,6 +107,51 @@ export const Delete = memo(function Delete({ title, titleId, width, height, ...p
         d="M15.0003 15.8333C15.0003 16.2925 14.627 16.6666 14.167 16.6666H5.83366C5.37366 16.6666 5.00033 16.2925 5.00033 15.8333V6.66663H15.0003V15.8333ZM8.33366 3.60663C8.33366 3.47746 8.51199 3.33329 8.75032 3.33329H11.2503C11.4887 3.33329 11.667 3.47746 11.667 3.60663V4.99996H8.33366V3.60663ZM17.5003 4.99996H16.667H13.3337V3.60663C13.3337 2.53663 12.3995 1.66663 11.2503 1.66663H8.75033C7.60116 1.66663 6.66699 2.53663 6.66699 3.60663V4.99996H3.33366H2.50033C2.04199 4.99996 1.66699 5.37496 1.66699 5.83329C1.66699 6.29163 2.04199 6.66663 2.50033 6.66663H3.33366V15.8333C3.33366 17.2116 4.45533 18.3333 5.83366 18.3333H14.167C15.5453 18.3333 16.667 17.2116 16.667 15.8333V6.66663H17.5003C17.9587 6.66663 18.3337 6.29163 18.3337 5.83329C18.3337 5.37496 17.9587 4.99996 17.5003 4.99996V4.99996Z"
         fill="#CD1818"
       />
+    </svg>
+  );
+});
+
+export const Edit = memo(({ title, titleId, ...props }: IconProps) => {
+  return (
+    <svg
+      width={24}
+      height={24}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-labelledby={titleId ?? 'Edit'}
+      {...props}>
+      <title id={titleId ?? 'delete'}>{title ?? 'Edit'}</title>
+      <path
+        d="m21.7 13.35-1 1-2.05-2.05 1-1a.55.55 0 0 1 .77 0l1.28 1.28c.21.21.21.56 0 .77ZM12 18.94l6.06-6.06 2.05 2.05L14.06 21H12v-2.06ZM12 14c-4.42 0-8 1.79-8 4v2h6v-1.89l4-4c-.66-.08-1.33-.11-2-.11Zm0-10a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z"
+        fill="#DE2C2C"
+      />
+    </svg>
+  );
+});
+
+export const Spinner = memo((props: IconProps) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      style={{ background: 'transaparent', shapeRendering: 'auto' }}
+      viewBox="0 0 100 100"
+      preserveAspectRatio="xMidYMid"
+      {...props}>
+      <circle
+        cx="50"
+        cy="50"
+        fill="none"
+        strokeWidth="10"
+        r="35"
+        strokeDasharray="164.93361431346415 56.97787143782138">
+        <animateTransform
+          attributeName="transform"
+          type="rotate"
+          repeatCount="indefinite"
+          dur="1s"
+          values="0 50 50;360 50 50"
+          keyTimes="0;1"></animateTransform>
+      </circle>
     </svg>
   );
 });

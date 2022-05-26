@@ -1,21 +1,14 @@
 const colors = require('tailwindcss/colors');
 
 module.exports = {
-  mode: 'jit',
-  purge: ['./src/**/*.{js,ts,jsx,tsx}'],
+  content: ['./src/**/*.{js,ts,jsx,tsx}'],
   darkMode: 'class', // or 'media' or 'class'
   theme: {
     colors: {
       primary: '#CD1818',
       secondary: '#7318CD',
-      red: colors.red,
-      blue: colors.blue,
-      pink: colors.pink,
-      yellow: colors.yellow,
-      green: colors.green,
-      white: colors.white,
-      gray: colors.gray,
       transparent: 'transparent',
+      ...colors,
     },
     borderRadius: {
       none: '0',
@@ -47,9 +40,6 @@ module.exports = {
       blue: theme('colors.blue.500'),
       pink: theme('colors.pink.500'),
     }),
-  },
-  variants: {
-    extend: {},
   },
   plugins: [],
 };
