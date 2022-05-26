@@ -3,15 +3,15 @@
 }
 
 .dropdownEnter {
-  @apply opacity-0 transform scale-90;
+  @apply opacity-0 scale-90;
 }
 
 .dropdownEnterActive {
-  @apply transition duration-300 opacity-100 transform scale-100 translate-x-0 origin-top-right;
+  @apply transition duration-300 opacity-100 scale-100 translate-x-0 origin-top-right;
 }
 .dropdownExit {
-  @apply opacity-100 transform scale-100;
+  @apply opacity-100 scale-100;
 }
 .dropdownExitActive {
-  @apply transition duration-300 opacity-0 transform scale-90 translate-x-0 origin-top-right;
+  @apply transition duration-300 opacity-0 scale-90 translate-x-0 origin-top-right;
 }

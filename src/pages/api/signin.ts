@@ -5,11 +5,11 @@ const handler = (req: NextApiRequest, res: NextApiResponse) => {
   res.setHeader(
     'Set-Cookie',
     serialize('token', req.body.token, {
-      httpOnly: true,
+      httpOnly: process.env.NODE_ENV !== 'development',
       secure: process.env.NODE_ENV !== 'development',
       sameSite: 'strict',
       maxAge: 60 * 60 * 24 * 1,
-      path: '/*/**',
+      path: '/',
     }),
   );
   res.status(200).json({ success: true });

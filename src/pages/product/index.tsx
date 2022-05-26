@@ -30,7 +30,7 @@ export default function ProductPage({ user }: Props) {
       <HeaderBar user={user} />
       <main id="main-content" className="main-container">
         <div className="flex justify-center mt-4">
-          <InputSearch placeholder="Search product..." disabled={loadingGet} onSearch={handleSearch} />
+          <InputSearch placeholder="Search product..." isDisabled={loadingGet} onSearch={handleSearch} />
         </div>
         {loadingGet ? (
           <div className="product-container">

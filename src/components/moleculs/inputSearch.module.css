@@ -7,5 +7,5 @@
   @apply w-full px-4 py-2 outline-0;
 }
 .inputSearch svg {
-  @apply fill-current text-primary flex-shrink-0 ml-3;
+  @apply fill-current text-primary shrink-0 ml-3;
 }

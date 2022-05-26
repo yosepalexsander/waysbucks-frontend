@@ -20,5 +20,5 @@
 }
 
 .secondary {
-  @apply bg-secondary;
+  @apply bg-violet-600;
 }

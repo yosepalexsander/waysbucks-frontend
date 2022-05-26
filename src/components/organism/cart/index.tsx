@@ -15,39 +15,38 @@ interface Props {
   user?: User;
 }
 
-export const Carts = memo(function Cart({ user }: Props) {
+export const Carts = memo(({ user }: Props) => {
   const {
     addresses,
     alert,
     carts,
-    isOpen,
     loadingGet,
     selectedAddress,
     serviceFee,
     subtotal,
     total,
+    handleCloseAlert,
     handleDecreaseQty,
     handleDeleteCart,
     handleIncreaseQty,
     handlePayment,
     handleSelectAddress,
-    onClose,
   } = useCart(user);
 
   if (loadingGet) return <CartSkeleton />;
 
   return (
     <div>
-      {carts.length == 0 ? (
+      {carts.length < 1 ? (
         <CartEmpty />
       ) : (
         <>
           <div className="cart-container flex-container">
             <div className="flex-item">
               <Alert
-                isOpen={isOpen}
+                isOpen={alert.isOpen}
                 severity={alert.status}
-                onClose={onClose}
+                onClose={handleCloseAlert}
                 position={{
                   bottom: 35,
                   left: 35,

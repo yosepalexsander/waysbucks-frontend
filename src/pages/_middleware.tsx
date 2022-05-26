@@ -22,12 +22,11 @@ export const middleware = async (req: NextRequest, _ev: NextFetchEvent) => {
 
     try {
       const headers = { authorization: `Bearer ${token}`, 'Content-Type': 'application/json' };
-      const responseAuth = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}auth/account`, { headers });
+      const responseAuth = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}auth/profile`, { headers });
       const { payload } = await responseAuth.json();
 
       if (!responseAuth.ok) {
         url.pathname = '/';
-
         const response = NextResponse.redirect(url);
 
         response.clearCookie('token');

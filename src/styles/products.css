@@ -126,7 +126,7 @@
 }
 
 input[type='file'] ~ .label {
-  @apply inline-block bg-secondary text-gray-50 p-2 rounded-md cursor-pointer;
+  @apply inline-block bg-violet-600 text-gray-50 p-2 rounded-md cursor-pointer;
 }
 
 input[type='file'] ~ .label > span {

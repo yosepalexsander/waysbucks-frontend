@@ -12,30 +12,30 @@ import type { User } from '@/types';
  * @param ctx Next SSR props context
  * @returns User data
  */
-export const authSSR = async (ctx: GetServerSidePropsContext): Promise<User | undefined> => {
+export const authSSR = async (ctx: GetServerSidePropsContext) => {
   const { token } = cookies(ctx);
   const config = createJSONRequestConfig({
     Authorization: `Bearer ${token}`,
   });
-  const user = await getUser(config);
 
-  if (user) {
+  try {
+    const user = await getUser(config);
+
     return user;
+  } catch (error) {
+    if (typeof window === 'undefined') {
+      ctx.res?.writeHead(302, { Location: '/signin' });
+      ctx.res?.end();
+    } else {
+      Router.push(
+        {
+          pathname: '/signin',
+        },
+        '/signin',
+      );
+    }
+    return;
   }
-
-  if (typeof window === 'undefined') {
-    ctx.res?.writeHead(302, { Location: '/signin' });
-    ctx.res?.end();
-  } else {
-    Router.push(
-      {
-        pathname: '/signin',
-      },
-      '/signin',
-    );
-  }
-
-  return;
 };
 
 /** Authentication for SSG Pages
@@ -45,7 +45,6 @@ export const authSSR = async (ctx: GetServerSidePropsContext): Promise<User | un
  */
 export const authCSR = async (): Promise<User | undefined> => {
   const token = cookie.get('token');
-
   const config = createJSONRequestConfig({
     Authorization: `Bearer ${token}`,
   });
@@ -53,11 +52,7 @@ export const authCSR = async (): Promise<User | undefined> => {
   try {
     const user = await getUser(config);
 
-    if (user) {
-      return user;
-    }
-
-    return;
+    return user;
   } catch (error) {
     throw new Error('Authentication failed');
   }

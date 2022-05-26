@@ -1,4 +1,4 @@
 module.exports = {
-  '*.{js,jsx,ts,tsx,css,md,json}': ['yarn format'],
-  '*.{js,jsx,ts,tsx}': ['yarn lint'],
+  '*.{js,jsx,ts,tsx,css,md,json}': ['npm run format'],
+  '*.{js,jsx,ts,tsx}': ['npm run lint'],
 };

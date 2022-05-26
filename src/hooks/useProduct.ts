@@ -4,18 +4,14 @@ import { useCallback, useMemo, useState } from 'react';
 import useSWRImmutable from 'swr/immutable';
 
 import { getProduct, postCart } from '@/api';
-import type { AlertState, Product, RequestError } from '@/types';
+import type { Product, RequestError } from '@/types';
 
-import { useDisclose } from './useDisclose';
+import { useAlert } from './useAlert';
 
 export const useProduct = () => {
   const router = useRouter();
   const { slug } = router.query;
-  const { isOpen, onClose, onOpen } = useDisclose();
-  const [alert, setAlert] = useState<AlertState>({
-    message: '',
-    status: 'success',
-  });
+  const { alert, handleOpenAlert, handleCloseAlert } = useAlert();
   const [toppingIds, setToppingIds] = useState<number[]>([]);
   const [toppingPrice, setToppingPrice] = useState<number[]>([]);
 
@@ -59,11 +55,10 @@ export const useProduct = () => {
           return;
         }
 
-        setAlert({ status: 'error', message: error.message });
-        onOpen();
+        handleOpenAlert('error', error.message);
       }
     }
-  }, [onOpen, product, router, toppingIds, total]);
+  }, [handleOpenAlert, product, router, toppingIds, total]);
 
   const handleSelectTopping = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
@@ -79,12 +74,11 @@ export const useProduct = () => {
 
   return {
     alert,
-    isOpen,
     loadingGet,
     product,
     total,
     handleAddToCart,
+    handleCloseAlert,
     handleSelectTopping,
-    onClose,
   };
 };

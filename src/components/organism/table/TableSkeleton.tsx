@@ -26,18 +26,18 @@ export const TableSkeleton = () => {
               id="update-skeleton"
               variant="contained"
               color="secondary"
+              isDisabled
               className="m-1 w-20"
-              style={{ padding: '0.25rem' }}
-              disabled>
+              style={{ padding: '0.25rem' }}>
               Update
             </Button>
             <Button
               id="delete-skeleton"
               variant="outlined"
               color="danger"
+              isDisabled
               className="m-1 w-20"
-              style={{ padding: '0.25rem' }}
-              disabled>
+              style={{ padding: '0.25rem' }}>
               Delete
             </Button>
           </td>

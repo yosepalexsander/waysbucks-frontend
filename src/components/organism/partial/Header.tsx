@@ -65,7 +65,7 @@ export const HeaderBar = memo(({ user }: Props) => {
                 role="button"
                 tabIndex={0}
                 onClick={onOpenDropdown}>
-                <Avatar src={user.image} alt="user avatar" width={40} height={40}>
+                <Avatar src={user.image} alt="user avatar">
                   {initialName}
                 </Avatar>
               </button>

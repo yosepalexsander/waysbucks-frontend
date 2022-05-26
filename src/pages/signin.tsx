@@ -20,7 +20,7 @@ export default function SigninPage() {
             <h1 className="text-2xl font-medium">Welcome Back!</h1>
           </div>
           <FormSignin />
-          <p className="text-center text-sm lg:text-base">
+          <p className="mt-2 text-center text-sm lg:text-base">
             Don&apos;t have an account yet? Please{' '}
             <Link href="/signup">
               <a className="text-blue-600">Sign up</a>

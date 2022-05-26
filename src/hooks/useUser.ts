@@ -4,12 +4,17 @@ import type { User } from '@/types';
 import { authCSR } from '@/utils';
 
 export const useUser = () => {
-  const { data: dataUser, error: userError } = useSWR<User | undefined, Error>('/users', authCSR);
+  const {
+    data: user,
+    error: userError,
+    mutate: userMutation,
+  } = useSWR<User | undefined, Error>('/users', authCSR, { revalidateOnFocus: false });
 
-  const loadingGet = !dataUser && !userError;
+  const loadingGetUser = !user && !userError;
 
   return {
-    user: dataUser,
-    loadingGet,
+    loadingGetUser,
+    user,
+    userMutation,
   };
 };

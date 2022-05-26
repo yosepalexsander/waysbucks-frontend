@@ -28,10 +28,10 @@ export default function SignupPage() {
             <h1 className="text-2xl font-medium">For Coffee Connoisseur</h1>
           </div>
           <FormSignup />
-          <p className="text-center text-sm lg:text-base">
+          <p className="mt-2 text-center text-sm lg:text-base">
             Already have an account?{' '}
             <Link href="/signin">
-              <a className="text-blue-600">Sign in</a>
+              <a className="text-blue-600">Login</a>
             </Link>
           </p>
         </div>

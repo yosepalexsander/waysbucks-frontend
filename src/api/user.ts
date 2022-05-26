@@ -1,9 +1,9 @@
 import { instance } from '@/lib/axios';
 import type { AxiosRequestConfig, CommonResponse, GetUserResponse, User } from '@/types';
 
-export async function getUser(config?: AxiosRequestConfig): Promise<User | null> {
+export async function getUser(config?: AxiosRequestConfig) {
   try {
-    const response = await instance.get<GetUserResponse>('auth/account', config);
+    const response = await instance.get<GetUserResponse>('auth/profile', config);
 
     return response.data.payload;
   } catch (error) {
@@ -11,9 +11,9 @@ export async function getUser(config?: AxiosRequestConfig): Promise<User | null>
   }
 }
 
-export async function updateUser(data: Record<string, unknown>, config?: AxiosRequestConfig) {
+export async function updateUser(data: Partial<User>, config?: AxiosRequestConfig) {
   try {
-    return await instance.put<CommonResponse>('auth/account', data, config);
+    await instance.put<CommonResponse>('auth/profile', data, config);
   } catch (error) {
     throw error;
   }

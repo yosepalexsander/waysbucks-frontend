@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import type { FocusEvent } from 'react';
 import { memo } from 'react';
-import useSWRImmutable from 'swr/immutable';
+import useSWR from 'swr';
 
 import { getToppings } from '@/api';
 import { ProductPlaceholder } from '@/assets/images';
@@ -12,7 +12,7 @@ interface Props {
 }
 
 export const ListToppings = memo(({ onChange }: Props) => {
-  const { data, error } = useSWRImmutable('/toppings', getToppings);
+  const { data, error } = useSWR('/toppings', getToppings, { revalidateOnFocus: false });
   const skeleton = [1, 2, 3, 4, 5];
 
   return (

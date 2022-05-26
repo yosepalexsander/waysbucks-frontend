@@ -20,7 +20,7 @@ interface Props {
 
 // eslint-disable-next-line import/no-default-export
 export default function DetailProductPage({ user }: Props) {
-  const { alert, isOpen, loadingGet, product, total, handleAddToCart, handleSelectTopping, onClose } = useProduct();
+  const { alert, loadingGet, product, total, handleAddToCart, handleSelectTopping, handleCloseAlert } = useProduct();
 
   return (
     <Layout
@@ -44,16 +44,6 @@ export default function DetailProductPage({ user }: Props) {
           </div>
         ) : (
           <div className="product flex-container">
-            <Alert
-              isOpen={isOpen}
-              severity={alert.status}
-              position={{
-                bottom: 35,
-                right: 35,
-              }}
-              onClose={onClose}>
-              {alert.message}
-            </Alert>
             <div className="product-img">
               <Image
                 src={product.image ?? ProductPlaceholder}
@@ -81,6 +71,16 @@ export default function DetailProductPage({ user }: Props) {
           </div>
         )}
       </main>
+      <Alert
+        isOpen={alert.isOpen}
+        severity={alert.status}
+        position={{
+          bottom: 35,
+          right: 35,
+        }}
+        onClose={handleCloseAlert}>
+        {alert.message}
+      </Alert>
     </Layout>
   );
 }

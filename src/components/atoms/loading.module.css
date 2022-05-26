@@ -45,7 +45,7 @@
   animation-delay: -0.5s;
 }
 .loading div:nth-child(2) {
-  @apply bg-secondary;
+  @apply bg-violet-600;
   animation: loading 1s linear infinite;
   animation-delay: 0s;
 }
