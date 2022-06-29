@@ -395,6 +395,6 @@ section.auth .auth-img {
   @apply w-full relative hidden lg:block;
 }
 section.auth .form-container {
-  @apply flex flex-col justify-center bg-white rounded-md shadow-md px-10 py-5
+  @apply flex flex-col items-center justify-center bg-white rounded-md shadow-md px-10 py-5 space-y-3
   lg:rounded-none lg:rounded-tl-3xl lg:rounded-bl-3xl lg:w-full lg:h-screen;
 }

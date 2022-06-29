@@ -21,8 +21,8 @@ export const ListToppings = memo(({ onChange }: Props) => {
         <>
           {skeleton.map((index) => (
             <div key={index} className="input-checkbox skeleton skeleton-wave">
-              <span className="topping-img"></span>
-              <span className="topping-name"></span>
+              <span className="topping-img" />
+              <span className="topping-name" />
             </div>
           ))}
         </>

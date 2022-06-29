@@ -51,7 +51,7 @@ export const useProduct = () => {
     } catch (error) {
       if (error instanceof Error) {
         if (error.message === 'Not Authenticated') {
-          router.push('/signin');
+          router.push('/login');
           return;
         }
 

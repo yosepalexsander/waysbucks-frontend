@@ -55,18 +55,24 @@ export default function DetailProductPage({ user }: Props) {
               />
             </div>
             <div className="product-info">
-              <p className="name">{product.name}</p>
-              <p className="desc">{product.description}</p>
-              <p className="price">Price: {currencyFormat(product.price as number)}</p>
-              <p className="text-2xl font-bold">Topping</p>
-              <ListToppings onChange={handleSelectTopping} />
-              <div className="flex justify-between">
-                <p className="total">Total:</p>
-                <p className="total">{currencyFormat(total)}</p>
+              <div className="flex flex-col space-y-4">
+                <p className="name">{product.name}</p>
+                <p className="desc">{product.description}</p>
               </div>
-              <Button variant="contained" color="primary" className="w-full" onClick={handleAddToCart}>
-                Add To Cart
-              </Button>
+              <p className="price">Price: {currencyFormat(product.price as number)}</p>
+              <div className="flex flex-col space-y-4">
+                <p className="text-2xl font-bold">Topping</p>
+                <ListToppings onChange={handleSelectTopping} />
+              </div>
+              <div className="flex flex-col space-y-4">
+                <div className="flex justify-between">
+                  <p className="total">Total:</p>
+                  <p className="total">{currencyFormat(total)}</p>
+                </div>
+                <Button variant="contained" color="primary" className="w-full" onClick={handleAddToCart}>
+                  Add To Cart
+                </Button>
+              </div>
             </div>
           </div>
         )}

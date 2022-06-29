@@ -9,14 +9,14 @@ import type {
 } from '@/types';
 
 export async function getProducts(): Promise<Product[] | undefined> {
-  const response = await instance.get<GetProductsResponse>('products');
+  const response = await instance.get<GetProductsResponse>('/products');
   checkStatusRes(response.status, response.status === 503 ? 'Third Party Service Unavailable' : '');
   return response.data.payload;
 }
 
 export async function getProduct(id: string): Promise<Product | undefined> {
   try {
-    const response = await instance.get<GetProductResponse>(`products/${id}`);
+    const response = await instance.get<GetProductResponse>(`/products/${id}`);
     checkStatusRes(response.status, response.status === 503 ? 'Third Party Service Unavailable' : '');
     return response.data.payload;
   } catch (error) {
@@ -26,7 +26,7 @@ export async function getProduct(id: string): Promise<Product | undefined> {
 
 export async function getToppings(): Promise<Topping[] | undefined> {
   try {
-    const response = await instance.get<GetToppingsResponse>('toppings');
+    const response = await instance.get<GetToppingsResponse>('/toppings');
     checkStatusRes(response.status, response.status === 503 ? 'Third Party Service Unavailable' : '');
     return response.data.payload;
   } catch (error) {
@@ -36,7 +36,7 @@ export async function getToppings(): Promise<Topping[] | undefined> {
 
 export async function postProduct(data: Partial<Product>) {
   try {
-    await instance.post<CommonResponse>('products', data);
+    await instance.post<CommonResponse>('/products', data);
   } catch (error) {
     throw error;
   }
@@ -44,7 +44,7 @@ export async function postProduct(data: Partial<Product>) {
 
 export async function postTopping(data: unknown) {
   try {
-    await instance.post<CommonResponse>('toppings', data);
+    await instance.post<CommonResponse>('/toppings', data);
   } catch (error) {
     throw error;
   }
@@ -52,7 +52,7 @@ export async function postTopping(data: unknown) {
 
 export async function updateProduct(id: number, data: Partial<Product>) {
   try {
-    await instance.put<CommonResponse>(`products/${id}`, data);
+    await instance.put<CommonResponse>(`/products/${id}`, data);
   } catch (error) {
     throw error;
   }
@@ -60,7 +60,7 @@ export async function updateProduct(id: number, data: Partial<Product>) {
 
 export async function updateTopping(id: number, data: unknown) {
   try {
-    await instance.put<CommonResponse>(`toppings/${id}`, data);
+    await instance.put<CommonResponse>(`/toppings/${id}`, data);
   } catch (error) {
     throw error;
   }
@@ -68,7 +68,7 @@ export async function updateTopping(id: number, data: unknown) {
 
 export async function deleteProduct(id: number) {
   try {
-    await instance.delete<CommonResponse>(`products/${id}`);
+    await instance.delete<CommonResponse>(`/products/${id}`);
   } catch (error) {
     throw error;
   }
@@ -76,7 +76,7 @@ export async function deleteProduct(id: number) {
 
 export async function deleteTopping(id: number) {
   try {
-    await instance.delete<CommonResponse>(`toppings/${id}`);
+    await instance.delete<CommonResponse>(`/toppings/${id}`);
   } catch (error) {
     throw error;
   }

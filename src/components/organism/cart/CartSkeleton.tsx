@@ -4,18 +4,18 @@ export const CartSkeleton = () => {
       <div className="cart-list">
         {[1, 2].map((index) => (
           <div key={index} className="cart-item skeleton skeleton-wave">
-            <span className="cart-img"></span>
+            <span className="cart-img" />
             <div className="cart-info flex-1">
-              <span className="h-4/5"></span>
-              <span className="h-1/2"></span>
+              <span className="h-4/5" />
+              <span className="h-1/2" />
             </div>
             <div className="cart-info">
-              <span className="h-4/5 w-full"></span>
+              <span className="h-4/5 w-full" />
               <div className="qty h-1/2">
-                <span className="h-full w-6"></span>
-                <span className="h-full w-6"></span>
-                <span className="h-full w-6 mx-3"></span>
-                <span className="h-full w-6"></span>
+                <span className="h-full w-6" />
+                <span className="h-full w-6" />
+                <span className="h-full w-6 mx-3" />
+                <span className="h-full w-6" />
               </div>
             </div>
           </div>

@@ -5,7 +5,7 @@ import type { AxiosRequestConfig, Cart, CommonResponse, GetCartsResponse } from 
 
 export async function getCarts(): Promise<Cart[] | undefined> {
   try {
-    const response = await instance.get<GetCartsResponse>('carts');
+    const response = await instance.get<GetCartsResponse>('/carts');
     checkStatusRes(
       response.status,
       response.status === 503 ? 'Third Party Service Unavailable' : response.data.message,
@@ -18,7 +18,7 @@ export async function getCarts(): Promise<Cart[] | undefined> {
 
 export async function postCart(data: Partial<Cart>, config?: AxiosRequestConfig) {
   try {
-    await instance.post<CommonResponse>('carts', data, config);
+    await instance.post<CommonResponse>('/carts', data, config);
   } catch (error) {
     if (axios.isAxiosError(error)) {
       if (error.response && (error.response.status === 401 || error.response.status === 400)) {
@@ -32,7 +32,7 @@ export async function postCart(data: Partial<Cart>, config?: AxiosRequestConfig)
 
 export async function updateCart(id: number, data: Partial<Cart>, config?: AxiosRequestConfig) {
   try {
-    await instance.put<CommonResponse>(`carts/${id}`, data, config);
+    await instance.put<CommonResponse>(`/carts/${id}`, data, config);
   } catch (error) {
     throw error;
   }
@@ -40,7 +40,7 @@ export async function updateCart(id: number, data: Partial<Cart>, config?: Axios
 
 export async function deleteCart(id: number) {
   try {
-    await instance.delete<CommonResponse>(`carts/${id}`);
+    await instance.delete<CommonResponse>(`/carts/${id}`);
   } catch (error) {
     throw error;
   }

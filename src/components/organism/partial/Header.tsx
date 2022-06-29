@@ -33,7 +33,6 @@ export const HeaderBar = memo(({ user }: Props) => {
         </a>
       </Link>
       <button tabIndex={0} id="menuButton" className="btn-menu" aria-label="open drawer" onClick={onOpenDrawer}>
-        <span></span>
         <MenuIcon className="text-primary w-9 h-9" />
       </button>
       <nav className="app-bar-menu">
@@ -81,8 +80,8 @@ export const HeaderBar = memo(({ user }: Props) => {
           </>
         ) : (
           <>
-            <Link href="/signin">
-              <a className="btn btn-primary-outlined">Sign in</a>
+            <Link href="/login">
+              <a className="btn btn-primary-outlined">Login</a>
             </Link>
             <Link href="/signup">
               <a className="btn btn-primary">Sign up</a>
@@ -140,8 +139,8 @@ export const HeaderBar = memo(({ user }: Props) => {
                 <MenuItem tabIndex={0}>Store</MenuItem>
               </Link>
             </MenuList>
-            <Link href="/signin">
-              <a className="btn btn-primary-outlined mx-3">Sign in</a>
+            <Link href="/login">
+              <a className="btn btn-primary-outlined mx-3">Login</a>
             </Link>
             <Link href="/signup">
               <a className="btn btn-primary mx-3">Sign up</a>

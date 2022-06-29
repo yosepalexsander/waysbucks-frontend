@@ -142,14 +142,20 @@ export const useCart = (user?: User | null) => {
       const idx = optimisticData.findIndex((item) => item.id === cart.id);
       optimisticData[idx] = cart;
 
-      await cartMutation(
-        async (draft) => {
-          await updateCart(cart.id, cart);
+      try {
+        const { price, qty } = cart;
 
-          return draft;
-        },
-        { optimisticData, rollbackOnError: true },
-      );
+        await cartMutation(
+          async (draft) => {
+            await updateCart(cart.id, { price, qty });
+
+            return draft;
+          },
+          { optimisticData, rollbackOnError: true },
+        );
+      } catch (error) {
+        console.log(error);
+      }
     },
     [carts, cartMutation],
   );

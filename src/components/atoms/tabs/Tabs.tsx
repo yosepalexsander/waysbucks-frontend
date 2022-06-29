@@ -28,7 +28,7 @@ export const Tabs = React.memo(({ children, onChange, className, value, ...rest 
             return child;
           }
         })}
-        <div className="slider" role="presentation"></div>
+        <div className="slider" role="presentation" />
       </div>
     </div>
   );

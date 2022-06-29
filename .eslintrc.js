@@ -49,6 +49,13 @@ module.exports = {
     ],
     'react/display-name': 'off',
     'react/jsx-filename-extension': ['error', { extensions: ['.tsx'] }],
+    'react/self-closing-comp': [
+      1,
+      {
+        component: true,
+        html: true,
+      },
+    ],
     'react-hooks/exhaustive-deps': ['error', { additionalHooks: '(useMemoOne)' }],
     'prettier/prettier': [
       'error',
