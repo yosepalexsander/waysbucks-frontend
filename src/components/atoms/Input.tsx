@@ -11,7 +11,7 @@ interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement & HTMLTex
 
 export const Input = memo(({ hintText, isDisabled, label, multiline, className, id, ...props }: InputProps) => {
   return (
-    <div className={'form-control-root' + (multiline ? ' h-20' : 'h-10')}>
+    <div className={'form-control-root' + (multiline ? ' h-20' : ' h-10')}>
       {multiline && (
         <textarea
           className={className ? `form-control-input ${className}` : 'form-control-input'}

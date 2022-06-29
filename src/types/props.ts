@@ -23,7 +23,3 @@ export interface ModalFormToppingProps extends ModalProps {
   selectedTopping?: Topping;
   onAttachFile: (file?: File) => void;
 }
-
-export interface FormProduct extends Partial<Product> {
-  file?: File;
-}

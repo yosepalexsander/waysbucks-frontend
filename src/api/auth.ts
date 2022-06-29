@@ -1,22 +1,18 @@
 import axios from 'axios';
 
 import { instance } from '@/lib/axios';
-import type { AxiosRequestConfig, SigninResponse, SignupResponse } from '@/types';
-import { authSignin, authSignout } from '@/utils';
+import type { AuthResponse, AxiosRequestConfig, Token } from '@/types';
+import { authLogin, authSignout } from '@/utils';
 
-export async function register(data: Record<string, unknown>, config?: AxiosRequestConfig) {
+export async function register(body: Record<string, unknown>, config?: AxiosRequestConfig) {
   try {
-    const { data: resData } = await instance.post<SignupResponse>('auth/register', data, config);
+    const {
+      data: { payload },
+    } = await instance.post<AuthResponse>('/auth/register', body, config);
 
-    await axios.post(
-      '/api/signin',
-      {
-        token: resData.payload.token,
-      },
-      { headers: { 'Content-Type': 'application/json' } },
-    );
+    await axios.post('/api/login', { token: payload.token }, { headers: { 'Content-Type': 'application/json' } });
 
-    authSignin({ token: resData.payload.token, redirect: '/' });
+    authLogin({ token: payload.token, redirect: '/' });
   } catch (error) {
     if (axios.isAxiosError(error)) {
       if (error.response && error.response.status === 400) {
@@ -28,19 +24,15 @@ export async function register(data: Record<string, unknown>, config?: AxiosRequ
   }
 }
 
-export async function signin(data: Record<string, unknown>, config?: AxiosRequestConfig) {
+export async function login(body: Record<string, unknown>, config?: AxiosRequestConfig) {
   try {
-    const { data: resData } = await instance.post<SigninResponse>('auth/login', data, config);
+    const {
+      data: { payload },
+    } = await instance.post<AuthResponse>('/auth/login', body, config);
 
-    await axios.post(
-      '/api/signin',
-      {
-        token: resData.payload.token,
-      },
-      { headers: { 'Content-Type': 'application/json' } },
-    );
+    await axios.post('/api/login', { token: payload.token }, { headers: { 'Content-Type': 'application/json' } });
 
-    authSignin({ token: resData.payload.token, redirect: '/' });
+    authLogin({ token: payload.token, redirect: '/' });
   } catch (error) {
     if (axios.isAxiosError(error)) {
       if (error.response && error.response.status === 400) {
@@ -59,5 +51,25 @@ export async function signout() {
     authSignout();
   } catch (error) {
     throw new Error('Signout failed');
+  }
+}
+
+export async function loginWithGoogle(body: Token) {
+  try {
+    const {
+      data: { payload },
+    } = await instance.post<AuthResponse>('/auth/google/login', body);
+
+    await axios.post('/api/login', { token: payload.token }, { headers: { 'Content-Type': 'application/json' } });
+
+    authLogin({ token: payload.token, redirect: '/' });
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      if (error.response) {
+        throw new Error(error.response.data.message);
+      }
+    }
+
+    throw error;
   }
 }

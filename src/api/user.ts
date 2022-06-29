@@ -3,7 +3,7 @@ import type { AxiosRequestConfig, CommonResponse, GetUserResponse, User } from '
 
 export async function getUser(config?: AxiosRequestConfig) {
   try {
-    const response = await instance.get<GetUserResponse>('auth/profile', config);
+    const response = await instance.get<GetUserResponse>('/auth/profile', config);
 
     return response.data.payload;
   } catch (error) {
@@ -13,7 +13,7 @@ export async function getUser(config?: AxiosRequestConfig) {
 
 export async function updateUser(data: Partial<User>, config?: AxiosRequestConfig) {
   try {
-    await instance.put<CommonResponse>('auth/profile', data, config);
+    await instance.put<CommonResponse>('/auth/profile', data, config);
   } catch (error) {
     throw error;
   }

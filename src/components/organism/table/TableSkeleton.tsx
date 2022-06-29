@@ -7,19 +7,19 @@ export const TableSkeleton = () => {
       elements.push(
         <tr key={i} className="skeleton skeleton-wave">
           <td>
-            <span className="h-7 w-4/5"></span>
+            <span className="h-7 w-4/5" />
           </td>
           <td className="table-name">
-            <span className="left w-4/5 h-7"></span>
+            <span className="left w-4/5 h-7" />
           </td>
           <td className="table-image">
-            <span className="w-full h-full"></span>
+            <span className="w-full h-full" />
           </td>
           <td className="table-price">
-            <span className="h-7 w-4/5"></span>
+            <span className="h-7 w-4/5" />
           </td>
           <td>
-            <span className="h-7 w-7"></span>
+            <span className="h-7 w-7" />
           </td>
           <td>
             <Button

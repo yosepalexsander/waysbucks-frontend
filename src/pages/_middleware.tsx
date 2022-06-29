@@ -6,7 +6,7 @@ export const middleware = async (req: NextRequest, _ev: NextFetchEvent) => {
   const url = req.nextUrl.clone();
   const params = url.pathname.split('/');
 
-  const authRoutes = ['signin', 'signup'];
+  const authRoutes = ['login', 'signup'];
   const protectedRoutes = ['cart', 'account'];
 
   if (params[1] && authRoutes.includes(params[1]) && token) {
@@ -22,7 +22,7 @@ export const middleware = async (req: NextRequest, _ev: NextFetchEvent) => {
 
     try {
       const headers = { authorization: `Bearer ${token}`, 'Content-Type': 'application/json' };
-      const responseAuth = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}auth/profile`, { headers });
+      const responseAuth = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/profile`, { headers });
       const { payload } = await responseAuth.json();
 
       if (!responseAuth.ok) {

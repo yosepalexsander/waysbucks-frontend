@@ -150,7 +150,8 @@ export const Spinner = memo((props: IconProps) => {
           repeatCount="indefinite"
           dur="1s"
           values="0 50 50;360 50 50"
-          keyTimes="0;1"></animateTransform>
+          keyTimes="0;1"
+        />
       </circle>
     </svg>
   );

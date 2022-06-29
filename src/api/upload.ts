@@ -5,7 +5,7 @@ export const upload = async (data: object) => {
   try {
     const {
       data: { payload },
-    } = await instance.post<PostImageResponse>(`${process.env.NEXT_PUBLIC_BASE_URL}upload`, data);
+    } = await instance.post<PostImageResponse>('/upload', data);
 
     return payload;
   } catch (error) {
@@ -17,7 +17,7 @@ export const uploadAvatar = async (data: object) => {
   try {
     const {
       data: { payload },
-    } = await instance.post<PostImageResponse>(`${process.env.NEXT_PUBLIC_BASE_URL}upload/avatar`, data);
+    } = await instance.post<PostImageResponse>('/upload/avatar', data);
 
     return payload;
   } catch (error) {

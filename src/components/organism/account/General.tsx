@@ -16,15 +16,15 @@ export const General = () => {
       <div className="flex flex-col space-y-2">
         <div className="flex flex-col space-y-1">
           <p className="text-sm">Name</p>
-          <InputField name="name" />
+          <InputField name="name" placeholder="name" />
         </div>
         <div className="flex flex-col space-y-1">
           <p className="text-sm">Email</p>
-          <InputField name="email" isDisabled />
+          <InputField name="email" placeholder="email" isDisabled />
         </div>
         <div className="flex flex-col space-y-1">
           <p className="text-sm">Phone</p>
-          <InputField name="phone" />
+          <InputField name="phone" placeholder="phone" />
         </div>
       </div>
     </Form>

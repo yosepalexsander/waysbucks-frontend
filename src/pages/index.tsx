@@ -5,6 +5,7 @@ import { getUser } from '@/api';
 import { Layout } from '@/components/layouts/App';
 import { Benefits, Features, Hero } from '@/components/organism/landing';
 import { Footer, HeaderBar } from '@/components/organism/partial';
+import { GSILoader } from '@/components/scripts/GSILoader';
 import { createJSONRequestConfig } from '@/lib/axios';
 import type { User } from '@/types';
 
@@ -27,6 +28,7 @@ export default function HomePage({ user }: Props) {
         <Benefits />
       </article>
       <Footer />
+      {!user && <GSILoader />}
     </Layout>
   );
 }

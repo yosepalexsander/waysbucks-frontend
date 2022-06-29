@@ -8,7 +8,7 @@ interface Props {
   name: string;
   placeholder?: string;
   multiline?: boolean;
-  type?: 'text' | 'number';
+  type?: string;
 }
 export const InputField = React.memo(({ isDisabled, name, placeholder, multiline, type = 'text' }: Props) => {
   const [{ value, onBlur, onChange }, meta, _helpers] = useField(name);

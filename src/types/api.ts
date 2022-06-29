@@ -7,18 +7,8 @@ export interface CommonResponse {
   message: string;
 }
 
-export interface SigninResponse extends CommonResponse {
+export interface AuthResponse extends CommonResponse {
   payload: {
-    id: number;
-    name: string;
-    email: string;
-    token: string;
-  };
-}
-
-export interface SignupResponse extends CommonResponse {
-  payload: {
-    id: number;
     name: string;
     email: string;
     token: string;
@@ -99,4 +89,22 @@ export interface PostImageResponse extends CommonResponse {
 
 export interface RequestError extends Error {
   status: number;
+}
+
+export interface Token {
+  token: string | null;
+}
+
+export interface GoogleCredentialResponse {
+  client_id?: string;
+  credential?: string;
+  select_by?:
+    | 'auto'
+    | 'user'
+    | 'user_1tap'
+    | 'user_2tap'
+    | 'btn'
+    | 'btn_confirm'
+    | 'btn_add_session'
+    | 'btn_confirm_add_session';
 }

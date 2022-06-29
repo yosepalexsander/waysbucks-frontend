@@ -28,14 +28,14 @@ export default function ProductPage({ user }: Props) {
         description: 'All product list in Waysbucks coffee',
       }}>
       <HeaderBar user={user} />
-      <main id="main-content" className="main-container">
-        <div className="flex justify-center mt-4">
+      <main id="main-content" className="main-container flex flex-col space-y-4">
+        <div className="flex justify-center">
           <InputSearch placeholder="Search product..." isDisabled={loadingGet} onSearch={handleSearch} />
         </div>
         {loadingGet ? (
           <div className="product-container">
             {[1, 2, 3, 4].map((index) => (
-              <div key={index} className="p-2 w-80 sm:w-60">
+              <div key={index} className="max-w-xs">
                 <div className="card skeleton skeleton-wave">
                   <span className="card-image" />
                   <span className="card-content" />
@@ -62,7 +62,7 @@ export default function ProductPage({ user }: Props) {
                   <div className="product-container">
                     {products.map((product) => (
                       <Link key={product.id} href={{ pathname: `/product/${product.id}` }}>
-                        <a className="p-2 w-80 sm:w-60">
+                        <a>
                           <ProductItem item={product} />
                         </a>
                       </Link>

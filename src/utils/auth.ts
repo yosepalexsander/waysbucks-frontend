@@ -24,14 +24,14 @@ export const authSSR = async (ctx: GetServerSidePropsContext) => {
     return user;
   } catch (error) {
     if (typeof window === 'undefined') {
-      ctx.res?.writeHead(302, { Location: '/signin' });
+      ctx.res?.writeHead(302, { Location: '/login' });
       ctx.res?.end();
     } else {
       Router.push(
         {
-          pathname: '/signin',
+          pathname: '/login',
         },
-        '/signin',
+        '/login',
       );
     }
     return;
@@ -62,13 +62,13 @@ export const authSignout = () => {
   cookie.remove('token');
 
   window.localStorage.setItem('logout', Date.now().toString());
-  Router.push('/signin');
+  Router.push('/login');
 };
 
-export const authSignin = ({ token, redirect }: { token: string; redirect: string }) => {
+export const authLogin = ({ token, redirect }: { token: string; redirect: string }) => {
   cookie.set('token', token, {
     expires: 1,
   });
 
-  Router.push(redirect);
+  window.location.href = process.env.NEXT_PUBLIC_BASE_URL + redirect;
 };
