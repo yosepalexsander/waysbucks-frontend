@@ -1,4 +1,3 @@
-import type { FormikHelpers } from 'formik';
 import { useFormik } from 'formik';
 import type { ChangeEvent } from 'react';
 import { useCallback, useMemo, useState } from 'react';
@@ -15,7 +14,7 @@ import {
   updateTopping,
   upload,
 } from '@/api';
-import type { FormProduct, Product, Topping } from '@/types';
+import type { FormikHelpers, FormProduct, Product, Topping } from '@/types';
 import { ProductSchema, ToppingSchema } from '@/utils';
 
 import { useAlert } from '../useAlert';

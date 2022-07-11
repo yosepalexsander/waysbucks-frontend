@@ -17,6 +17,7 @@ export { GoSignOut as LogoutIcon } from 'react-icons/go';
 export { MdClose as CloseIcon } from 'react-icons/md';
 export { MdAccountCircle as AccountIcon } from 'react-icons/md';
 export { MdAdd as PlusIcon } from 'react-icons/md';
+export { MdAddLocationAlt as AddLocationIcon } from 'react-icons/md';
 export { MdRemove as MinusIcon } from 'react-icons/md';
 export { MdDelete as DeleteIcon } from 'react-icons/md';
 export { MdAttachFile as AttachmentIcon } from 'react-icons/md';

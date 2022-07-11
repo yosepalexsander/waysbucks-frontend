@@ -20,7 +20,7 @@ export const ListAddressesItem = memo(({ item, onDelete, onUpdate }: Props) => {
   }, [item, onUpdate]);
 
   return (
-    <div key={item.id} className="border rounded-md p-4 space-y-4">
+    <div key={item.id} className="space-y-4 rounded-md border p-4">
       <div>
         <p className="h5 mb-2">{item.name}</p>
         <div className="flex flex-col space-y-1">

@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import type { FocusEvent } from 'react';
+import type { ChangeEvent } from 'react';
 import { memo } from 'react';
 import useSWR from 'swr';
 
@@ -8,7 +8,7 @@ import { ProductPlaceholder } from '@/assets/images';
 import { currencyFormat } from '@/utils';
 
 interface Props {
-  onChange: (e: FocusEvent<HTMLInputElement>) => void;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const ListToppings = memo(({ onChange }: Props) => {

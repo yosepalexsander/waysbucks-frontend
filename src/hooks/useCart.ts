@@ -2,7 +2,7 @@ import type { ChangeEvent } from 'react';
 import { useCallback, useMemo, useState } from 'react';
 import useSWR from 'swr';
 
-import { deleteCart, getAddress, getCarts, postTransaction, updateCart } from '@/api';
+import { deleteCart, getCarts, postTransaction, updateCart } from '@/api';
 import type { Address, Cart, OrderRequest, TransactionRequest, User } from '@/types';
 
 import { useAlert } from './useAlert';
@@ -22,23 +22,6 @@ export const useCart = (user?: User | null) => {
       setTimeout(() => revalidate({ retryCount }), 5000);
     },
   });
-  const { data: addressData, error: addressError } = useSWR<Address[] | undefined>('/address', getAddress, {
-    onErrorRetry: (error, _key, _config, _revalidate, _revalidateOpts) => {
-      if (error?.status === 404) return;
-    },
-  });
-
-  const addresses = useMemo(() => {
-    let data: Address[] = [];
-
-    if (!addressData) {
-      return data;
-    }
-
-    data = addressData.slice(0);
-
-    return data;
-  }, [addressData]);
 
   const carts = useMemo(() => {
     let data: Cart[] = [];
@@ -213,10 +196,9 @@ export const useCart = (user?: User | null) => {
     [carts, cartMutation],
   );
 
-  const loadingGet = (!cartData && !cartError) || (!addressData && !addressError);
+  const loadingGet = !cartData && !cartError;
 
   return {
-    addresses,
     alert,
     carts,
     loadingGet,

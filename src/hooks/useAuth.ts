@@ -1,10 +1,9 @@
-import type { FormikHelpers } from 'formik';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect } from 'react';
 
 import { login, loginWithGoogle, register } from '@/api';
-import type { FormAuthLogin, FormAuthSignup, GoogleCredentialResponse } from '@/types';
+import type { FormAuthLogin, FormAuthSignup, FormikHelpers, GoogleCredentialResponse } from '@/types';
 import { LoginSchema, SignupSchema } from '@/utils';
 
 import { useAlert } from './useAlert';
