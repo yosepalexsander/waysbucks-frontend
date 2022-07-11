@@ -6,7 +6,7 @@ import { EmptyCart } from '@/assets/images';
 export const CartEmpty = () => {
   return (
     <div className="absolute top-1/2 left-1/2 -translate-x-2/4 -translate-y-2/4 text-center">
-      <div className="img-container max-w-md h-64">
+      <div className="img-container h-64 max-w-md">
         <Image alt="empty cart" src={EmptyCart} layout="responsive" width={100} height={100} />
       </div>
       <p>Your cart is empty</p>

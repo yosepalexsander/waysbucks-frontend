@@ -17,7 +17,7 @@ export const CartSubtotal = memo(({ serviceFee, subtotal, total }: Props) => {
         <p>{serviceFee}</p>
       </div>
       <hr className="divider" />
-      <div className="list text-primary font-bold">
+      <div className="list font-bold text-primary">
         <p className="text-xl">Total</p>
         <p className="text-xl">{total}</p>
       </div>

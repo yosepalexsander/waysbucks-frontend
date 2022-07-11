@@ -14,7 +14,7 @@ export const CartSkeleton = () => {
               <div className="qty h-1/2">
                 <span className="h-full w-6" />
                 <span className="h-full w-6" />
-                <span className="h-full w-6 mx-3" />
+                <span className="mx-3 h-full w-6" />
                 <span className="h-full w-6" />
               </div>
             </div>

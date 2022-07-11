@@ -25,7 +25,7 @@ export const TableTopping = memo(
 
     return (
       <>
-        <div className="flex py-2 justify-end">
+        <div className="flex justify-end py-2">
           <Button onClick={handleAddNew} variant="contained" color="warning" className="mb-2">
             Add New
           </Button>
@@ -48,7 +48,7 @@ export const TableTopping = memo(
               ) : (
                 <>
                   {toppings.length < 1 ? (
-                    <div className="w-full flex flex-col justify-center items-center space-y-4">
+                    <div className="flex w-full flex-col items-center justify-center space-y-4">
                       <div className="img-container max-w-xs ">
                         <Image
                           src={NoData}

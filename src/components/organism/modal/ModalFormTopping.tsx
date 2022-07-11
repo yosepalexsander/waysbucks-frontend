@@ -22,7 +22,7 @@ export const ModalFormTopping = memo(({ isOpen, selectedTopping, onAttachFile, o
         display="flex"
         flexDirection="column"
         alignItems="center">
-        <p className="text-3xl mb-10 text-center text-primary">{selectedTopping ? 'Update' : 'New'} Topping</p>
+        <p className="mb-10 text-center text-3xl text-primary">{selectedTopping ? 'Update' : 'New'} Topping</p>
         <Form className="form flex-col space-y-4">
           <InputField name="name" placeholder="name" />
           <InputField name="price" placeholder="price" type="number" />
@@ -33,7 +33,7 @@ export const ModalFormTopping = memo(({ isOpen, selectedTopping, onAttachFile, o
             type="submit"
             isDisabled={!selectedTopping && (!isValid || !values.file)}
             isLoading={isSubmitting}
-            className="w-full mt-2 mb-2">
+            className="mt-2 mb-2 w-full">
             Submit
           </Button>
         </Form>

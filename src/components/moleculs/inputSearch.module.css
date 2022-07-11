@@ -1,5 +1,5 @@
 .inputSearch {
-  @apply flex items-center px-4 py-2 w-full max-w-md bg-gray-100 
+  @apply flex w-full max-w-md items-center bg-gray-100 px-4 py-2 
   transition ease-in focus:bg-white focus:shadow;
 }
 
@@ -7,5 +7,5 @@
   @apply w-full px-4 py-2 outline-0;
 }
 .inputSearch svg {
-  @apply fill-current text-primary shrink-0 ml-3;
+  @apply ml-3 shrink-0 fill-current text-primary;
 }

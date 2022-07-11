@@ -1,17 +1,17 @@
 .dropdown {
-  @apply absolute right-12 mt-3 z-20;
+  @apply absolute right-12 z-20 mt-3;
 }
 
 .dropdownEnter {
-  @apply opacity-0 scale-90;
+  @apply scale-90 opacity-0;
 }
 
 .dropdownEnterActive {
-  @apply transition duration-300 opacity-100 scale-100 translate-x-0 origin-top-right;
+  @apply origin-top-right translate-x-0 scale-100 opacity-100 transition duration-300;
 }
 .dropdownExit {
-  @apply opacity-100 scale-100;
+  @apply scale-100 opacity-100;
 }
 .dropdownExitActive {
-  @apply transition duration-300 opacity-0 scale-90 translate-x-0 origin-top-right;
+  @apply origin-top-right translate-x-0 scale-90 opacity-0 transition duration-300;
 }

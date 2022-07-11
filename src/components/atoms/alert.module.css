@@ -1,6 +1,6 @@
 /* Alert */
 .alert {
-  @apply flex items-center px-3 py-2 rounded-md shadow-none;
+  @apply flex items-center rounded-md px-3 py-2 shadow-none;
 }
 .paper {
   @apply fixed;
@@ -10,7 +10,7 @@
   @apply mr-2;
 }
 .alert .alertMessage {
-  @apply py-2 grow mr-5;
+  @apply mr-5 grow py-2;
 }
 .alertSuccess {
   @apply bg-green-500;
@@ -47,15 +47,15 @@
 }
 
 .alertEnter {
-  @apply opacity-0 scale-90;
+  @apply scale-90 opacity-0;
 }
 
 .alertEnterActive {
-  @apply transition duration-500 opacity-100 scale-100 translate-y-0;
+  @apply translate-y-0 scale-100 opacity-100 transition duration-500;
 }
 .alertExit {
   @apply opacity-100;
 }
 .alertExitActive {
-  @apply transition duration-500 opacity-0 scale-90;
+  @apply scale-90 opacity-0 transition duration-500;
 }

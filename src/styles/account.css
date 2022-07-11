@@ -1,9 +1,9 @@
 .account-container {
-  @apply grid grid-flow-row lg:grid-flow-col gap-10;
+  @apply grid grid-flow-row gap-10 lg:grid-flow-col;
 }
 
 .account-container section {
-  @apply bg-white p-5 rounded-md shadow-sm space-y-4;
+  @apply space-y-4 rounded-md bg-white p-5 shadow-sm;
 }
 
 #user-address > span {

@@ -33,7 +33,7 @@ export const HeaderBar = memo(({ user }: Props) => {
         </a>
       </Link>
       <button tabIndex={0} id="menuButton" className="btn-menu" aria-label="open drawer" onClick={onOpenDrawer}>
-        <MenuIcon className="text-primary w-9 h-9" />
+        <MenuIcon className="h-9 w-9 text-primary" />
       </button>
       <nav className="app-bar-menu">
         <Link href="/product">

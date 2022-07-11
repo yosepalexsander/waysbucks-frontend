@@ -12,11 +12,11 @@ import { useUser } from '@/hooks/useUser';
 import type { ModalFormProductProps, ModalFormToppingProps } from '@/types';
 
 const ModalFormProduct = dynamic<ModalFormProductProps>(
-  () => import('@/components/organism/modal/ModalFormProduct').then((mod) => mod.ModalFormProduct),
+  () => import('@/components/organism/modal').then((mod) => mod.ModalFormProduct),
   { ssr: false },
 );
 const ModalFormTopping = dynamic<ModalFormToppingProps>(
-  () => import('@/components/organism/modal/ModalFormTopping').then((mod) => mod.ModalFormTopping),
+  () => import('@/components/organism/modal').then((mod) => mod.ModalFormTopping),
   { ssr: false },
 );
 
@@ -73,7 +73,7 @@ export default function ProductPage() {
         }}>
         <HeaderBar user={user} />
         <main id="main-content" className="main-container">
-          <div className="flex flex-container flex-col lg:flex-row">
+          <div className="flex-container flex flex-col lg:flex-row">
             <Tabs
               value={panelIndex}
               className="flex-item"

@@ -5,10 +5,10 @@
   @apply lg:flex-1;
 }
 .cart-list {
-  @apply flex flex-col flex-1 max-h-64 overflow-y-auto;
+  @apply flex max-h-64 flex-1 flex-col overflow-y-auto;
 }
 .cart-list > .cart-item {
-  @apply flex justify-between h-32;
+  @apply flex h-32 justify-between;
 }
 .cart-item:not(.skeleton) > * {
   @apply py-2;
@@ -28,7 +28,7 @@
   @apply flex flex-col justify-evenly;
 }
 .cart-info > .product-name {
-  @apply font-bold text-base md:text-lg;
+  @apply text-base font-bold md:text-lg;
 }
 
 .cart-info > .topping {
@@ -39,22 +39,22 @@
 }
 
 .cart-item > .cart-info > .qty {
-  @apply inline-flex items-center justify-between w-full bg-transparent;
+  @apply inline-flex w-full items-center justify-between bg-transparent;
 }
 .qty > .counter {
-  @apply bg-red-200 rounded-md cursor-pointer;
+  @apply cursor-pointer rounded-md bg-red-200;
 }
 .qty > svg {
   @apply fill-current text-primary;
 }
 .cart-img {
-  @apply w-32 max-h-32;
+  @apply max-h-32 w-32;
 }
 .cart-subtotal {
-  @apply flex flex-col w-full h-40 font-medium;
+  @apply flex h-40 w-full flex-col font-medium;
 }
 .cart-subtotal .list {
-  @apply flex p-2 justify-between;
+  @apply flex justify-between p-2;
 }
 
 /* address list */
@@ -70,17 +70,17 @@
   }
 }
 .address-list {
-  @apply flex flex-col overflow-y-auto pb-1 sm:flex-wrap sm:flex-row;
+  @apply flex flex-col justify-center overflow-y-auto pb-1 sm:flex-row sm:flex-wrap sm:items-center;
 }
 
 .address-list > * {
-  @apply w-full sm:w-1/2;
+  @apply w-full sm:max-w-md;
 }
 .address-list > .input-checkbox > input ~ .input-label div {
   @apply transition duration-300;
 }
 .address-list > .input-checkbox > input:checked ~ .input-label div {
-  @apply bg-green-200 ring-2 ring-green-400 shadow-none;
+  @apply bg-green-200 shadow-none ring-2 ring-green-400;
 }
 .address-list > .input-checkbox input ~ .input-label::before {
   @apply top-4 right-4;

@@ -25,7 +25,7 @@ export const TableProduct = memo(
 
     return (
       <>
-        <div className="flex py-2 justify-end">
+        <div className="flex justify-end py-2">
           <Button onClick={handleAddNew} variant="contained" color="warning" className="mb-2">
             Add New
           </Button>
@@ -48,8 +48,8 @@ export const TableProduct = memo(
               ) : (
                 <>
                   {products.length < 1 ? (
-                    <div className="flex flex-col justify-center items-center w-full">
-                      <div className="img-container max-w-sm mb-4">
+                    <div className="flex w-full flex-col items-center justify-center">
+                      <div className="img-container mb-4 max-w-sm">
                         <Image
                           src={NoData}
                           alt="no data"
