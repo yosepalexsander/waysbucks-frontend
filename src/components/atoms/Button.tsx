@@ -41,7 +41,10 @@ export const Button = memo(
           </button>
         )}
         {btnVariant === 'unstyled' && (
-          <button className={className} disabled={isDisabled || isLoading} {...props}>
+          <button
+            className={`btn btn-${btnSize}${className ? ` ${className}` : ''}`}
+            disabled={isDisabled || isLoading}
+            {...props}>
             {isLoading && <Spinner width="24" height="24" className="stroke-white" />}
             {leftIcon}
             <div className="text">{children}</div>

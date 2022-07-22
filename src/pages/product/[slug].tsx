@@ -69,7 +69,7 @@ export default function DetailProductPage({ user }: Props) {
                   <p className="total">Total:</p>
                   <p className="total">{currencyFormat(total)}</p>
                 </div>
-                <Button variant="contained" color="primary" className="w-full" onClick={handleAddToCart}>
+                <Button className="w-full" onClick={handleAddToCart}>
                   Add To Cart
                 </Button>
               </div>

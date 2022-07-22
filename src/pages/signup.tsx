@@ -51,12 +51,7 @@ export default function SignupPage() {
                 </label>
               </div>
               <InputField name="phone" placeholder="phone" type="tel" />
-              <Button
-                variant="contained"
-                color="primary"
-                type="submit"
-                isDisabled={!formSignupProps.isValid}
-                className="mt-10 justify-center">
+              <Button type="submit" isDisabled={!formSignupProps.isValid} className="mt-10 justify-center">
                 Sign up
               </Button>
             </Form>

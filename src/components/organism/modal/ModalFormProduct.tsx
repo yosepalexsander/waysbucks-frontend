@@ -31,8 +31,6 @@ export const ModalFormProduct = memo(({ isOpen, selectedProduct, onAttachFile, o
           <InputField name="price" type="number" placeholder="price" />
           <InputAttachment name="file" onAttachFile={onAttachFile} />
           <Button
-            variant="contained"
-            color="primary"
             type="submit"
             isDisabled={!selectedProduct && (!isValid || !values.file)}
             isLoading={isSubmitting}

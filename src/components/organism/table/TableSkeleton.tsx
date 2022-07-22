@@ -24,7 +24,6 @@ export const TableSkeleton = () => {
           <td>
             <Button
               id="update-skeleton"
-              variant="contained"
               color="secondary"
               isDisabled
               className="m-1 w-20"

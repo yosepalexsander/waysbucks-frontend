@@ -20,7 +20,7 @@ export const UserAddress = memo(({ addresses, onDeleteAddress, onOpenModalCreate
       <span>
         <h1 className="h4">Address</h1>
         {addresses.length > 0 && (
-          <Button size="sm" variant="contained" color="warning" onClick={onOpenModalCreate}>
+          <Button color="warning" size="sm" onClick={onOpenModalCreate}>
             Add new
           </Button>
         )}
@@ -41,12 +41,7 @@ export const UserAddress = memo(({ addresses, onDeleteAddress, onOpenModalCreate
             <br />
             Let&apos;s create new address
           </p>
-          <Button
-            size="sm"
-            variant="contained"
-            color="primary"
-            leftIcon={<PlusIcon size="1.25rem" />}
-            onClick={onOpenModalCreate}>
+          <Button size="sm" leftIcon={<PlusIcon size="1.25rem" />} onClick={onOpenModalCreate}>
             Create Address
           </Button>
         </div>

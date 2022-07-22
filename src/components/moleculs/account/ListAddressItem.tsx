@@ -32,7 +32,7 @@ export const ListAddressesItem = memo(({ item, onDelete, onUpdate }: Props) => {
         </div>
       </div>
       <div className="address-action">
-        <Button variant="outlined" color="primary" className="w-4/5" onClick={handleClickUpdate}>
+        <Button variant="outlined" className="w-4/5" onClick={handleClickUpdate}>
           Edit Address
         </Button>
         <DeleteIcon size="2rem" className="text-primary" onClick={handleClickDelete} />

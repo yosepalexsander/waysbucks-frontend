@@ -28,8 +28,6 @@ export const ModalFormTopping = memo(({ isOpen, selectedTopping, onAttachFile, o
           <InputField name="price" placeholder="price" type="number" />
           <InputAttachment name="file" onAttachFile={onAttachFile} />
           <Button
-            variant="contained"
-            color="primary"
             type="submit"
             isDisabled={!selectedTopping && (!isValid || !values.file)}
             isLoading={isSubmitting}

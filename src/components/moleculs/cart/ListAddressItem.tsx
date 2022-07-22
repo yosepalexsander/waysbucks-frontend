@@ -20,7 +20,7 @@ export const ListAddressesItem = memo(({ index, item, selectedAddress, onSelect 
   );
 
   return (
-    <li key={item.id} className="input-checkbox flex-item max-w-sm flex-1">
+    <li className="input-checkbox flex-item">
       <input
         id={`${item.id}`}
         type="checkbox"

@@ -98,33 +98,30 @@ export const Carts = memo(({ user }: Props) => {
               <p className="text-xl font-medium">Where will the products be deliver to?</p>
               <hr className="divider mb-2" />
               {addresses.length > 0 ? (
-                <ul className="address-list flex-container">
-                  {addresses.map((item, index) => (
-                    <ListAddressesItem
-                      key={item.id}
-                      index={index}
-                      item={item}
-                      selectedAddress={selectedAddress}
-                      onSelect={handleSelectAddress}
-                    />
-                  ))}
-                  <li className="flex-item flex-1">
-                    <AddLocationIcon
-                      size="1.25rem"
-                      className="rounded-md p-1 hover:bg-gray-200"
-                      onClick={handleOpenModalNewAddress}
-                    />
-                  </li>
-                </ul>
+                <>
+                  <ul className="address-list flex-container">
+                    {addresses.map((item, index) => (
+                      <ListAddressesItem
+                        key={item.id}
+                        index={index}
+                        item={item}
+                        selectedAddress={selectedAddress}
+                        onSelect={handleSelectAddress}
+                      />
+                    ))}
+                  </ul>
+                  <Button
+                    variant="unstyled"
+                    size="sm"
+                    leftIcon={<AddLocationIcon size="1.25rem" />}
+                    onClick={handleOpenModalNewAddress}>
+                    Create Address
+                  </Button>
+                </>
               ) : (
                 <div className=" flex h-4/5 w-full flex-col items-center justify-center space-y-4">
                   <p>Let&apos;s add an address to make it easier for us to deliver your order</p>
-                  <Button
-                    size="sm"
-                    variant="contained"
-                    color="primary"
-                    leftIcon={<PlusIcon size="1.25rem" />}
-                    onClick={handleOpenModalNewAddress}>
+                  <Button size="sm" leftIcon={<PlusIcon size="1.25rem" />} onClick={handleOpenModalNewAddress}>
                     Create Address
                   </Button>
                 </div>
@@ -132,7 +129,7 @@ export const Carts = memo(({ user }: Props) => {
             </div>
           </div>
           <div className="mt-5 flex justify-end px-2 py-2">
-            <Button onClick={handlePayment} color="primary" variant="contained" className="w-full sm:w-3/12">
+            <Button className="w-full sm:w-3/12" onClick={handlePayment}>
               Pay
             </Button>
           </div>

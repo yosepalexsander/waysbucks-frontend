@@ -26,7 +26,7 @@ export const TableProduct = memo(
     return (
       <>
         <div className="flex justify-end py-2">
-          <Button onClick={handleAddNew} variant="contained" color="warning" className="mb-2">
+          <Button color="warning" className="mb-2" onClick={handleAddNew}>
             Add New
           </Button>
         </div>

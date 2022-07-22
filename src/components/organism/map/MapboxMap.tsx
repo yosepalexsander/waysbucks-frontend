@@ -114,7 +114,7 @@ export const MapboxMap = memo(({ isLoading, originLng, originLat, onMapLoading, 
         </div>
       ) : (
         <div className={styles.centerbar}>
-          <Button variant="contained" color="secondary" className="w-full" onClick={handleClick}>
+          <Button color="secondary" className="w-full" onClick={handleClick}>
             Select Location
           </Button>
         </div>

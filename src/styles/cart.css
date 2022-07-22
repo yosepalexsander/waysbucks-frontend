@@ -73,8 +73,8 @@
   @apply flex flex-col justify-center overflow-y-auto pb-1 sm:flex-row sm:flex-wrap sm:items-center;
 }
 
-.address-list > * {
-  @apply w-full sm:max-w-md;
+.address-list > .input-checkbox {
+  @apply w-full md:w-1/2;
 }
 .address-list > .input-checkbox > input ~ .input-label div {
   @apply transition duration-300;
