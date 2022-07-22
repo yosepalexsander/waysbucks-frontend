@@ -47,7 +47,7 @@ export const useAddress = () => {
 
   const handleCreateAddress = useCallback(
     async (body: Partial<Address>) => {
-      const optimisticData = [...addresses, body as Address];
+      const optimisticData = [...addresses, { id: 'newAddress', ...body } as Address];
 
       try {
         await addressMutation(
