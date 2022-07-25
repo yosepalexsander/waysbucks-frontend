@@ -1,5 +1,5 @@
 import { useField } from 'formik';
-import * as React from 'react';
+import { memo } from 'react';
 
 import { Input } from '@/components/atoms';
 
@@ -10,7 +10,7 @@ interface Props {
   multiline?: boolean;
   type?: string;
 }
-export const InputField = React.memo(({ isDisabled, name, placeholder, multiline, type = 'text' }: Props) => {
+export const InputField = memo(({ isDisabled, name, placeholder, multiline, type = 'text' }: Props) => {
   const [{ value, onBlur, onChange }, meta, _helpers] = useField(name);
 
   return (
@@ -18,15 +18,15 @@ export const InputField = React.memo(({ isDisabled, name, placeholder, multiline
       <Input
         name={name}
         placeholder={placeholder}
-        value={value}
+        value={value ?? ''}
         isDisabled={isDisabled}
         type={type}
         multiline={multiline}
         onBlur={onBlur}
         onChange={onChange}
       />
-      {meta.touched && meta.error ? (
-        <div aria-live="polite" className="h-3 text-sm text-red-600 ml-1">
+      {meta.error ? (
+        <div aria-live="polite" className="ml-1 h-3 text-sm text-red-600">
           {meta.error}
         </div>
       ) : (

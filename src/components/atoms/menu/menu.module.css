@@ -3,6 +3,6 @@
 }
 
 .menuItem {
-  @apply relative flex px-3 py-2 outline-none cursor-pointer 
-  space-x-4 select-none text-base transition hover:bg-gray-100 focus:bg-gray-100;
+  @apply relative flex cursor-pointer select-none space-x-4 px-3 
+  py-2 text-base outline-none transition hover:bg-gray-100 focus:bg-gray-100;
 }

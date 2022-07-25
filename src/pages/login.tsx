@@ -29,13 +29,7 @@ export default function LoginPage() {
             <Form className="form flex flex-col space-y-2">
               <InputField name="email" placeholder="email" />
               <InputField name="password" placeholder="password" type="password" />
-
-              <Button
-                variant="contained"
-                color="primary"
-                type="submit"
-                isDisabled={!formLoginProps.isValid}
-                className="justify-center">
+              <Button type="submit" isDisabled={!formLoginProps.isValid} className="justify-center">
                 Login
               </Button>
             </Form>

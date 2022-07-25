@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { memo } from 'react';
 
+import { PlusIcon } from '@/assets/icons';
 import { NoData } from '@/assets/images';
 import { Button } from '@/components/atoms';
 import { ListAddressesItem } from '@/components/moleculs/account';
@@ -15,28 +16,32 @@ export interface Props {
 
 export const UserAddress = memo(({ addresses, onDeleteAddress, onOpenModalCreate, onOpenModalUpdate }: Props) => {
   return (
-    <section id="user-address" className="bg-white p-5 rounded-md shadow-md">
+    <section id="user-address" className="rounded-md bg-white p-5 shadow-md">
       <span>
         <h1 className="h4">Address</h1>
         {addresses.length > 0 && (
-          <Button size="sm" variant="contained" color="warning" onClick={onOpenModalCreate}>
+          <Button color="warning" size="sm" onClick={onOpenModalCreate}>
             Add new
           </Button>
         )}
       </span>
       {addresses.length > 0 ? (
-        <div className="grid grid-flow-row md:grid-cols-2 gap-4">
+        <div className="grid grid-flow-row gap-4 md:grid-cols-2">
           {addresses.map((item) => (
             <ListAddressesItem key={item.id} item={item} onDelete={onDeleteAddress} onUpdate={onOpenModalUpdate} />
           ))}
         </div>
       ) : (
-        <div className="flex flex-col justify-center items-center space-y-4 w-full">
+        <div className="flex w-full flex-col items-center justify-center space-y-4">
           <div className="img-container max-w-xs">
             <Image src={NoData} alt="no data" layout="responsive" width={50} height={50} objectFit="cover" />
           </div>
-          <p>Let&apos;s add an address to make it easier for us to deliver your order</p>
-          <Button size="sm" variant="contained" color="primary" onClick={onOpenModalCreate}>
+          <p className="text-center">
+            Address not found
+            <br />
+            Let&apos;s create new address
+          </p>
+          <Button size="sm" leftIcon={<PlusIcon size="1.25rem" />} onClick={onOpenModalCreate}>
             Create Address
           </Button>
         </div>

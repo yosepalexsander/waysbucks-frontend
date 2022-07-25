@@ -1,13 +1,22 @@
+import { useFormik } from 'formik';
 import { useCallback, useMemo, useState } from 'react';
 import useSWR from 'swr';
 
 import { createAddress, deleteAddress, getAddress, updateAddress } from '@/api';
-import type { Address } from '@/types';
+import type { Address, FormikHelpers } from '@/types';
+import { AddressSchema } from '@/utils';
 
+import { useAlert } from '../useAlert';
 import { useDisclose } from '../useDisclose';
 
 export const useAddress = () => {
-  const { isOpen, onClose, onOpen } = useDisclose();
+  const { alert, handleCloseAlert, handleOpenAlert } = useAlert();
+  const { isOpen: isModalMapOpen, onClose: onCloseModalMap, onOpen: onOpenModalMap } = useDisclose();
+  const {
+    isOpen: isModalFormAddressOpen,
+    onClose: onCloseModalFormAddress,
+    onOpen: onOpenModaFormAddress,
+  } = useDisclose();
   const [selectedAddress, setSelectedAddress] = useState<Address>();
 
   const {
@@ -28,39 +37,38 @@ export const useAddress = () => {
     return data;
   }, [dataAddress]);
 
-  const handleOpenModalCreateAddress = useCallback(() => {
-    setSelectedAddress(undefined);
-    onOpen();
-  }, [onOpen]);
-
   const handleOpenModalUpdateAddress = useCallback(
     (item: Address) => {
       setSelectedAddress(item);
-      onOpen();
+      onOpenModaFormAddress();
     },
-    [onOpen],
+    [onOpenModaFormAddress],
   );
 
   const handleCreateAddress = useCallback(
     async (body: Partial<Address>) => {
-      const optimisticData = [body as Address, ...addresses];
+      const optimisticData = [...addresses, { id: 'newAddress', ...body } as Address];
 
       try {
         await addressMutation(
           async (draft) => {
-            await createAddress(body);
+            try {
+              await createAddress(body);
 
-            return draft;
+              return draft;
+            } catch (error) {
+              throw error;
+            }
           },
           { optimisticData, rollbackOnError: true },
         );
       } catch (error) {
-        console.log(error);
-      } finally {
-        onClose();
+        if (error instanceof Error) {
+          handleOpenAlert('error', `Error: ${error.message}`);
+        }
       }
     },
-    [addressMutation, addresses, onClose],
+    [addressMutation, addresses, handleOpenAlert],
   );
 
   const handleUpdateAddress = useCallback(
@@ -80,11 +88,9 @@ export const useAddress = () => {
         );
       } catch (error) {
         console.log(error);
-      } finally {
-        onClose();
       }
     },
-    [addressMutation, addresses, onClose],
+    [addressMutation, addresses],
   );
 
   const handleDeleteAddress = useCallback(
@@ -107,18 +113,80 @@ export const useAddress = () => {
     [addressMutation, addresses],
   );
 
+  const handleCloseModalFormAddress = useCallback(() => {
+    onCloseModalFormAddress();
+  }, [onCloseModalFormAddress]);
+
+  const handleSubmitAddress = useCallback(
+    async (values: Partial<Address>, formikHelpers: FormikHelpers<Partial<Address>>) => {
+      const address = { ...values };
+
+      if (!address.longitude || !address.latitude) {
+        formikHelpers.setFieldError('longitude', 'Please pin your location');
+        return;
+      }
+
+      try {
+        selectedAddress ? await handleUpdateAddress(selectedAddress.id, address) : await handleCreateAddress(address);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        handleCloseModalFormAddress();
+      }
+    },
+    [handleCloseModalFormAddress, handleCreateAddress, handleUpdateAddress, selectedAddress],
+  );
+
+  const methods = useFormik<Partial<Address>>({
+    initialValues: {
+      name: selectedAddress?.name ?? '',
+      phone: selectedAddress?.phone ?? '',
+      address: selectedAddress?.address ?? '',
+      city: selectedAddress?.city ?? '',
+      postal_code: selectedAddress?.postal_code,
+      longitude: selectedAddress?.longitude,
+      latitude: selectedAddress?.latitude,
+    },
+    enableReinitialize: true,
+    validationSchema: AddressSchema,
+    validateOnChange: true,
+    onSubmit: handleSubmitAddress,
+  });
+  const { resetForm: resetFormAddress, setFieldValue } = methods;
+
+  const handleOpenModalNewAddress = useCallback(() => {
+    setSelectedAddress(undefined);
+    resetFormAddress();
+    onOpenModaFormAddress();
+  }, [resetFormAddress, onOpenModaFormAddress]);
+
+  const handleSelectLocation = useCallback(
+    async (lng: number, lat: number) => {
+      await setFieldValue('longitude', lng, true);
+      await setFieldValue('latitude', lat, true);
+      onCloseModalMap();
+    },
+    [onCloseModalMap, setFieldValue],
+  );
+
   const loadingGet = !dataAddress && !addressError;
 
   return {
     addresses,
-    isOpen,
+    alert,
+    isModalFormAddressOpen,
+    isModalMapOpen,
     loadingGet,
+    methods,
     selectedAddress,
-    handleCreateAddress,
+    handleCloseAlert,
+    handleCloseModalFormAddress,
     handleDeleteAddress,
-    handleOpenModalCreateAddress,
+    handleOpenModalNewAddress,
     handleOpenModalUpdateAddress,
+    handleSelectLocation,
     handleUpdateAddress,
-    onClose,
+    onCloseModalMap,
+    onOpenModalMap,
   };
 };

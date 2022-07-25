@@ -47,8 +47,8 @@ export default function ProductPage({ user }: Props) {
         ) : (
           <>
             {isNotFound ? (
-              <div className="flex flex-col justify-center items-center w-full mt-4">
-                <div className="img-container max-w-md mb-4">
+              <div className="mt-4 flex w-full flex-col items-center justify-center">
+                <div className="img-container mb-4 max-w-md">
                   <Image src={NoData} alt="no data" layout="responsive" width={50} height={50} objectFit="cover" />
                 </div>
                 <p>Looks like there is no product</p>
@@ -70,7 +70,7 @@ export default function ProductPage({ user }: Props) {
                   </div>
                 ) : (
                   <div>
-                    <p className="h3 text-center mt-12">No Matching Result</p>
+                    <p className="h3 mt-12 text-center">No Matching Result</p>
                   </div>
                 )}
               </>

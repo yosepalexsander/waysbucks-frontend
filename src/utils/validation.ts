@@ -36,6 +36,8 @@ export const AddressSchema = Yup.object().shape({
     .max(99999, 'max. digit is 5')
     .required('Postal code is required'),
   city: Yup.string().required('City is required'),
+  longitude: Yup.number().required(),
+  latitude: Yup.number().required(),
 });
 
 export const ToppingSchema = Yup.object().shape({

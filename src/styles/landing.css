@@ -1,5 +1,5 @@
 .hero {
-  @apply flex justify-center items-center relative w-full -mt-8 mb-5 md:h-80 md:min-h-0;
+  @apply relative -mt-8 mb-5 flex w-full items-center justify-center md:h-80 md:min-h-0;
 }
 
 @screen sm {
@@ -21,49 +21,49 @@
 }
 
 .hero .hero-bg {
-  @apply absolute block top-0 left-0 w-full lg:w-5/6 h-full;
+  @apply absolute top-0 left-0 block h-full w-full lg:w-5/6;
   z-index: -1;
 }
 
 .hero .hero-img {
-  @apply hidden md:block sm:w-1/2 md:w-2/6 right-10;
+  @apply right-10 hidden sm:w-1/2 md:block md:w-2/6;
 }
 
 .hero .description {
   @apply w-full md:w-3/5 lg:w-1/2;
 }
 .hero .description h1 {
-  @apply text-3xl uppercase font-bold pt-10 lg:text-4xl;
+  @apply pt-10 text-3xl font-bold uppercase lg:text-4xl;
 }
 .hero .description p {
   @apply text-lg lg:text-xl;
 }
 
 section#benefits {
-  @apply flex flex-col items-center w-full mx-auto lg:w-4/5 mt-5;
+  @apply mx-auto mt-5 flex w-full flex-col items-center lg:w-4/5;
 }
 
 .section-title {
-  @apply text-2xl md:text-3xl lg:text-4xl text-center font-bold mb-5;
+  @apply mb-5 text-center text-2xl font-bold md:text-3xl lg:text-4xl;
 }
 
 #benefit-one,
 #benefit-two,
 #benefit-three {
-  @apply relative flex flex-col md:flex-wrap items-center justify-center mb-5 min-h-full w-full max-w-md
-  shadow-md rounded-md md:max-w-none md:flex-row md:h-72 md:shadow-none md:w-full md:justify-between lg:justify-evenly;
+  @apply relative mb-5 flex min-h-full w-full max-w-md flex-col items-center justify-center rounded-md
+  shadow-md md:h-72 md:w-full md:max-w-none md:flex-row md:flex-wrap md:justify-between md:shadow-none lg:justify-evenly;
 }
 
 .benefit-img {
-  @apply relative md:flex-2/5 md:max-w-sm;
+  @apply relative md:max-w-sm md:flex-2/5;
 }
 
 .benefit-desc {
-  @apply flex flex-3/5 flex-col justify-center items-center mt-4 p-3 text-center md:w-full md:h-full md:mt-0;
+  @apply mt-4 flex flex-3/5 flex-col items-center justify-center p-3 text-center md:mt-0 md:h-full md:w-full;
 }
 
 .benefit-desc h2 {
-  @apply text-lg md:text-2xl lg:text-3xl font-bold mb-5;
+  @apply mb-5 text-lg font-bold md:text-2xl lg:text-3xl;
 }
 
 section#benefits #benefit-two .benefit-img {
@@ -71,19 +71,19 @@ section#benefits #benefit-two .benefit-img {
 }
 
 section#features {
-  @apply flex flex-wrap justify-around items-center mb-5 md:items-start;
+  @apply mb-5 flex flex-wrap items-center justify-around md:items-start;
 }
 
 #feature-one,
 #feature-two,
 #feature-three {
-  @apply flex flex-wrap flex-col relative items-center text-center 
-  mb-5 rounded-md max-w-xs h-full
+  @apply relative mb-5 flex h-full max-w-xs flex-col 
+  flex-wrap items-center rounded-md text-center
   transition duration-500 ease-in-out hover:bg-gray-700 hover:text-white;
 }
 
 .feature-img {
-  @apply relative w-full h-60 sm:h-52 lg:h-52 lg:w-52;
+  @apply relative h-60 w-full sm:h-52 lg:h-52 lg:w-52;
 }
 
 .feature-desc {
@@ -96,14 +96,14 @@ footer {
 }
 
 footer .media-social {
-  @apply flex mb-4 bg-red-300 px-12 py-3;
+  @apply mb-4 flex bg-red-300 px-12 py-3;
 }
 
 footer .media-social .icons {
-  @apply w-8 h-8 text-red-500 mr-3 cursor-pointer hover:text-primary;
+  @apply mr-3 h-8 w-8 cursor-pointer text-red-500 hover:text-primary;
 }
 footer .information {
-  @apply flex flex-wrap flex-col w-full bg-red-200 px-12 py-3 md:flex-row md:items-start md:text-left;
+  @apply flex w-full flex-col flex-wrap bg-red-200 px-12 py-3 md:flex-row md:items-start md:text-left;
 }
 
 footer .information .more {
@@ -114,5 +114,5 @@ footer > * {
   @apply mb-5 md:mb-0;
 }
 .copyright {
-  @apply px-12 py-3 text-xs mb-0;
+  @apply mb-0 px-12 py-3 text-xs;
 }

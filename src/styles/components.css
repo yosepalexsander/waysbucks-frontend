@@ -1,6 +1,6 @@
 /* General */
 body {
-  @apply text-gray-700 bg-gray-50 antialiased;
+  @apply bg-gray-50 text-gray-700 antialiased;
 }
 svg {
   @apply inline-block cursor-pointer select-none;
@@ -13,19 +13,19 @@ footer {
 }
 
 .h1 {
-  @apply text-3xl sm:text-4xl font-bold;
+  @apply text-3xl font-bold sm:text-4xl;
 }
 .h2 {
-  @apply text-2xl sm:text-3xl font-bold;
+  @apply text-2xl font-bold sm:text-3xl;
 }
 .h3 {
-  @apply text-xl sm:text-2xl font-bold;
+  @apply text-xl font-bold sm:text-2xl;
 }
 .h4 {
-  @apply text-lg sm:text-xl font-bold;
+  @apply text-lg font-bold sm:text-xl;
 }
 .h5 {
-  @apply sm:text-lg font-bold;
+  @apply font-bold sm:text-lg;
 }
 
 .h6 {
@@ -40,16 +40,16 @@ footer {
 }
 
 .screen-center {
-  @apply h-screen w-screen flex flex-col justify-center items-center;
+  @apply flex h-screen w-screen flex-col items-center justify-center;
 }
 
 .backdrop {
-  @apply inset-0 fixed flex items-center justify-center;
+  @apply fixed inset-0 flex items-center justify-center;
   z-index: -1;
 }
 
 .paper {
-  @apply relative rounded-md shadow-md bg-white;
+  @apply relative rounded-md bg-white shadow-md;
 }
 
 .flex-container {
@@ -63,12 +63,12 @@ footer {
 
 /* app bar */
 .app-bar {
-  @apply fixed top-0 flex justify-between items-center w-full h-16 bg-white
-  px-6 sm:px-12 lg:px-20 py-2 shadow-sm  z-50;
+  @apply fixed top-0 z-50 flex h-16 w-full items-center justify-between
+  bg-white px-6 py-2 shadow-sm sm:px-12  lg:px-20;
 }
 
 .app-bar .app-bar-brand {
-  @apply relative md:flex-none md:mr-5;
+  @apply relative md:mr-5 md:flex-none;
   height: 45px;
   width: 45px;
 }
@@ -82,59 +82,59 @@ footer {
   @apply flex-none md:grow;
 }
 .app-bar-menu > * {
-  @apply transition duration-300 hover:text-primary cursor-pointer;
+  @apply cursor-pointer transition duration-300 hover:text-primary;
 }
 .app-bar-menu,
 .app-bar-btn {
-  @apply hidden md:flex sm:items-center space-x-4;
+  @apply hidden space-x-4 sm:items-center md:flex;
 }
 /*  */
 
 /* button */
 .btn {
-  @apply flex items-center justify-center space-x-1 overflow-hidden rounded-md px-3 py-2
-  shadow-none select-none outline-none;
+  @apply flex select-none items-center justify-center space-x-1 overflow-hidden rounded-md px-3
+  py-2 shadow-none outline-none;
 }
 
 .btn-sm > .text {
-  @apply font-medium text-xs;
+  @apply text-xs font-medium;
 }
 .btn-md > .text {
-  @apply font-medium text-sm;
+  @apply text-sm font-medium;
 }
 .btn-lg > .text {
-  @apply font-bold text-base;
+  @apply text-base font-bold;
 }
 
 .btn-primary {
-  @apply text-white border-2 bg-primary disabled:bg-gray-400 hover:bg-red-700 border-transparent transition;
+  @apply border-2 border-transparent bg-primary text-white transition hover:bg-red-700 focus:ring focus:ring-red-400 disabled:bg-gray-400;
 }
 .btn-primary-outlined {
-  @apply text-primary disabled:bg-transparent hover:bg-rose-200 border-2 border-primary disabled:border-gray-400 transition;
+  @apply border-2 border-primary text-primary transition hover:bg-rose-200 disabled:border-gray-400 disabled:bg-transparent;
 }
 .btn-secondary {
-  @apply text-white bg-violet-600 hover:bg-violet-700 disabled:bg-gray-400 border-2 border-transparent transition;
+  @apply border-2 border-transparent bg-violet-600 text-white transition hover:bg-violet-700 focus:ring focus:ring-violet-400 disabled:bg-gray-400;
 }
 .btn-secondary-outlined {
-  @apply text-violet-600 disabled:text-gray-400 border-2 border-violet-600 
-  disabled:border-gray-400 disabled:bg-transparent hover:bg-violet-200 transition;
+  @apply border-2 border-violet-600 text-violet-600 transition 
+  hover:bg-violet-200 disabled:border-gray-400 disabled:bg-transparent disabled:text-gray-400;
 }
 .btn-warning {
-  @apply text-white bg-yellow-400 disabled:bg-gray-400 border-2 border-transparent hover:bg-yellow-500 transition;
+  @apply border-2 border-transparent bg-yellow-400 text-white transition hover:bg-yellow-500 focus:ring focus:ring-red-400 disabled:bg-gray-400;
 }
 .btn-warning-outlined {
-  @apply text-yellow-600 disabled:text-gray-400 border-2 border-yellow-400 
-  disabled:border-gray-400 disabled:bg-transparent hover:bg-yellow-200 transition;
+  @apply border-2 border-yellow-400 text-yellow-600 transition 
+  hover:bg-yellow-200 disabled:border-gray-400 disabled:bg-transparent disabled:text-gray-400;
 }
 .btn-danger {
-  @apply text-white bg-red-600 disabled:bg-gray-400 hover:bg-red-500 border-2 border-transparent transition;
+  @apply border-2 border-transparent bg-red-600 text-white transition hover:bg-red-500 disabled:bg-gray-400;
 }
 .btn-danger-outlined {
-  @apply text-red-600 disabled:text-gray-400 border-2 border-red-600 disabled:border-gray-400 disabled:bg-transparent hover:bg-red-200 transition;
+  @apply border-2 border-red-600 text-red-600 transition hover:bg-red-200 disabled:border-gray-400 disabled:bg-transparent disabled:text-gray-400;
 }
 
 .cta {
-  @apply text-lg font-bold text-gray-900 bg-amber-400 hover:bg-amber-500 border-2 border-transparent inline-block transition;
+  @apply inline-block border-2 border-transparent bg-amber-400 text-lg font-bold text-gray-900 ring transition hover:bg-amber-500 focus:ring-amber-200;
 }
 
 @keyframes ripple {
@@ -151,13 +151,13 @@ footer {
 
 /* Drawer */
 .drawer {
-  @apply fixed md:hidden inset-0 z-40;
+  @apply fixed inset-0 z-40 md:hidden;
 }
 .drawer .drawer-paper {
-  @apply fixed top-0 right-0 overflow-y-auto w-full max-w-xs h-full bg-white flex flex-col space-y-3;
+  @apply fixed top-0 right-0 flex h-full w-full max-w-xs flex-col space-y-3 overflow-y-auto bg-white;
 }
 .drawer .backdrop {
-  @apply inset-0 fixed flex items-center justify-center bg-gray-500 bg-opacity-50;
+  @apply fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50;
   z-index: -1;
 }
 .drawer-enter .backdrop {
@@ -168,10 +168,10 @@ footer {
   transform: translateX(100%);
 }
 .drawer-enter-active .backdrop {
-  @apply transition duration-100 opacity-100;
+  @apply opacity-100 transition duration-100;
 }
 .drawer-enter-active .drawer-paper {
-  @apply transition duration-300 translate-x-0;
+  @apply translate-x-0 transition duration-300;
 }
 .drawer-exit .backdrop {
   @apply opacity-100;
@@ -181,10 +181,10 @@ footer {
 }
 
 .drawer-exit-active .backdrop {
-  @apply transition duration-300 opacity-0;
+  @apply opacity-0 transition duration-300;
 }
 .drawer-exit-active .drawer-paper {
-  @apply transition duration-300 translate-x-full;
+  @apply translate-x-full transition duration-300;
 }
 
 /* Responsiveness next image*/
@@ -207,7 +207,7 @@ footer {
 
 /* Form */
 .form {
-  @apply w-full max-w-md mx-auto my-0 md:w-full;
+  @apply mx-auto my-0 w-full max-w-md md:w-full;
 }
 
 .form-group {
@@ -218,13 +218,13 @@ footer {
 }
 
 .form-label {
-  @apply absolute top-2 left-2 bottom-0 w-full m-0 text-base pointer-events-none opacity-80
-  transition-all duration-200 select-none	cursor-text;
+  @apply pointer-events-none absolute top-2 left-2 bottom-0 m-0 w-full cursor-text select-none
+  text-base opacity-80 transition-all	duration-200;
 }
 
 .form-control-input {
-  @apply bottom-0 w-full h-full border-2 border-stone-300 focus:border-red-300 rounded-md p-2 bg-white hover:bg-gray-100 disabled:bg-gray-100 outline-none 
-  transition-all duration-300 ease-out text-sm disabled:text-gray-500;
+  @apply bottom-0 h-full w-full rounded-md border-2 border-stone-300 bg-white p-2 text-sm outline-none transition-all duration-300 
+  ease-out hover:bg-gray-100 focus:border-red-300 disabled:bg-gray-100 disabled:text-gray-500;
 }
 
 textarea.form-control-input {
@@ -235,7 +235,7 @@ textarea.form-control-input {
   @apply relative;
 }
 .checkbox-label input[type='radio'] {
-  @apply absolute opacity-0 top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4 border-none h-8 w-full cursor-pointer;
+  @apply absolute top-2/4 left-2/4 h-8 w-full -translate-x-2/4 -translate-y-2/4 cursor-pointer border-none opacity-0;
 }
 
 .checkbox-label input[type='radio'] + .icon {
@@ -252,15 +252,15 @@ input[class='female']:focus + .icon {
   @apply fill-pink;
 }
 input[type='file'] ~ label {
-  @apply inline-flex p-2 text-primary bg-red-200 border border-primary rounded-md cursor-pointer;
+  @apply inline-flex cursor-pointer rounded-md border border-primary bg-red-200 p-2 text-primary;
 }
 
 .input-search {
-  @apply flex items-center border border-gray-500 text-base rounded-md bg-gray-100 
-  w-full max-w-md overflow-hidden;
+  @apply flex w-full max-w-md items-center overflow-hidden rounded-md border 
+  border-gray-500 bg-gray-100 text-base;
 }
 .input-search input {
-  @apply outline-none p-2;
+  @apply p-2 outline-none;
 }
 .input-search svg {
   @apply ml-2;
@@ -268,7 +268,7 @@ input[type='file'] ~ label {
 
 /* Avatar */
 .avatar {
-  @apply relative flex items-center justify-center border border-primary rounded-full text-white text-lg font-bold bg-violet-600;
+  @apply relative flex items-center justify-center rounded-full border border-primary bg-violet-600 text-lg font-bold text-white;
 }
 
 /* skeleton */
@@ -277,12 +277,12 @@ input[type='file'] ~ label {
 }
 /* skeleton animation */
 .skeleton-wave {
-  @apply overflow-hidden relative;
+  @apply relative overflow-hidden;
 }
 
 .skeleton-wave::after {
   content: '';
-  @apply top-0 left-0 right-0 bottom-0 absolute -translate-x-full;
+  @apply absolute top-0 left-0 right-0 bottom-0 -translate-x-full;
   animation: wave 1s linear 0.5s infinite;
   background: linear-gradient(90deg, transparent, rgba(250, 250, 250, 0.239), transparent);
 }
@@ -295,7 +295,7 @@ input[type='file'] ~ label {
 
 /* divider */
 .divider {
-  @apply bg-red-200 h-0.5;
+  @apply h-0.5 bg-red-200;
 }
 
 /* modal */
@@ -310,23 +310,23 @@ input[type='file'] ~ label {
   @apply opacity-0;
 }
 .modal-enter .paper {
-  @apply opacity-0 scale-90;
+  @apply scale-90 opacity-0;
 }
 .modal-enter-active .backdrop {
-  @apply transition duration-300 opacity-100;
+  @apply opacity-100 transition duration-300;
 }
 .modal-enter-active .paper {
-  @apply transition duration-300 opacity-100 scale-100 translate-y-0;
+  @apply translate-y-0 scale-100 opacity-100 transition duration-300;
 }
 .modal-exit .paper,
 .modal-exit .backdrop {
   @apply opacity-100;
 }
 .modal-exit-active .paper {
-  @apply transition duration-300 opacity-0 scale-90;
+  @apply scale-90 opacity-0 transition duration-300;
 }
 .modal-exit-active .backdrop {
-  @apply transition opacity-0;
+  @apply opacity-0 transition;
 }
 
 /* Tabs */
@@ -344,16 +344,16 @@ input[type='file'] ~ label {
   @apply translate-x-1/2 scale-x-50 lg:translate-y-1/2 lg:translate-x-0 lg:scale-y-50;
 }
 .tab.tab-active {
-  @apply transition duration-300 font-bold text-primary;
+  @apply font-bold text-primary transition duration-300;
 }
 .tabs .slider {
-  @apply absolute bottom-0 left-0 right-full top-full lg:left-full lg:bottom-full lg:top-0 lg:right-0 w-full
-  h-1 lg:h-full lg:w-1 bg-primary transition duration-200 origin-left lg:origin-top;
+  @apply absolute bottom-0 left-0 right-full top-full h-1 w-full origin-left bg-primary transition
+  duration-200 lg:left-full lg:bottom-full lg:top-0 lg:right-0 lg:h-full lg:w-1 lg:origin-top;
 }
 
 /* Table */
 table {
-  @apply w-full mx-auto table-auto;
+  @apply mx-auto w-full table-auto;
 }
 table thead {
   @apply bg-primary;
@@ -364,16 +364,16 @@ table td {
   @apply p-2 leading-4;
 }
 th {
-  @apply text-white border border-primary;
+  @apply border border-primary text-white;
 }
 td {
-  @apply text-center border border-gray-300;
+  @apply border border-gray-300 text-center;
 }
 td.table-name {
-  @apply text-left font-bold w-48 lg:w-64;
+  @apply w-48 text-left font-bold lg:w-64;
 }
 td.table-img {
-  @apply w-20 h-20 lg:w-28 lg:h-28;
+  @apply h-20 w-20 lg:h-28 lg:w-28;
 }
 td.table-price {
   @apply w-24 lg:w-52;
@@ -389,12 +389,12 @@ tr.skeleton span.left {
 
 /* Auth layout */
 section.auth {
-  @apply h-screen w-screen flex items-center justify-center lg:justify-between;
+  @apply flex h-screen w-screen items-center justify-center lg:justify-between;
 }
 section.auth .auth-img {
-  @apply w-full relative hidden lg:block;
+  @apply relative hidden w-full lg:block;
 }
 section.auth .form-container {
-  @apply flex flex-col items-center justify-center bg-white rounded-md shadow-md px-10 py-5 space-y-3
-  lg:rounded-none lg:rounded-tl-3xl lg:rounded-bl-3xl lg:w-full lg:h-screen;
+  @apply flex flex-col items-center justify-center space-y-3 rounded-md bg-white px-10 py-5 shadow-md
+  lg:h-screen lg:w-full lg:rounded-none lg:rounded-tl-3xl lg:rounded-bl-3xl;
 }

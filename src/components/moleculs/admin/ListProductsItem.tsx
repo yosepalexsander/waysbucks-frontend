@@ -55,15 +55,10 @@ export const ListProductsItem = memo(({ item, index, onDelete, onOpenModal, onUp
       <td>
         <div className="flex justify-center">
           <div className="flex flex-col space-y-2">
-            <Button
-              id={`update-${item.id}`}
-              color="secondary"
-              size="sm"
-              variant="contained"
-              onClick={handleClickUpdate}>
+            <Button id={`update-${item.id}`} color="secondary" size="sm" onClick={handleClickUpdate}>
               Update
             </Button>
-            <Button id={`delete-${item.id}`} variant="outlined" size="sm" color="danger" onClick={handleClickDelete}>
+            <Button id={`delete-${item.id}`} color="danger" variant="outlined" size="sm" onClick={handleClickDelete}>
               Delete
             </Button>
           </div>

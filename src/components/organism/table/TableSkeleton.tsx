@@ -10,10 +10,10 @@ export const TableSkeleton = () => {
             <span className="h-7 w-4/5" />
           </td>
           <td className="table-name">
-            <span className="left w-4/5 h-7" />
+            <span className="left h-7 w-4/5" />
           </td>
           <td className="table-image">
-            <span className="w-full h-full" />
+            <span className="h-full w-full" />
           </td>
           <td className="table-price">
             <span className="h-7 w-4/5" />
@@ -24,7 +24,6 @@ export const TableSkeleton = () => {
           <td>
             <Button
               id="update-skeleton"
-              variant="contained"
               color="secondary"
               isDisabled
               className="m-1 w-20"

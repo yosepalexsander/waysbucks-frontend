@@ -7,7 +7,8 @@ import { Account, UserAddress } from '@/components/organism/account';
 import { General } from '@/components/organism/account/General';
 import { HeaderBar } from '@/components/organism/partial';
 import { useAccount } from '@/hooks/account/useAccount';
-import type { ModalFormAddressProps } from '@/types';
+import { useAddress } from '@/hooks/account/useAddress';
+import type { ModalFormAddressProps, ModalMapProps } from '@/types';
 
 const ModalFormAddress = dynamic<ModalFormAddressProps>(
   () => import('@/components/organism/modal/ModalFormAddress').then((mod) => mod.ModalFormAddress),
@@ -15,28 +16,36 @@ const ModalFormAddress = dynamic<ModalFormAddressProps>(
     ssr: false,
   },
 );
+const ModalMap = dynamic<ModalMapProps>(
+  () => import('@/components/organism/modal/ModalMap').then((mod) => mod.ModalMap),
+  {
+    ssr: false,
+  },
+);
 
 // eslint-disable-next-line import/no-default-export
 export default function AccountPage() {
+  const { loadingGet, methods: formUserProvider, user } = useAccount();
   const {
     addresses,
     alert,
-    isOpen,
-    loadingGet,
-    formAddressProvider,
-    formUserProvider,
-    user,
+    isModalFormAddressOpen,
+    isModalMapOpen,
+    loadingGet: loadingGetAddress,
+    methods: formAddressProvider,
     selectedAddress,
+    handleSelectLocation,
     handleCloseAlert,
     handleCloseModalFormAddress,
-    handleCreateAddress,
     handleDeleteAddress,
-    handleOpenModalCreateAddress,
+    handleOpenModalNewAddress,
     handleOpenModalUpdateAddress,
     handleUpdateAddress,
-  } = useAccount();
+    onCloseModalMap,
+    onOpenModalMap,
+  } = useAddress();
 
-  if (loadingGet) {
+  if (loadingGet || loadingGetAddress) {
     return <Loading />;
   }
 
@@ -59,7 +68,7 @@ export default function AccountPage() {
             <UserAddress
               addresses={addresses}
               onDeleteAddress={handleDeleteAddress}
-              onOpenModalCreate={handleOpenModalCreateAddress}
+              onOpenModalCreate={handleOpenModalNewAddress}
               onOpenModalUpdate={handleOpenModalUpdateAddress}
             />
           </div>
@@ -74,12 +83,13 @@ export default function AccountPage() {
       </Alert>
       <FormikProvider value={formAddressProvider}>
         <ModalFormAddress
-          isOpen={isOpen}
+          isOpen={isModalFormAddressOpen}
           selectedAddress={selectedAddress}
           onClose={handleCloseModalFormAddress}
-          onCreateAddress={handleCreateAddress}
+          onOpenMap={onOpenModalMap}
           onUpdateAddress={handleUpdateAddress}
         />
+        <ModalMap isOpen={isModalMapOpen} onClose={onCloseModalMap} onSelectLocation={handleSelectLocation} />
       </FormikProvider>
     </Layout>
   );

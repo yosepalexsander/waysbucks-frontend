@@ -38,7 +38,7 @@ export default function SignupPage() {
               <InputField name="email" placeholder="e.g. johndoe@gmail.com" type="email" />
               <InputField name="password" placeholder="password" type="password" />
               <div className="form-group">
-                <span className="text-gray-700 pl-2 mr-5">{"I'm a... "}</span>
+                <span className="mr-5 pl-2 text-gray-700">{"I'm a... "}</span>
                 <label className="checkbox-label" htmlFor="male">
                   <Field id="male" type="radio" name="gender" value="male" className="male" />
                   <MaleIcon className="icon" size={28} />
@@ -51,12 +51,7 @@ export default function SignupPage() {
                 </label>
               </div>
               <InputField name="phone" placeholder="phone" type="tel" />
-              <Button
-                variant="contained"
-                color="primary"
-                type="submit"
-                isDisabled={!formSignupProps.isValid}
-                className="justify-center mt-10">
+              <Button type="submit" isDisabled={!formSignupProps.isValid} className="mt-10 justify-center">
                 Sign up
               </Button>
             </Form>

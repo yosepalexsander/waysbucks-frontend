@@ -1,29 +1,29 @@
 .product-container {
-  @apply grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3;
+  @apply grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-5;
 }
 
 /* skeleton */
 .card {
-  @apply w-full text-center rounded-md border;
+  @apply w-full rounded-md border text-center;
 }
 
 .card.skeleton {
-  @apply flex items-center flex-col;
+  @apply flex flex-col items-center;
 }
 .card.skeleton > .card-image {
-  @apply bg-gray-300 w-full h-56 mb-2 rounded-md;
+  @apply mb-2 h-56 w-full rounded-md bg-gray-300;
 }
 
 .card.skeleton > .card-content {
-  @apply block bg-gray-300 w-11/12 my-2 rounded-md;
+  @apply my-2 block w-11/12 rounded-md bg-gray-300;
 }
 
 .product {
-  @apply w-full flex flex-col md:flex-row flex-wrap space-y-4 md:space-y-0 md:space-x-4;
+  @apply flex w-full flex-col flex-wrap space-y-4 md:flex-row md:space-y-0 md:space-x-4;
 }
 
 .product .product-img {
-  @apply relative md:w-2/5 lg:w-2/6 h-60 md:h-auto;
+  @apply relative h-60 md:h-auto md:w-2/5 lg:w-2/6;
 }
 
 .product .product-info {
@@ -43,16 +43,16 @@
 }
 
 .product > .product-info .price {
-  @apply bg-red-100 w-max px-2 md:text-lg text-primary font-medium rounded-md;
+  @apply w-max rounded-md bg-red-100 px-2 font-medium text-primary md:text-lg;
 }
 
 .product > .product-info .total {
-  @apply font-bold text-lg md:text-2xl;
+  @apply text-lg font-bold md:text-2xl;
 }
 
 /* Topping input checkbox */
 .topping-list {
-  @apply grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2;
+  @apply grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6;
 }
 
 .topping-list .input-checkbox {
@@ -60,7 +60,7 @@
 }
 
 .topping-list .input-checkbox > .topping-name {
-  @apply text-center text-sm font-medium truncate;
+  @apply truncate text-center text-sm font-medium;
 }
 .topping-list .input-checkbox > .topping-price {
   @apply text-sm text-primary;
@@ -74,10 +74,13 @@
   @apply relative;
 }
 .input-checkbox input {
-  @apply hidden;
+  @apply absolute h-0 w-0 opacity-0;
 }
 .input-checkbox input ~ .input-label {
   @apply cursor-pointer;
+}
+.input-checkbox input:focus ~ .input-label {
+  @apply ring ring-red-400;
 }
 .input-checkbox input ~ .input-label > .topping-img {
   @apply w-20;
@@ -87,29 +90,29 @@
 }
 .input-checkbox input ~ .input-label::before {
   content: ' ';
-  @apply flex items-center justify-center absolute top-2 right-7 rounded-full leading-7 transition duration-300 scale-0 w-5 h-5;
+  @apply absolute top-2 right-7 flex h-5 w-5 scale-0 items-center justify-center rounded-full leading-7 transition duration-300;
   z-index: 2;
 }
 .input-checkbox input:checked ~ .input-label::before {
   content: '✓';
-  @apply bg-green-500 scale-100 text-white;
+  @apply scale-100 bg-green-500 text-white;
 }
 .input-checkbox input:checked ~ .input-label img {
-  @apply scale-90 z-0;
+  @apply z-0 scale-90;
 }
 /*  */
 
 /* topping checkbox skeleton */
 
 .input-checkbox.skeleton {
-  @apply flex justify-center items-center flex-col;
+  @apply flex flex-col items-center justify-center;
 }
 .input-checkbox.skeleton > .topping-img {
-  @apply bg-gray-300 w-20 h-20 rounded-full mb-2;
+  @apply mb-2 h-20 w-20 rounded-full bg-gray-300;
 }
 
 .input-checkbox.skeleton > .topping-name {
-  @apply bg-gray-300 w-11/12 rounded-sm;
+  @apply w-11/12 rounded-sm bg-gray-300;
 }
 
 .input-checkbox.skeleton > span {
@@ -122,7 +125,7 @@
 }
 
 input[type='file'] ~ .label {
-  @apply inline-block bg-violet-600 text-gray-50 p-2 rounded-md cursor-pointer;
+  @apply inline-block cursor-pointer rounded-md bg-violet-600 p-2 text-gray-50;
 }
 
 input[type='file'] ~ .label > span {

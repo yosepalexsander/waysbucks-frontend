@@ -28,13 +28,13 @@ export const Footer = () => {
       </div>
       <div className="information">
         <div className="more">
-          <p className="h4 uppercase mb-4">More Information</p>
+          <p className="h4 mb-4 uppercase">More Information</p>
           <p>About Us</p>
           <p>Carrer Center</p>
           <p>Store</p>
         </div>
         <div className="support">
-          <p className="h4 uppercase mb-4">Support</p>
+          <p className="h4 mb-4 uppercase">Support</p>
           <p>Frequently Asked Questions</p>
         </div>
       </div>

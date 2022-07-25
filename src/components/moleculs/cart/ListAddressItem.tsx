@@ -20,7 +20,7 @@ export const ListAddressesItem = memo(({ index, item, selectedAddress, onSelect 
   );
 
   return (
-    <li key={item.id} className="input-checkbox flex-item">
+    <li className="input-checkbox flex-item">
       <input
         id={`${item.id}`}
         type="checkbox"
@@ -30,7 +30,7 @@ export const ListAddressesItem = memo(({ index, item, selectedAddress, onSelect 
       />
       <label htmlFor={`${item.id}`} className="input-label">
         <Paper>
-          <div className="rounded-md flex flex-col p-2">
+          <div className="flex flex-col rounded-md p-2">
             <p className="h4 mb-2">{item.name}</p>
             <p>{item.phone}</p>
             <p className="truncate text-sm">{item.address}</p>

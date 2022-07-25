@@ -37,9 +37,9 @@ export const InputAttachment = React.memo(({ name, onAttachFile }: Props) => {
         </span>
       </label>
       {value && (
-        <div className="flex mt-2 justify-between items-center space-x-4">
-          <div className="h6 bg-blue-200 p-1 rounded-md">{getFileExtension(value.name).toUpperCase()}</div>
-          <p className="truncate ...">{value.name}</p>
+        <div className="mt-2 flex items-center justify-between space-x-4">
+          <div className="h6 rounded-md bg-blue-200 p-1">{getFileExtension(value.name).toUpperCase()}</div>
+          <p className="... truncate">{value.name}</p>
           <Button variant="unstyled" type="button" onClick={handleRemoveFile}>
             <Delete width={24} height={24} />
           </Button>

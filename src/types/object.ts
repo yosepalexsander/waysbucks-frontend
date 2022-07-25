@@ -15,6 +15,8 @@ export interface Address {
   address: string;
   city: string;
   postal_code: number;
+  longitude: number;
+  latitude: number;
 }
 
 export interface Product {

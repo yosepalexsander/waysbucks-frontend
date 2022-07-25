@@ -33,8 +33,8 @@ export default function DetailProductPage({ user }: Props) {
         {loadingGet ? (
           <Loading />
         ) : !product ? (
-          <div className="flex flex-col justify-center items-center w-full">
-            <div className="img-container max-w-md mb-4">
+          <div className="flex w-full flex-col items-center justify-center">
+            <div className="img-container mb-4 max-w-md">
               <Image src={NoData} alt="no data" width={50} height={50} layout="responsive" objectFit="cover" />
             </div>
             <p>Looks like there is no product here</p>
@@ -69,7 +69,7 @@ export default function DetailProductPage({ user }: Props) {
                   <p className="total">Total:</p>
                   <p className="total">{currencyFormat(total)}</p>
                 </div>
-                <Button variant="contained" color="primary" className="w-full" onClick={handleAddToCart}>
+                <Button className="w-full" onClick={handleAddToCart}>
                   Add To Cart
                 </Button>
               </div>
